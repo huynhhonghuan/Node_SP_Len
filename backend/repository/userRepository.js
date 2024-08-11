@@ -1,0 +1,29 @@
+const User = require('../models/user');
+
+class UserRepository {
+    async getAllUsers() {
+        return await User.find({});
+    }
+
+    async getUserById(id) {
+        return await User.findById(id);
+    }
+
+    async getUserByEmail(email) {
+        return await User.findOne({ email });
+    }
+
+    async createUser(user) {
+        return await User.create(user);
+    }
+
+    async updateUser(id, updatedUser) {
+        return await User.findByIdAndUpdate(id, updatedUser, { new: true });
+    }
+
+    async deleteUser(id) {
+        return await User.findByIdAndDelete(id);
+    }
+}
+
+module.exports = new UserRepository();
