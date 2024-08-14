@@ -24,6 +24,11 @@ class UserRepository {
     async deleteUser(id) {
         return await User.findByIdAndDelete(id);
     }
+
+    async updateActiveUser(id) {
+        const user = await User.findById(id);
+        return await User.findByIdAndUpdate(id, { isActive: !user.isActive }, { new: true, fields: { isActive: true } });
+    }
 }
 
 module.exports = new UserRepository();

@@ -1,19 +1,37 @@
-const jwt = require('../utils/jwt');
+const { verifyToken } = require('../utils/jwt');
 
 const authMiddleware = async (req, res, next) => {
+
+    // check first if send in header 
+    let token;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer')) {
+        token = authHeader.split(' ')[1];
+    }
+
+    // otherwise check if sent in cookies
+    else if (req.cookies.token) {
+        token = req.cookies.token;
+    }
+
+    if (!token) {
+        return res.status(401).json({ message: 'You are not authenticated' });
+    }
+
     try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ message: 'You are not authenticated' });
-        }
-        const isToken = jwt.verifyToken(token);
-        if (!isToken) {
-            return res.status(403).json({ message: 'Invalid token' });
-        }
+        const isToken = verifyToken(token);
+
+        req.user = {
+            id: isToken.id,
+            name: isToken.name,
+            role: isToken.role,
+        };
+
         next();
     }
     catch (error) {
-        return res.status(401).json({ message: 'Token is not valid' });
+        console.log(error);
+        return res.status(401).json({ message: 'Token is not valid; ' + error.message });
     }
 }
 
@@ -21,7 +39,7 @@ const authorizeRoles = (...role) => {
     return (req, res, next) => {
         const userRole = req.user.role;
         if (!role.includes(userRole)) {
-            return res.status(403).json({ message: 'Unauthorized' });
+            return res.status(403).json({ message: 'Forbidden!' });
         }
         next();
     }

@@ -1,0 +1,44 @@
+POST http://localhost:4000/auth/login/
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "12345678"
+}
+
+###
+GET http://localhost:4000/auth/logout/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjkwOTg3ZDQ1OTIyY2U4ZGI1YWRhNSIsIm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMzU3Mzk1MiwiZXhwIjoxNzIzNTc3NTUyfQ.Ja_RqMpomHcvfLMf60Sdrxgf4l0DatwAMOyClRfrNpc
+
+###
+GET http://localhost:4000/product/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjkwOTg3ZDQ1OTIyY2U4ZGI1YWRhNSIsIm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMzU3NDA3NiwiZXhwIjoxNzIzNTc3Njc2fQ.Hd8GGkdQqgRdl4naOnhSRHJwREgO0gg5uC0TS0BQ624
+###
+POST http://localhost:4000/product/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjkwOTg3ZDQ1OTIyY2U4ZGI1YWRhNSIsIm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMzU3NDA3NiwiZXhwIjoxNzIzNTc3Njc2fQ.Hd8GGkdQqgRdl4naOnhSRHJwREgO0gg5uC0TS0BQ624
+
+{
+  "name": "Fantastic Fresh Fish",
+  "description": "Nesciunt maxime id dignissimos reprehenderit voluptatem incidunt non qui. Hic nobis repellendus. Qui error exercitationem. Occaecati repellendus est corrupti consequatur ducimus architecto quasi. Expedita sint consequatur velit quis cupiditate porro. Fugiat sed alias quaerat minima eius dolorum.",
+  "image": "http://placeimg.com/640/480",
+  "type": "product",
+  "options": [
+    {
+      "image": "http://placeimg.com/640/480",
+      "quantity": 69,
+      "price": 99
+    },
+    {
+      "image": "http://placeimg.com/640/480",
+      "quantity": 51,
+      "price": 258
+    }
+  ],
+  "note": "Blanditiis harum facere error totam. Dolor est mollitia. Ea accusamus blanditiis saepe ducimus. Dolorum nihil ut qui tempora. Deleniti fuga aut. Tenetur accusantium ut maxime."
+}
+
+###
+DELETE http://localhost:4000/product/66bba0956a0c6fd877f30be0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjkwOTg3ZDQ1OTIyY2U4ZGI1YWRhNSIsIm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMzU3NDA3NiwiZXhwIjoxNzIzNTc3Njc2fQ.Hd8GGkdQqgRdl4naOnhSRHJwREgO0gg5uC0TS0BQ624

@@ -1,14 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-const verifyToken = (token) => {
-    try {
-        return jwt.verify(token, process.env.JWT_SECRET);
-    } catch (error) {
-        throw new Error('Invalid token');
-    }
-}
+const verifyToken = (token) => jwt.verify(token, process.env.JWT_SECRET_PRODUCTION);
+
 const createJwt = ({ payload }) => {
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET_PRODUCTION, { expiresIn: '1h' });
     return token;
 }
 
@@ -24,6 +19,8 @@ const attachCookiesToResponse = ({ res, user }) => {
         secure: process.env.NODE_ENV === 'production',
         signed: true,
     });
+
+    return token;
 };
 
 module.exports = {

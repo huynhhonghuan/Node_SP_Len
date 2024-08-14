@@ -6,7 +6,6 @@ class AuthProvider {
     async login(email, password, res) {
 
         const user = await UserRepository.getUserByEmail(email);
-        console.log(user);
 
         if (!user) {
             return res.status(400).json({ message: 'user not found' })
@@ -18,9 +17,9 @@ class AuthProvider {
 
         const userForToken = createTokenUser(user);
 
-        attachCookiesToResponse({ res, user: userForToken });
+        const token = attachCookiesToResponse({ res, user: userForToken });
 
-        return { user };
+        return { user: user, token: token };
     }
 
     async register(userData) {
