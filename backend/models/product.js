@@ -1,23 +1,6 @@
 const mongoose = require('mongoose');
 const validatorJS = require('validator');
 
-const optionSchema = new mongoose.Schema({
-    image: {
-        type: String,
-        required: [true, "Vui lòng cung cấp ảnh sản phẩm!"],
-    },
-    quantity: {
-        type: Number,
-        required: [true, "Vui lòng cung cấp số lượng sản phẩm!"],
-        min: [0, "Số lượng sản phẩm phải lớn hơn 0!"]
-    },
-    price: {
-        type: Number,
-        required: [true, "Vui lòng cung cấp giá sản phẩm!"],
-        min: [0, "Giá sản phẩm phải lớn hơn 0!"]
-    }
-});
-
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -40,14 +23,31 @@ const productSchema = new mongoose.Schema({
         required: [true, "Vui lòng cung cấp loại sản phẩm!"],
         enum: ['wool', 'product']
     },
-    options: {
-        type: [optionSchema],
-        required: [true, "Vui lòng cung cấp tùy chọn sản phẩm!"]
-    },
+    options: [{
+        image: {
+            type: String,
+            required: [true, "Vui lòng cung cấp ảnh sản phẩm!"],
+        },
+        quantity: {
+            type: Number,
+            required: [true, "Vui lòng cung cấp số lượng sản phẩm!"],
+            min: [0, "Số lượng sản phẩm phải lớn hơn 0!"]
+        },
+        price: {
+            type: Number,
+            required: [true, "Vui lòng cung cấp giá sản phẩm!"],
+            min: [0, "Giá sản phẩm phải lớn hơn 0!"]
+        }
+    }],
     note: {
         type: String,
         required: false
     }
 }, { timestamps: true });
+
+// Thêm validate để đảm bảo options có ít nhất một phần tử
+productSchema.path('options').validate(function (options) {
+    return options.length > 0;
+}, 'Options phải có ít nhất một phần tử');
 
 module.exports = mongoose.model('Product', productSchema);

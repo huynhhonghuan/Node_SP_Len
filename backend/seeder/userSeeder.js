@@ -3,10 +3,44 @@ const User = require('../models/user');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const connectDB = require('../config/database');
+const fs = require('fs');
+const path = require('path');
 
 // Kết nối đến MongoDB
 
-connectDB();
+// connectDB();
+
+// Đọc dữ liệu tỉnh thành
+
+const filePath = path.join(__dirname, '..', 'assets', 'datas', 'vn_only_simplified_json_generated_data_vn_units.json');
+
+// Kiểm tra xem tập tin có tồn tại không
+if (!fs.existsSync(filePath)) {
+    console.error(`File not found: ${filePath}`);
+    process.exit(1);
+}
+
+// Đọc dữ liệu từ tập tin JSON
+const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+
+// Hàm để chọn ngẫu nhiên một phần tử trong mảng
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Hàm tạo đoạn văn ngẫu nhiên với đới dài maxLength: 200
+function generateParagraph(maxLength) {
+    // Tạo đoạn văn
+    let paragraph = faker.lorem.paragraph();
+
+    // Cắt đoạn văn để đảm bảo không vượt quá maxLength
+    if (paragraph.length > maxLength) {
+        paragraph = paragraph.slice(0, maxLength);
+    }
+
+    return paragraph;
+}
 
 // Hash mật khẩu
 const hashPassword = async (password) => {
@@ -32,11 +66,25 @@ const createFakeUsers = async (numUsers) => {
     });
 
     for (let i = 0; i < numUsers; i++) {
+        const province = getRandomElement(data);
+        const district = getRandomElement(province.District);
+        const ward = getRandomElement(district.Ward);
+
         users.push({
             name: faker.name.findName(),
             email: faker.internet.email(),
             password: await hashPassword('12345678'),//faker.internet.password()
-            isActive: Math.random() > 0.5 // Random true or false
+            isActive: Math.random() > 0.5, // Random true or false
+            address: [{
+                phone: faker.phone.phoneNumberFormat(),
+                street: faker.address.streetName(),
+                city: province.Code,
+                district: district.Code,
+                ward: ward.Code,
+                type: faker.random.arrayElement(['home', 'office', 'other']),
+                note: generateParagraph(200),
+                default: Math.random() > 0.5, // Random true or false
+            }]
         });
     }
 
@@ -44,6 +92,9 @@ const createFakeUsers = async (numUsers) => {
     console.log(`${numUsers} fake users created!`);
 };
 
-deleteAll()
-    .then(() => createFakeUsers(50))
-    .then(() => mongoose.connection.close());
+module.exports = UserSeeder = async () => {
+    await deleteAll();
+    await createFakeUsers(10);
+}
+
+// deleteAll().then(() => createFakeUsers(10)).then(() => mongoose.connection.close());

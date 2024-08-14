@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validatorJs = require('validator');
 const bcrypt = require('bcryptjs');
+const { addressSchema } = require('../models/address');
 
 // Connect to MongoDB
 const userSchema = new mongoose.Schema({
@@ -16,7 +17,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate: {
             validator: validatorJs.isEmail,
-            message: '{VALUE} phải là một email hợpp lệ!'
+            message: '{VALUE} phải là một email hợp lệ!'
         }
     },
     password: {
@@ -32,7 +33,8 @@ const userSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    address: [addressSchema]
 }, { timestamps: true });
 
 // Hash password before saving to database

@@ -13,7 +13,7 @@ const {
     updateProduct,
     deleteProduct,
     getProductByType,
-    getAllOptions,
+    // getAllOptions,
     getProductByOptionId,
     createOption,
     updateOption,

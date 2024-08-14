@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const connectDB = require('../config/database');
 
 // Kết nối đến MongoDB
-connectDB();
+// connectDB();
 
 // Xóa tất cả sản phẩm cũ
 const deleteAllProduct = async () => {
@@ -47,4 +47,7 @@ const createFakerProduct = async (number) => {
 
 }
 
-deleteAllProduct().then(() => createFakerProduct(10)).then(() => mongoose.connection.close());
+module.exports = ProductSeeder = async () => {
+    await deleteAllProduct();
+    await createFakerProduct(10);
+}
