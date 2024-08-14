@@ -3,7 +3,7 @@ const validatorJs = require('validator');
 const bcrypt = require('bcryptjs');
 const { addressSchema } = require('../models/address');
 
-// Connect to MongoDB
+// Connect to MongoDB 1
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
