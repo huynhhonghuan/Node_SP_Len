@@ -56,7 +56,7 @@ const discountSchema = new mongoose.Schema({
         default: 0,
         min: [0, "Giá sản phẩm đắt nhất khi giảm giá phải lớn hơn 0!"]
     },
-    customers_id: [{
+    customersId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }],

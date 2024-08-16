@@ -3,7 +3,7 @@ const { addressSchema } = require('../models/address');
 
 const orderSchema = new mongoose.Schema({
     // Thông tin người mua
-    customer_id: {
+    customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'Vui lòng cung cấp Id khách hàng'],
@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema({
     // Thông tin sản phẩm
     products: [
         {
-            product_id: {
+            productId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product',
                 required: [true, 'Vui lòng cung cấp Id sản phẩm'],
