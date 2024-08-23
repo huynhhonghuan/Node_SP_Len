@@ -51,7 +51,7 @@ const hashPassword = async (password) => {
 // Xóa dữ liệu cũ
 const deleteAll = async () => {
     await User.deleteMany({});
-    console.log('All users deleted!');
+    console.log('Tất cả người dùng đã được xóa!');
 }
 
 // Tạo dữ liệu giả và chèn vào cơ sở dữ liệu
@@ -61,6 +61,7 @@ const createFakeUsers = async (numUsers) => {
     users.push({
         name: 'Admin',
         email: 'admin@example.com',
+        phone: faker.phone.phoneNumberFormat(),
         password: await hashPassword('12345678'),//faker.internet.password()
         role: 'admin'
     });
@@ -73,7 +74,9 @@ const createFakeUsers = async (numUsers) => {
         users.push({
             name: faker.name.findName(),
             email: faker.internet.email(),
+            phone: faker.phone.phoneNumberFormat(),
             password: await hashPassword('12345678'),//faker.internet.password()
+            role: faker.random.arrayElement(['customer', 'staff']),
             isActive: Math.random() > 0.5, // Random true or false
             address: [{
                 phone: faker.phone.phoneNumberFormat(),
@@ -92,9 +95,9 @@ const createFakeUsers = async (numUsers) => {
     console.log(`${numUsers} fake users created!`);
 };
 
-module.exports = UserSeeder = async () => {
+module.exports = UserSeeder = async (count) => {
     await deleteAll();
-    await createFakeUsers(10);
+    await createFakeUsers(count);
 }
 
 // deleteAll().then(() => createFakeUsers(10)).then(() => mongoose.connection.close());

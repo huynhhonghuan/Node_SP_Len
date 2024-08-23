@@ -40,8 +40,13 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'processing', 'shipped'],
+        enum: ['pending', 'processing', 'shipped', 'failed'],
         default: 'pending',
+    },
+    // Thông tin chú thích khi mua hàng
+    note: {
+        type: String,
+        default: null
     },
     // Thông tin thanh toán 
     paymentMethod: {
@@ -74,29 +79,29 @@ const orderSchema = new mongoose.Schema({
     },
     // Thông tin giao hàng
     shippingAddress: {
-        type: addressSchema,
+        type: mongoose.Schema.Types.ObjectId,
         required: [true, 'Vui lòng cung cấp địa chỉ giao hàng'],
+        validate: {
+            validator: async function (value) {
+                const user = await mongoose.model('User').findOne({
+                    _id: this.userId,
+                    'address._id': value
+                });
+                return user != null;
+            },
+            message: 'Địa chỉ giao hàng không hợp lệ',
+        }
     },
-    // Thông tin phản hồi
-    comments: [
-        {
-            user_id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            },
-            content: {
-                type: String,
-            },
-            date: {
-                type: Date,
-                default: Date.now,
-            },
-        },
-    ],
-    // Thông tin chú thích
-    note: {
+    // Thông tin phản hồi, bình luận trên hóa đơn sau khi mua
+    comment: {
         type: String,
+        default: null,
     },
+    date_comment: {
+        type: Date,
+        default: null,
+    },
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

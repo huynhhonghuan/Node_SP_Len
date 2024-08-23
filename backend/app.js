@@ -9,6 +9,8 @@ const moment = require('moment-timezone');
 const authRouter = require('./routes/auth.js');
 const userRouter = require('./routes/user.js');
 const productRouter = require('./routes/product.js');
+const discountRouter = require('./routes/discount.js');
+const chatRouter = require('./routes/chat.js');
 
 const app = express();
 
@@ -26,10 +28,10 @@ app.use(cookieParser(process.env.JWT_SECRET_PRODUCTION));
 
 // Routes
 app.use('/auth', authRouter);
-
 app.use('/user', userRouter);
-
 app.use('/product', productRouter);
+app.use('/discount', discountRouter);
+app.use('/chat', chatRouter);
 
 app.listen(PORT, (error) => {
     if (!error) {

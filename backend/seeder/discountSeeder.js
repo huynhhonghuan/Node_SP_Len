@@ -59,7 +59,7 @@ const createFakeDiscounts = async (numDiscounts) => {
 }
 
 // Gọi hàm xóa và tạo khuyến mãi mới
-module.exports = DiscountSeeder = async () => {
+module.exports = DiscountSeeder = async (count) => {
     await deleteAllDiscount();
-    await createFakeDiscounts(10);
+    await createFakeDiscounts(count);
 }

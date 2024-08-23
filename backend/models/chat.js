@@ -15,15 +15,15 @@ const chatSchema = new mongoose.Schema({
     },
     // nội dung tin nhắn
     messages: [{
-        message: {
+        content: {
             type: String,
             required: true
         },
-        isSee: {
-            type: String,
-            enum: ['send', 'viewed'],
-            default: 'send',
-        },
+        // isSee: {
+        //     type: String,
+        //     enum: ['send', 'viewed'],
+        //     default: 'send',
+        // },
         timestamp: {
             type: Date,
             default: Date.now
@@ -46,3 +46,5 @@ const chatSchema = new mongoose.Schema({
         default: null,
     },
 }, { timestamps: true });
+
+module.exports = mongoose.model('Chat', chatSchema);

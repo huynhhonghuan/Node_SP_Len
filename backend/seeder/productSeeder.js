@@ -47,7 +47,7 @@ const createFakerProduct = async (number) => {
 
 }
 
-module.exports = ProductSeeder = async () => {
+module.exports = ProductSeeder = async (count) => {
     await deleteAllProduct();
-    await createFakerProduct(10);
+    await createFakerProduct(count);
 }
