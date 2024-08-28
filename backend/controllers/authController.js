@@ -4,7 +4,7 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
         const result = await authProvider.login(email, password, res);
-        return res.status(200).json({ user: result.user, token: result.token, message: 'Login successful!' });
+        return res.status(200).json({ user: result.user, token: result.token, message: result.message });
     } catch (err) {
         return res.status(400).json({ error: err.message });
     }

@@ -105,9 +105,14 @@ userSchema.pre('findOneAndUpdate', async function (next) {
 });
 
 // Compare password
-userSchema.methods.comparePassword = async function (canditatePassword) {  // we can check this in controller but this better for better SOLID
-    const isMatch = await bcrypt.compare(canditatePassword, this.password);
-    return isMatch;
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    try {
+        // So sánh mật khẩu được cung cấp với mật khẩu đã mã hóa của người dùng
+        const isMatch = await bcrypt.compare(candidatePassword, this.password);
+        return isMatch;
+    } catch (error) {
+        throw new Error('Error comparing passwords');
+    }
 };
 
 // Export the User model
