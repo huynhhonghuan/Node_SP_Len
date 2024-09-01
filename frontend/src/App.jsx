@@ -1,9 +1,9 @@
 import React from 'react';
-import RoutesComponent from './routes/routes';
+import Admin from './admin/Index';
 
 function App() {
   return (
-    <RoutesComponent />
+    <Admin />
   );
 }
 

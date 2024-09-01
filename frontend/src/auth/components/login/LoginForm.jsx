@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../LoginForm/LoginForm.css'
+import { useNavigate, Link } from 'react-router-dom';
+import './LoginForm.css'
 import { validateEmail, validatePassword } from '../../utils/validation';
-import { login } from '../../services/auth/authService';
+import { login } from '../../services/authService';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -51,41 +51,42 @@ const LoginForm = () => {
         }
     }
     return (
-        <div className='login-container'>
-            <div className="login">
-                <span className="login-title">Login</span>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <input className="login-input"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder='Email'
-                            required
-                            autoComplete="username"
-                        />
-                        {emailError && <p style={{ color: "#d82c26" }}>{emailError}</p>}
-                    </div>
-                    <div>
-                        <input className="login-input"
-                            type="password"
-                            value={password}
-                            placeholder='Password'
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            autoComplete="current-password"
-                        />
-                        {passwordError && <p style={{ color: "#d82c26" }}>{passwordError}</p>}
-                    </div>
-                    <div className="login-info">
-                        <input type="checkbox" id="rememberMe" name="rememberMe" />
-                        <label htmlFor="rememberMe">Remember me</label>
-                        <a href="#" className="forgot-password">Forgot password?</a>
-                    </div>
-                    {loginError && <p>{loginError}</p>}
-                    <button className='login-button' type="submit">Login</button>
-                </form>
-            </div>
+        <div className="login">
+            <span className="login-title">Login</span>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <input className="login-input"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder='Email'
+                        required
+                        autoComplete="username"
+                    />
+                    {emailError && <p style={{ color: "#d82c26" }}>{emailError}</p>}
+                </div>
+                <div>
+                    <input className="login-input"
+                        type="password"
+                        value={password}
+                        placeholder='Password'
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        autoComplete="current-password"
+                    />
+                    {passwordError && <p style={{ color: "#d82c26" }}>{passwordError}</p>}
+                </div>
+                <div className="login-info">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" />
+                    <label htmlFor="rememberMe">Remember me</label>
+                    <a href="#" className="forgot-password">Forgot password?</a>
+                </div>
+                {loginError && <p>{loginError}</p>}
+                <button className='login-button' type="submit">Login</button>
+            </form>
+
+            <Link to={'/resgister'} className='resgister'>Don't have an account? Sign up now!</Link>
+
         </div>
     )
 }

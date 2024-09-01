@@ -1,0 +1,95 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* Đảm bảo login chiếm 100% chiều rộng của login-container */
+    max-width: 450px;
+    /* Giới hạn chiều rộng tối đa */
+    height: 500px;
+    padding: 20px;
+    background-color: rgb(157, 160, 155);
+    /* Thêm padding để tạo khoảng cách bên trong */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm tăng kích thước phần tử */
+}
+
+.login-title {
+    font-weight: bold;
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.login form {
+    width: 100%;
+}
+
+.login-input {
+    width: 100%;
+    /* Đảm bảo login-input chiếm 100% chiều rộng của login */
+    margin-bottom: 10px;
+    padding: 15px;
+    background-color: rgb(230, 225, 225);
+    font-size: 1rem;
+    border: none;
+    color: rgb(82, 42, 42);
+    /* Điều chỉnh màu chữ để dễ đọc hơn trên nền sáng */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm tăng kích thước phần tử */
+    transition: border-color 0.3s ease-in-out;
+    /* Hiệu ứng chuyển đổi màu mượt mà */
+}
+
+.login-input:focus {
+    border: 1px solid #b6b7c7;
+    /* Màu viền khi input được bấm vào */
+    outline: none;
+    /* Loại bỏ đường viền mặc định của trình duyệt */
+}
+
+.login-info {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    margin: 20px 0;
+    color: white;
+}
+
+.forgot-password {
+    margin-left: auto;
+    text-decoration: none;
+    color: white;
+}
+
+.login-button {
+    width: 100%;
+    /* Đảm bảo login-button chiếm 100% chiều rộng của login */
+    padding: 15px;
+    margin-top: 10px;
+    background-color: rgb(175, 174, 174);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out;
+    box-sizing: border-box;
+    border-radius: 20px;
+    /* Đảm bảo padding không làm tăng kích thước phần tử */
+}
+
+.login-button:hover {
+    background-color: rgb(155, 155, 155);
+}
+
+.resgister {
+    margin-top: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.resgister:hover,
+.forgot-password:hover {
+    color: rgb(43, 26, 117);
+}

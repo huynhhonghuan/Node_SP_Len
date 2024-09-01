@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../services/auth/authService';
+import { logout } from '../../auth/services/authService';
 
 function CustomerHomePage() {
     const navigate = useNavigate();
