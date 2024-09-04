@@ -8,6 +8,7 @@ import promotion_img from "../../../admin/assets/promotion.png"
 import box_img from "../../../admin/assets/box.png"
 import comment_img from "../../../admin/assets/comment.png"
 import chatbot_img from "../../../admin/assets/chatbot.png"
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
     return (
@@ -18,10 +19,13 @@ const Sidebar = () => {
             </div>
             <div className="sidebar-menu">
                 <ul className="sidebar-links">
-                    <li>
-                        <img src={account_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Tài khoản</span>
-                    </li>
+                    <Link to={'/admin/product'} style={{ textDecoration: "none" }}>
+                        <li>
+
+                            <img src={account_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Tài khoản</span>
+                        </li>
+                    </Link>
                     <li>
                         <img src={product_img} alt="" className="sidebar-icon" />
                         <span className="sidebar-span">Sản phẩm</span>

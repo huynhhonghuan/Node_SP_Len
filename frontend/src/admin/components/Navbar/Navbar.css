@@ -1,13 +1,14 @@
 .navbar {
     display: flex;
-    flex: 6;
     align-items: center;
     justify-content: space-between;
-    background-color: rgb(170, 169, 169);
+    background-color: rgb(197, 191, 191);
     max-height: 100px;
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
     border-left: none;
-    padding: 0 10px;
+    border-radius: 10px;
+    padding: 10px;
+
 }
 
 .navbar-sidebar img {

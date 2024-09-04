@@ -1,11 +1,11 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    background-color: rgb(163, 163, 163);
-    flex: 1;
+    background-color: rgb(197, 191, 191);
     height: 100vh;
     padding: 10px;
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
+    border-radius: 10px;
 }
 
 .sidebar-logo {

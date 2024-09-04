@@ -1,9 +1,14 @@
 import React from 'react';
-import AdminRoute from './Router';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Đây là cách import đúng
+import AdminHomePage from "./pages/Home/AdminHomePage";
 
 const AdminIndex = () => {
     return (
-        <AdminRoute />
+        <Router>
+            <Routes>
+                <Route path="/admin/*" element={<AdminHomePage />} />
+            </Routes>
+        </Router>
     )
 }
 
