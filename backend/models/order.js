@@ -16,6 +16,20 @@ const orderSchema = new mongoose.Schema({
                 ref: 'Product',
                 required: [true, 'Vui lòng cung cấp Id sản phẩm'],
             },
+            optionId: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: [true, 'Vui lòng cung cấp lựa chọn'],
+                validate: {
+                    validator: async function (value) {
+                        const product = await mongoose.model('Product').findOne({
+                            _id: this.optionId,
+                            'options._id': value
+                        });
+                        return product != null;
+                    },
+                    message: 'Lựa chọn sản phẩm không tồn tại',
+                }
+            },
             quantity: {
                 type: Number,
                 required: [true, 'Vui lòng cung cấp số lượng sản phẩm'],
@@ -92,16 +106,6 @@ const orderSchema = new mongoose.Schema({
             message: 'Địa chỉ giao hàng không hợp lệ',
         }
     },
-    // Thông tin phản hồi, bình luận trên hóa đơn sau khi mua
-    comment: {
-        type: String,
-        default: null,
-    },
-    date_comment: {
-        type: Date,
-        default: null,
-    },
-
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

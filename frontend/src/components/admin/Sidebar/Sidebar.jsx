@@ -1,13 +1,13 @@
 // import { Link } from "react-router-dom";
 import React from "react";
-import home_logo from "../../../admin/assets/admin-home.png"
+import home_logo from "../../../assets/images/admin/admin-home.png";
 import "./Sidebar.css"
-import account_img from "../../../admin/assets/account.png"
-import product_img from "../../../admin/assets/product.png"
-import promotion_img from "../../../admin/assets/promotion.png"
-import box_img from "../../../admin/assets/box.png"
-import comment_img from "../../../admin/assets/comment.png"
-import chatbot_img from "../../../admin/assets/chatbot.png"
+import account_img from "../../../assets/images/admin/account.png"
+import product_img from "../../../assets/images/admin/product.png"
+import promotion_img from "../../../assets/images/admin/promotion.png"
+import box_img from "../../../assets/images/admin/box.png"
+import comment_img from "../../../assets/images/admin/comment.png"
+import chatbot_img from "../../../assets/images/admin/chatbot.png"
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -19,17 +19,17 @@ const Sidebar = () => {
             </div>
             <div className="sidebar-menu">
                 <ul className="sidebar-links">
+                    <li>
+                        <img src={account_img} alt="" className="sidebar-icon" />
+                        <span className="sidebar-span">Tài khoản</span>
+                    </li>
                     <Link to={'/admin/product'} style={{ textDecoration: "none" }}>
                         <li>
-
-                            <img src={account_img} alt="" className="sidebar-icon" />
-                            <span className="sidebar-span">Tài khoản</span>
+                            <img src={product_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Sản phẩm</span>
                         </li>
                     </Link>
-                    <li>
-                        <img src={product_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Sản phẩm</span>
-                    </li>
+
                     <li>
                         <img src={promotion_img} alt="" className="sidebar-icon" />
                         <span className="sidebar-span">Khuyến mãi</span>

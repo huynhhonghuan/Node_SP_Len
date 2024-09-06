@@ -17,6 +17,7 @@ const ListComponent = ({ data, listName, onEdit, onDelete }) => {
 
     // Pagination
     const pageCount = Math.ceil(filteredData.length / pageSize);
+
     const pageData = useMemo(() => {
         const start = currentPage * pageSize;
         const end = start + pageSize;
@@ -51,9 +52,9 @@ const ListComponent = ({ data, listName, onEdit, onDelete }) => {
         setShowModal(false);
     };
 
-    const headers = ['STT', ...Object.keys(data[0] || {}).filter(key => key !== 'id').map(key => key.charAt(0).toUpperCase() + key.slice(1)), 'Hành động'];
+    const headers = ['STT', ...Object.keys(data[0] || {}).filter(key => key !== '_id' && key !== '__v').map(key => key.charAt(0).toUpperCase() + key.slice(1)), 'Hành động'];
 
-    const headers_item = Object.keys(data[0] || {}).filter(key => key !== 'id');
+    const headers_item = Object.keys(data[0] || {}).filter(key => key !== '_id' && key !== '__v' && key !== 'options');
 
     return (
         <div className="container">
@@ -102,7 +103,7 @@ const ListComponent = ({ data, listName, onEdit, onDelete }) => {
                                 <td key={i}>{item[header]}</td>
                             ))}
                             <td className="actions-cell">
-                                <button className='edit-button' onClick={() => { onEdit(item.id) }}>Sửa</button>
+                                <button className='edit-button' onClick={() => { onEdit(item) }}>Sửa</button>
                                 <button className='delete-button' onClick={() => handleDeleteClick(item)}>Xóa</button>
                             </td>
                         </tr>

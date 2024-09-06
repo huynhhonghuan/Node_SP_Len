@@ -5,14 +5,15 @@
     height: 100vh;
     padding: 10px;
     /* border: 1px solid gray; */
-    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .sidebar-logo {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-bottom: 1px solid gray;
+    border-bottom: 2px solid gray;
     padding-bottom: 10px;
 }
 

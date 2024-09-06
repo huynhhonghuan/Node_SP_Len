@@ -1,9 +1,9 @@
 import React from 'react';
-import Admin from './admin/Index';
+import AllRouter from './routes/All';
 
 function App() {
   return (
-    <Admin />
+    <AllRouter />
   );
 }
 

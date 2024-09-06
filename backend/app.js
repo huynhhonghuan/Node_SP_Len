@@ -11,6 +11,7 @@ const userRouter = require('./routes/user.js');
 const productRouter = require('./routes/product.js');
 const discountRouter = require('./routes/discount.js');
 const chatRouter = require('./routes/chat.js');
+const comboProductRouter = require('./routes/comboProduct.js');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/user', userRouter);
 app.use('/product', productRouter);
 app.use('/discount', discountRouter);
 app.use('/chat', chatRouter);
+app.use('/comboproduct', comboProductRouter);
 
 app.listen(PORT, (error) => {
     if (!error) {

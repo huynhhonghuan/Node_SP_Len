@@ -37,9 +37,9 @@ const LoginForm = () => {
             const data = await login(email, password); // Gọi API đăng nhập
             // Chuyển hướng người dùng dựa trên vai trò (admin hoặc user)
             if (data.user.role === 'admin') {
-                navigate('/admin-home'); // Điều hướng đến trang của admin
+                navigate('/admin'); // Điều hướng đến trang của admin
             } else if (data.user.role === 'customer') {
-                navigate('/customer-home'); // Điều hướng đến trang của user
+                navigate('/customer'); // Điều hướng đến trang của user
             } else {
                 setLoginError('Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại.'); // Trả về thông báo đăng nhập thất bại nếu vai trò người dùng không h��p lệ.
                 return;

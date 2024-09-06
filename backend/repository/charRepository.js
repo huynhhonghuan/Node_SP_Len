@@ -16,6 +16,10 @@ class ChatRepository {
     async deleteChat(id) {
         return await Chat.findByIdAndDelete(id);
     }
+
+    async createMessage(id, message) {
+        return await Chat.findByIdAndUpdate(id, { $push: { message: message } }, { new: true });
+    }
 }
 
 module.exports = new ChatRepository();

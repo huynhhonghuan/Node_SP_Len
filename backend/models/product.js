@@ -43,7 +43,24 @@ const productSchema = new mongoose.Schema({
     note: {
         type: String,
         required: false
-    }
+    },
+    comments: [
+        {
+            userId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            content: {
+                type: String,
+                required: true
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ]
 }, { timestamps: true });
 
 // Thêm validate để đảm bảo options có ít nhất một phần tử

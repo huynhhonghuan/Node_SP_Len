@@ -43,11 +43,15 @@ const createFakeDiscounts = async (numDiscounts) => {
     const discounts = [];
 
     for (let i = 0; i < numDiscounts; i++) {
+
+        const startDate = faker.date.future(1, new Date()); // Start date within the next year
+        const endDate = faker.date.future(2, startDate);
+
         discounts.push({
             code: generateRandomString(faker.datatype.number({ min: 5, max: 10 })),
             percentage: getRandomNumberDivisibleByStep(5, 100, 5),
-            startDate: faker.date.future(1, new Date()),
-            endDate: faker.date.future(2, new Date()),
+            startDate: startDate,
+            endDate: endDate,
             lowestTotal: getRandomNumberDivisibleByStep(50000, 200000, 5000),
             counts: faker.datatype.number({ min: 1, max: 100 }),
             isActive: Math.random() > 0.5 // Random true or false

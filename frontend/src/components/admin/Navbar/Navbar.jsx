@@ -1,8 +1,8 @@
 import React from 'react';
-import navbar_sidebar from '../../../admin/assets/navbar-sidebar.png';
-import navbar_message from '../../../admin/assets/navbar-message.png';
-import navbar_notification from '../../../admin/assets/navbar-notification.png';
-import navbar_user from '../../../admin/assets/navbar-user.png';
+import navbar_sidebar from '../../../assets/images/admin/navbar-sidebar.png';
+import navbar_message from '../../../assets/images/admin/navbar-message.png';
+import navbar_notification from '../../../assets/images/admin/navbar-notification.png';
+import navbar_user from '../../../assets/images/admin/navbar-user.png';
 import "./Navbar.css";
 
 const Navbar = () => {

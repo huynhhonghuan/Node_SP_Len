@@ -6,7 +6,10 @@
     max-height: 100px;
     /* border: 1px solid gray; */
     border-left: none;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+
     padding: 10px;
 
 }
@@ -14,6 +17,7 @@
 .navbar-sidebar img {
     width: 40px;
     height: 40px;
+    margin-left: 10px;
 }
 
 .navbar-info img {

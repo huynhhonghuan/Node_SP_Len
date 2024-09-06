@@ -19,14 +19,14 @@ const chatSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        // isSee: {
-        //     type: String,
-        //     enum: ['send', 'viewed'],
-        //     default: 'send',
-        // },
-        timestamp: {
+        createdAt: {
             type: Date,
             default: Date.now
+        },
+        parentId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Message',
+            required: false,
         }
     }],
     // trạng thái của cuộc tin nhắn, (chờ tiếp nhận ,tiếp nhận, đang xử lý, hoàn thành, không tiếp nhận)

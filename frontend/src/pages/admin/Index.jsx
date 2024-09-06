@@ -1,14 +1,11 @@
 import React from 'react';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import Navbar from '../../components/Navbar/Navbar';
-import "../../pages/Home/AdminHomePage.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Đây là cách import đúng
-import ProductPage from '../Product/ProductPage';
+import "./index.css";
+import Sidebar from '../../components/admin/Sidebar/Sidebar';
+import Navbar from '../../components/admin/Navbar/Navbar';
+import ListProduct from '../../components/admin/Product/ListProduct';
 
-
-const listName = 'Products';
-
-function AdminHomePage() {
+function AdminIndex() {
     return (
         <div className="admin">
             <div className="admin-sidebar">
@@ -18,10 +15,7 @@ function AdminHomePage() {
                 <Navbar />
                 <div className="content">
                     <Routes>
-                        <Route
-                            path="product/*"
-                            element={<ProductPage />}
-                        />
+                        <Route path="product/*" element={<ListProduct />} />
                     </Routes>
                 </div>
             </div>
@@ -29,4 +23,4 @@ function AdminHomePage() {
     );
 };
 
-export default AdminHomePage;
+export default AdminIndex;

@@ -1,0 +1,32 @@
+.navbar-title {
+    background-color: rgba(196, 140, 66, 0.9);
+}
+
+.navbar-content-2 {
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+/* Navbar.css */
+.navbar-left {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.3);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transform: translateX(-100%);
+    /* Di chuyển ra khỏi màn hình */
+    opacity: 0;
+    /* Bắt đầu với độ mờ */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    /* Thêm hiệu ứng chuyển động */
+}
+
+.navbar-left.show {
+    transform: translateX(0);
+    /* Di chuyển vào khung hình */
+    opacity: 1;
+    /* Hiển thị đầy đủ */
+}
