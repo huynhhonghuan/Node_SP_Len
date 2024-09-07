@@ -3,7 +3,11 @@
 }
 
 .navbar-content-2 {
-    background-color: rgba(128, 128, 128, 0.3);
+    background-color: rgba(219, 166, 130, 0.2);
+}
+
+.navbar-content-search input {
+    width: 400px;
 }
 
 /* Navbar.css */

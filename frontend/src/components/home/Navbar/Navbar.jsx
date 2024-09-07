@@ -38,13 +38,13 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-content-1 d-flex align-items-center justify-content-between mt-3">
                     <div className="navbar-content-home">
-                        <Link to="/" className="text-warning bg-secondary p-2 rounded-circle">
+                        <Link to="/" className="text-secondary p-2 rounded-circle fs-4" style={{ backgroundColor: "gold" }}>
                             <i className="fa-solid fa-house-chimney"></i>
                         </Link>
                     </div>
                     <div className="navbar-content-search d-flex align-items-center">
-                        <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 w-100 px-5" />
-                        <button className="btn btn-primary">Search</button>
+                        <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-4 rounded-pill" />
+                        {/* <button className="btn btn-primary">Search</button> */}
                     </div>
                     <ul className="d-flex flex-row list-unstyled mb-0">
                         <li className="me-2 fs-5 pe-3 border-end">
@@ -65,10 +65,10 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div className="navbar-content-2 d-flex align-items-center justify-content-start mt-3 py-3">
+                <div className="navbar-content-2 d-flex align-items-center justify-content-start mt-3 py-1">
                     <div className="col-2 col-md-4">
                         {/* Nút mở sidebar với ref */}
-                        <button className="btn" type="button"
+                        <button className="btn fs-5 text-secondary" type="button"
                             onClick={toggleNavbarLeft}
                             ref={buttonRef}>
                             <i className="fa-solid fa-bars"></i>
@@ -99,7 +99,49 @@ const Navbar = () => {
                 className={`navbar-left ${isNavbarLeftVisible ? 'show' : ''}`}
                 ref={navbarLeftRef}
             >
-                Nội dung thanh sidebar
+                <div className="navbar-left-search mx-2 pt-5 pb-3">
+                    <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-2 rounded-pill" />
+                </div>
+                <div className="navbar-left-link d-flex flex-column justify-content-center align-items-start">
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
+                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                            Trang chủ
+                        </Link>
+                    </div>
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
+                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                            Giới thiệu
+                        </Link>
+                    </div>
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
+                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                            Sản phẩm <i className="fa-solid fa-chevron-down"></i>
+                        </Link>
+                    </div>
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
+                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                            Liên hệ
+                        </Link>
+                    </div>
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
+                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                            Giỏ hàng
+                        </Link>
+                    </div>
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
+                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                            Đăng nhập
+                        </Link>
+                    </div>
+
+                    <div className="d-flex justify-content-evenly w-100 py-4">
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-twitter"></i>
+                        <i class="fa-regular fa-envelope"></i>
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div>
             </div>
         </>
     );
