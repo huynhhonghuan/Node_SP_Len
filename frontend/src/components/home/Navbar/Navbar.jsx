@@ -57,7 +57,7 @@ const Navbar = () => {
                             <Link to="/contact" className="text-warning"><i className="fa-solid fa-phone"></i></Link>
                         </li>
                         <li className="mx-2 fs-5">
-                            <Link to="/contact" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            <Link to="/login" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
                         </li>
                         <li className="mx-2 fs-5 bg-warning px-2 rounded-circle">
                             <Link to="/contact" className="text-light"><i className="fa-solid fa-cart-plus"></i></Link>
@@ -67,10 +67,7 @@ const Navbar = () => {
 
                 <div className="navbar-content-2 d-flex align-items-center justify-content-start mt-3 py-1">
                     <div className="col-2 col-md-4">
-                        {/* Nút mở sidebar với ref */}
-                        <button className="btn fs-5 text-secondary" type="button"
-                            onClick={toggleNavbarLeft}
-                            ref={buttonRef}>
+                        <button className="btn fs-5 text-secondary" type="button" onClick={toggleNavbarLeft} ref={buttonRef}>
                             <i className="fa-solid fa-bars"></i>
                         </button>
                     </div>
@@ -78,20 +75,35 @@ const Navbar = () => {
                         <Link to="/" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
                             Trang chủ
                         </Link>
-                        <Link to="/" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
+                        <Link to="/about" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
                             Giới thiệu
                         </Link>
-                        <Link to="/" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
-                            Sản phẩm <i className="fa-solid fa-chevron-down"></i>
-                        </Link>
-                        <Link to="/" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
-                            Liên hệ
-                        </Link>
-                        <Link to="/" className="text-dark text-uppercase fw-bold text-decoration-none">
+
+                        {/* Dropdown for Sản phẩm */}
+                        <div className="dropdown-wrapper-main position-relative d-inline-block">
+                            <Link to="/product" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
+                                Sản phẩm <i className="fa-solid fa-chevron-down"></i>
+                            </Link>
+                            <div className="dropdown-menu-main position-absolute bg-white shadow-sm p-2 mt-2 border border-2 border-warning">
+                                <Link to="/product/category1" className="dropdown-item-main text-secondary py-3">
+                                    Danh mục 1
+                                </Link>
+                                <Link to="/product/category2" className="dropdown-item-main text-secondary py-3">
+                                    Danh mục 2
+                                </Link>
+                                <Link to="/product/category3" className="dropdown-item-main text-secondary py-3">
+                                    Danh mục 3
+                                </Link>
+                            </div>
+                        </div>
+
+
+                        <Link to="/card" className="text-dark text-uppercase fw-bold text-decoration-none">
                             Giỏ hàng
                         </Link>
                     </div>
                 </div>
+
             </div>
 
             {/* Phần menu sidebar trái */}
@@ -109,37 +121,47 @@ const Navbar = () => {
                         </Link>
                     </div>
                     <div className="border-bottom border-secondary w-100 py-4 ps-3">
-                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                        <Link to="/about" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
                             Giới thiệu
                         </Link>
                     </div>
-                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
-                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
-                            Sản phẩm <i className="fa-solid fa-chevron-down"></i>
-                        </Link>
+                    <div className="border-bottom border-secondary w-100 py-4 ps-3 position-relative">
+                        {/* Dropdown for Sản phẩm */}
+                        <div className="dropdown-wrapper-left-custom me-3">
+                            <Link to="/product" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                                Sản phẩm <i className="fa-solid fa-chevron-down"></i>
+                            </Link>
+                            <div className="dropdown-menu-left-custom bg-white shadow-sm p-2 mt-2 border border-2 border">
+                                <Link to="/product/category1" className="dropdown-item-left-custom text-secondary py-3">
+                                    Danh mục 1
+                                </Link>
+                                <Link to="/product/category2" className="dropdown-item-left-custom text-secondary py-3">
+                                    Danh mục 2
+                                </Link>
+                                <Link to="/product/category3" className="dropdown-item-left-custom text-secondary py-3">
+                                    Danh mục 3
+                                </Link>
+                            </div>
+                        </div>
                     </div>
+
                     <div className="border-bottom border-secondary w-100 py-4 ps-3">
-                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
-                            Liên hệ
-                        </Link>
-                    </div>
-                    <div className="border-bottom border-secondary w-100 py-4 ps-3">
-                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                        <Link to="/card" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
                             Giỏ hàng
                         </Link>
                     </div>
                     <div className="border-bottom border-secondary w-100 py-4 ps-3">
-                        <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
+                        <Link to="/login" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
                             Đăng nhập
                         </Link>
                     </div>
 
                     <div className="d-flex justify-content-evenly w-100 py-4">
-                        <i class="fa-brands fa-facebook-f"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                        <i class="fa-brands fa-twitter"></i>
-                        <i class="fa-regular fa-envelope"></i>
-                        <i class="fa-solid fa-phone"></i>
+                        <i className="fa-brands fa-facebook-f"></i>
+                        <i className="fa-brands fa-instagram"></i>
+                        <i className="fa-brands fa-twitter"></i>
+                        <i className="fa-regular fa-envelope"></i>
+                        <i className="fa-solid fa-phone"></i>
                     </div>
                 </div>
             </div>

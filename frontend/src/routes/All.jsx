@@ -9,7 +9,7 @@ const AllRouter = () => {
         <Router>
             <Routes>
                 <Route path='/*' element={<HomeIndex />} />
-                <Route path='/login/*' element={<LoginIndex />} />
+                {/* <Route path='/login/*' element={<LoginIndex />} /> */}
                 <Route path="/admin/*" element={<AdminIndex />} />
                 <Route path='/logout' element={<LoginIndex />} />
             </Routes>

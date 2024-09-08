@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './RegisterForm.css'
 import { validateEmail, validatePassword } from '../../utils/validation';
 import { login } from '../../services/authService';
 

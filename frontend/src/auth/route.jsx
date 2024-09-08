@@ -1,13 +1,13 @@
 // routes/Routes.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Đây là cách import đúng
-import LoginPage from './pages/LoginPage';
-import ResgisterPage from './pages/ResgisterPage';
+import LoginForm from './components/login/LoginForm';
+import RegisterForm from './components/register/RegisterForm';
 
 const LoginRoute = () => (
     <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/resgister" element={<ResgisterPage />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/resgister" element={<RegisterForm />} />
     </Routes>
 )
 

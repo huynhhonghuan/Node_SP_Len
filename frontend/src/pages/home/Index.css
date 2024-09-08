@@ -1,0 +1,9 @@
+.content-main {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    /* Đảm bảo padding và border được tính trong tổng kích thước */
+    overflow: hidden;
+    /* Đảm bảo không có phần tử nào bị tràn */
+    background-color: peachpuff;
+}

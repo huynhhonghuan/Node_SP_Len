@@ -52,7 +52,7 @@ const LoginForm = () => {
     }
     return (
         <div className="login">
-            <span className="login-title">Login</span>
+            <span className="login-title">Đăng nhập</span>
             <form onSubmit={handleSubmit}>
                 <div>
                     <input className="login-input"
@@ -82,7 +82,7 @@ const LoginForm = () => {
                     <a href="#" className="forgot-password">Forgot password?</a>
                 </div>
                 {loginError && <p>{loginError}</p>}
-                <button className='login-button' type="submit">Login</button>
+                <button className='login-button' type="submit">Đăng nhập</button>
             </form>
 
             <Link to={'/resgister'} className='resgister'>Don't have an account? Sign up now!</Link>

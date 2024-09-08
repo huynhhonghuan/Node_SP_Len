@@ -34,3 +34,77 @@
     opacity: 1;
     /* Hiển thị đầy đủ */
 }
+
+/* Hiển thị sub menu */
+/* Ẩn danh sách theo mặc định */
+.dropdown-menu-main {
+    opacity: 0;
+    visibility: hidden;
+    min-width: 250px;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+/* Hiển thị danh sách khi hover vào dropdown-wrapper */
+.dropdown-wrapper-main:hover .dropdown-menu-main {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Định dạng các mục trong dropdown */
+.dropdown-item-main {
+    padding: 8px 16px;
+    text-align: left;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-item-main:hover {
+    background-color: #e98635;
+    border-radius: 10px;
+    color: white !important;
+}
+
+/* Hiển thị sub menu bên trái */
+
+/* Tùy chỉnh kiểu dáng của menu con */
+.dropdown-menu-left-custom {
+    display: none;
+    flex-direction: column;
+    /* Sắp xếp các phần tử theo cột */
+    gap: 0.5rem;
+    /* Khoảng cách giữa các phần tử */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    /* Padding cho các phần tử trong menu */
+    text-decoration: none;
+    /* Bỏ gạch chân */
+    color: #6c757d;
+    /* Màu chữ */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiển thị menu con khi hover hoặc khi phần tử cha có class 'show' */
+.dropdown-wrapper-left-custom:hover .dropdown-menu-left-custom {
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.dropdown-item-left-custom {
+    padding: 8px;
+    text-align: left;
+    text-decoration: none;
+    display: block;
+    color: #343a40;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dropdown-item-left-custom:hover {
+    background-color: #eb7a10;
+    color: white !important;
+}
