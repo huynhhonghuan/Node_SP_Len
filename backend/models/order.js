@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { addressSchema } = require('../models/address');
 
 const orderSchema = new mongoose.Schema({
     // Thông tin người mua

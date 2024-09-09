@@ -19,10 +19,13 @@ const Sidebar = () => {
             </div>
             <div className="sidebar-menu">
                 <ul className="sidebar-links">
-                    <li>
-                        <img src={account_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Tài khoản</span>
-                    </li>
+                    <Link to={'/admin/account'} style={{ textDecoration: "none" }}>
+
+                        <li>
+                            <img src={account_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Tài khoản</span>
+                        </li>
+                    </Link>
                     <Link to={'/admin/product'} style={{ textDecoration: "none" }}>
                         <li>
                             <img src={product_img} alt="" className="sidebar-icon" />
@@ -30,21 +33,33 @@ const Sidebar = () => {
                         </li>
                     </Link>
 
-                    <li>
-                        <img src={promotion_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Khuyến mãi</span>
-                    </li>
-                    <li>
-                        <img src={box_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Đơn hàng</span>
-                    </li>
-                    <li>
+                    <Link to={'/admin/comboproduct'} style={{ textDecoration: "none" }}>
+                        <li>
+                            <img src={product_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Combo Sản phẩm</span>
+                        </li>
+                    </Link>
+
+                    <Link to={'/admin/discount'} style={{ textDecoration: "none" }}>
+                        <li>
+                            <img src={promotion_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Khuyến mãi</span>
+                        </li>
+                    </Link>
+                    <Link to={'/admin/order'} style={{ textDecoration: "none" }}>
+
+                        <li>
+                            <img src={box_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Đơn hàng</span>
+                        </li>
+                    </Link>
+                    {/* <li>
                         <img src={comment_img} alt="" className="sidebar-icon" />
                         <span className="sidebar-span">Đánh giá</span>
-                    </li>
+                    </li> */}
                     <li>
                         <img src={chatbot_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Chatbot</span>
+                        <span className="sidebar-span">Nhắn tin</span>
                     </li>
                 </ul>
             </div>

@@ -4,7 +4,7 @@ const authMiddleware = async (req, res, next) => {
 
     // check first if send in header 
     let token;
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers['authorization'];
     if (authHeader && authHeader.startsWith('Bearer')) {
         token = authHeader.split(' ')[1];
     }

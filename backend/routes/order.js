@@ -11,7 +11,7 @@ const {
     createOrder,
     updateOrder,
     deleteOrder,
-} = require('../controllers/oderController');
+} = require('../controllers/orderController');
 
 // Middleware to use order router only when authenticated and authorized to access it
 

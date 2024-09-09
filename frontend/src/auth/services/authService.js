@@ -17,11 +17,26 @@ export const login = async (email, password) => {
             }
         }
     );
-    Cookies.set('token', response.data.token, { expires: 1 }); // Lưu token vào cookie
+
+    await Cookies.set('token', response.data.token, { expires: 1 }); // Lưu token vào cookie
+
     return response.data;
 };
 
 export const logout = async () => {
-    Cookies.remove('token'); // Xóa token khỏi cookie
-    return await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
+    try {
+        // Xóa token khỏi cookie
+        Cookies.remove('token');
+
+        // Gửi yêu cầu POST đến endpoint logout với token (nếu cần)
+        await axios.get(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`, // Thêm header nếu cần
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.error('Error logging out:', error);
+        throw error;
+    }
 };
