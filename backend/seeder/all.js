@@ -8,8 +8,8 @@ const AllSeeder = async () => {
     await connectDB();
     await UserSeeder(10);
     await ProductSeeder(30);
-    await DiscountSeeder(2);
-    await comboProductSeeder(5);
+    await DiscountSeeder(9);
+    await comboProductSeeder(7);
     console.log('Seeding completed!');
     await closeConnectionDB();
 }

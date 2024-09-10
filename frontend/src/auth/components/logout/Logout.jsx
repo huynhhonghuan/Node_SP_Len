@@ -13,7 +13,7 @@ const Logout = () => {
                 setLogoutSuccess(true);
                 setTimeout(() => {
                     navigate('/login');
-                }, 5000); // Thời gian hiển thị thông báo trước khi chuyển hướng (2000ms = 2 giây)
+                }, 2000); // Thời gian hiển thị thông báo trước khi chuyển hướng (2000ms = 2 giây)
             } catch (error) {
                 console.error('Error logging out:', error);
                 // Xử lý lỗi, có thể thông báo cho người dùng về lỗi

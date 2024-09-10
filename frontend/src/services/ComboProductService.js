@@ -5,10 +5,13 @@ import { token } from "./GetToken";
 
 export const getAllComboProducts = async () => {
     try {
+        // Gọi hàm token và chờ lấy giá trị token
+        const authToken = await token();
+        
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/comboproduct`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${authToken}`
             }
         });
 

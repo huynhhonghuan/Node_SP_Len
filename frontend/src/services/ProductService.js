@@ -3,13 +3,14 @@ import { token } from './GetToken';
 
 export const getAllProducts = async () => {
     try {
-        // Lấy token từ cookie sử dụng js-cookie
-        console.log(`${import.meta.env.VITE_API_URL}/product`);
+        // Gọi hàm token và chờ lấy giá trị token
+        const authToken = await token();
+
         // Gửi yêu cầu đến API để lấy danh sách sản phẩm
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${authToken}`
             }
         });
         return response.data;

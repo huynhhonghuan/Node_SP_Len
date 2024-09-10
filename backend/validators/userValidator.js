@@ -25,6 +25,12 @@ const validateUserData = [
         .normalizeEmail(), // Chuyển đổi email thành chữ thường
 
     // Kiểm tra mật khẩu
+    check('phone')
+        .isString().withMessage('Số điện thoại phải là chuỗi số')
+        .notEmpty().withMessage('Vui lòng cung cấp số điện thoại!')
+        .isLength({ min: 10, max: 11 }).withMessage('Số điện thoại có 10 hoặc 11 số'),
+
+    // Kiểm tra mật khẩu
     check('password')
         .isString().withMessage('Mật khẩu phải là chuỗi')
         .notEmpty().withMessage('Vui lòng cung cấp mật khẩu!')
@@ -33,7 +39,7 @@ const validateUserData = [
     // Kiểm tra vai trò
     check('role')
         .optional()
-        .isIn(['user', 'admin']).withMessage('Vai trò không hợp lệ'),
+        .isIn(['admin', 'customer', 'staff']).withMessage('Vai trò không hợp lệ'),
 
     // Kiểm tra trạng thái hoạt động
     check('isActive')

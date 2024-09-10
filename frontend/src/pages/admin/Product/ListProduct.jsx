@@ -17,7 +17,7 @@ const ListProduct = () => {
                 const response = await getAllProducts();
 
                 // Xử lý dữ liệu: giữ lại options và comments, nhưng thay giá trị bằng số lượng phần tử
-                const filteredData = response.data.map(item => {
+                const filteredData = response.product.map(item => {
                     const { options, comments, __v, ...rest } = item;
 
                     return {

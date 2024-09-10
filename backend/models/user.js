@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    address: [
+    addresses: [
         {
             phone: {
                 type: String,
@@ -52,15 +52,15 @@ const userSchema = new mongoose.Schema({
                 }
             },
             city: {
-                type: Number,
+                type: String,
                 required: [true, "Vui lòng cung cấp tỉnh/thành phố!"],
             },
             district: {
-                type: Number,
+                type: String,
                 required: [true, "Vui lòng cung cấp quận/huyện!"],
             },
             ward: {
-                type: Number,
+                type: String,
                 required: [true, "Vui lòng cung cấp phườnng/xã!"],
             },
             street: {

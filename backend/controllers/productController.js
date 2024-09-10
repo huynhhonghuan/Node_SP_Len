@@ -3,7 +3,7 @@ const ProductRepository = require('../repository/productRepository');
 const getAllProducts = async (req, res) => {
     try {
         const products = await ProductRepository.getAllProducts();
-        res.json({ data: products, message: 'All products' });
+        res.json({ product: products, message: 'All products' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

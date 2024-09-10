@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
     type: {
         type: String,
         required: [true, "Vui lòng cung cấp loại sản phẩm!"],
-        enum: ['wool', 'product'],
+        enum: ['wool', 'product', 'tool'],
         default: 'wool'
     },
     options: [{

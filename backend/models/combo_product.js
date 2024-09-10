@@ -24,7 +24,7 @@ const ComboProductSchema = new mongoose.Schema({
             validate: {
                 validator: async function (value) {
                     const product = await mongoose.model('Product').findOne({
-                        _id: this.optionId,
+                        _id: this.productId,
                         'options._id': value
                     });
                     return product != null;

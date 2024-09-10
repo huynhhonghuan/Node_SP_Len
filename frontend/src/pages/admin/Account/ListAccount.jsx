@@ -20,11 +20,11 @@ const ListAccount = () => {
 
                 // Xử lý dữ liệu: giữ lại options và comments, nhưng thay giá trị bằng số lượng phần tử
                 const filteredData = response.users.map(item => {
-                    const { address, password, __v, ...rest } = item;
+                    const { addresses, password, __v, ...rest } = item;
 
                     return {
                         ...rest,
-                        address: address ? address.length : 0,  // Đếm số lượng phần tử trong options
+                        addresses: addresses ? addresses.length : 0,  // Đếm số lượng phần tử trong options
                     };
                 });
 
@@ -39,8 +39,10 @@ const ListAccount = () => {
     const handleOncreate = () => {
         navigate('create'); // Chuyển hướng đến trang tạo mới sản phẩm
     }
+    
     const handleOnUpdate = (item) => {
         // Logic cập nhật sản phẩm
+        navigate(`update/${item._id}`);  // Chuyển hướng đến trang cập nhật sản phẩm theo ID
     };
 
     const handleOnDelete = (item) => {

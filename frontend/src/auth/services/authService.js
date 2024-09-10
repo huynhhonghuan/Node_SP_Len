@@ -18,7 +18,7 @@ export const login = async (email, password) => {
         }
     );
 
-    await Cookies.set('token', response.data.token, { expires: 1 }); // Lưu token vào cookie
+    await Cookies.set('token', response.data.token, { expires: 1 / 24 }); // Lưu token vào cookie
 
     return response.data;
 };

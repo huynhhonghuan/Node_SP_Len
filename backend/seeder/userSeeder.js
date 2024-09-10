@@ -78,7 +78,7 @@ const createFakeUsers = async (numUsers) => {
             password: await hashPassword('12345678'),//faker.internet.password()
             role: faker.random.arrayElement(['customer', 'staff']),
             isActive: Math.random() > 0.5, // Random true or false
-            address: [{
+            addresses: [{
                 phone: faker.phone.phoneNumberFormat(),
                 street: faker.address.streetName(),
                 city: province.Code,

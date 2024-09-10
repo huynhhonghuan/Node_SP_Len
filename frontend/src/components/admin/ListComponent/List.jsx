@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, InputGroup, Pagination, Form } from 'react-bootstrap';
 import './List.css';
-import { Link } from 'react-router-dom';
+import { format } from 'date-fns';  // Thêm import này
+import { isValidDate } from '../../../app/isValidDate';
+import { isImageURL } from '../../../app/isValiImage';
 
 function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
     const [data, setData] = useState([]);
@@ -63,6 +65,7 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
             handleCloseDeleteModal();
         }
     };
+
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -129,7 +132,13 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
                                 <td>{startIndex + index + 1}</td>
                                 {Object.keys(item).map((key) =>
                                     key !== '_id' ? (
-                                        <td key={key}>{item[key]}</td>  // Sử dụng key dựa trên tên trường
+                                        <td key={key}>
+                                            {typeof item[key] === 'boolean' ? (item[key] ? 'Hoạt động' : 'Không') :
+                                                (isValidDate(item[key]) ? format(new Date(item[key]), 'dd-MM-yyyy') :
+                                                    isImageURL(item[key]) ? <img src={item[key]} alt="image" style={{ width: '80px', height: '80px' }} /> :
+                                                        item[key])
+                                            }
+                                        </td>
                                     ) : null
                                 )}
                                 <td>
@@ -143,18 +152,24 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
                 </table>
             </div>
 
-            <div className="d-flex justify-content-center align-items-center mt-3">
-                <Pagination>
-                    {[...Array(Math.ceil(filteredData.length / itemsPerPage))].map((_, index) => (
-                        <Pagination.Item
-                            key={index}
-                            active={index + 1 === currentPage}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            {index + 1}
-                        </Pagination.Item>
-                    ))}
-                </Pagination>
+            <div className="d-flex justify-content-between align-items-center mt-3">
+                {/* Pagination */}
+                <div className="pagination-info">
+                    <span>{`Hiển thị ${startIndex + 1} đến ${Math.min(startIndex + itemsPerPage, filteredData.length)} của ${filteredData.length} mục`}</span>
+                </div>
+                <div className="pagination-controls d-flex justify-content-center">
+                    <Pagination>
+                        {[...Array(Math.ceil(filteredData.length / itemsPerPage))].map((_, index) => (
+                            <Pagination.Item
+                                key={index}
+                                active={index + 1 === currentPage}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                {index + 1}
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
+                </div>
             </div>
 
             {/* Modal Xóa */}
