@@ -22,10 +22,10 @@ discountRouter.route('/').get(getAllDiscounts);
 
 discountRouter.route('/:id').get(validateObjectId, getDiscountById);
 
-discountRouter.route('/create').post(validateDiscountData, createDiscount);
+discountRouter.route('/').post(validateDiscountData(false), createDiscount);
 
-discountRouter.route('/update/:id').put(validateObjectId, validateDiscountData, updateDiscount);
+discountRouter.route('/:id').put(validateObjectId, validateDiscountData(true), updateDiscount);
 
-discountRouter.route('/delete/:id').delete(validateObjectId, deleteDiscount);
+discountRouter.route('/:id').delete(validateObjectId, deleteDiscount);
 
 module.exports = discountRouter;

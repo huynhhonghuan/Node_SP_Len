@@ -3,7 +3,7 @@ const DiscountRepository = require('../repository/discountRepository');
 const getAllDiscounts = async (req, res) => {
     try {
         const discounts = await DiscountRepository.getAllDiscounts();
-        res.json({ discounts: discounts, message: 'All discounts' });
+        res.json({ data: discounts, message: 'All discounts' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -15,7 +15,7 @@ const getDiscountById = async (req, res) => {
         if (!discount) {
             return res.status(404).json({ message: 'Discount not found' });
         }
-        res.json({ discount: discount, message: 'Discount retrieved' });
+        res.json({ data: discount, message: 'Discount retrieved' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -24,7 +24,7 @@ const getDiscountById = async (req, res) => {
 const createDiscount = async (req, res) => {
     try {
         const discount = await DiscountRepository.createDiscount(req.body);
-        res.status(201).json({ discount: discount, message: 'Discount created' });
+        res.json({ data: discount, message: 'Discount created' });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -36,7 +36,7 @@ const updateDiscount = async (req, res) => {
         if (!updatedDiscount) {
             return res.status(404).json({ message: 'Discount not found' });
         }
-        res.json({ discount: updatedDiscount, message: 'Discount updated' });
+        res.json({ data: updatedDiscount, message: 'Discount updated' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

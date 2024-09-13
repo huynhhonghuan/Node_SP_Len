@@ -1,20 +1,21 @@
 import React from 'react';
-import { createUser } from '../../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import { CustomToastContainer, ToastAction } from '../../../components/Toast/Index';  // Import container cho toast
-import { UserSchema } from '../../../formschema/UserSchema';
 import CreateAndUpdate from '../../../components/admin/CreateAndUpdateComponent/CreateAndUpdate';
 
-const CreateAccount = () => {
+const CreatePage = ({ pageConfig }) => {
     const navigate = useNavigate();
+
+    // Lấy thông tin từ pageConfig.create
+    const { title, createData, navigateList, formSchema } = pageConfig;
 
     const handleOnCreateAccount = async (formData) => {
         try {
             console.log('Form data:', formData);  // Kiểm tra dữ liệu trước khi gửi
-            const response = await createUser(formData);
+            const response = await createData(formData);  // Sử dụng createData từ pageConfig
             if (response) {
                 // Tự động chuyển đến trang danh sách tài khoản
-                navigate('/admin/account', { state: { action: 'create', message: 'Thêm thành công!' } });
+                navigate(navigateList, { state: { action: 'create', message: 'Thêm thành công!' } });
             }
         } catch (error) {
             if (error.response) {
@@ -29,15 +30,14 @@ const CreateAccount = () => {
     return (
         <div>
             <CreateAndUpdate
-                title="Người dùng"
-                // existingData={existingData}
+                title={title}
                 isUpdate={false}
                 onSubmit={handleOnCreateAccount}
-                formSchema={UserSchema}
+                formSchema={formSchema}  // Sử dụng formSchema từ pageConfig
             />
             <CustomToastContainer />
         </div>
     );
 };
 
-export default CreateAccount;
+export default CreatePage;

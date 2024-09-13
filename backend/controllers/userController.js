@@ -3,7 +3,7 @@ const UserRepository = require('../repository/userRepository');
 const getAllUsers = async (req, res) => {
     try {
         const users = await UserRepository.getAllUsers();
-        res.json({ users: users, message: 'All users' });
+        res.json({ data: users, message: 'All users' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -15,7 +15,7 @@ const getUserById = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.json({ user: user, message: 'User found' });
+        res.json({ data: user, message: 'User found' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -26,7 +26,7 @@ const getUserByEmail = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.json({ user: user, message: 'User found' });
+        res.json({ data: user, message: 'User found' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -35,7 +35,7 @@ const getUserByEmail = async (req, res) => {
 const createUser = async (req, res) => {
     try {
         const user = await UserRepository.createUser(req.body);
-        res.json({ user: user, message: 'User created' });
+        res.json({ data: user, message: 'User created' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -47,7 +47,7 @@ const updateUser = async (req, res) => {
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.json({ user: updatedUser, message: 'User updated' });
+        res.json({ data: updatedUser, message: 'User updated' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -71,7 +71,7 @@ const updateActiveUser = async (req, res) => {
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.status(200).json({ user: updatedUser, message: 'User active status updated' });
+        res.status(200).json({ data: updatedUser, message: 'User active status updated' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

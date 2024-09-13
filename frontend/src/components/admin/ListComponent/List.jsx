@@ -5,7 +5,7 @@ import { format } from 'date-fns';  // Thêm import này
 import { isValidDate } from '../../../app/isValidDate';
 import { isImageURL } from '../../../app/isValiImage';
 
-function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
+function List({ title, headers, datas, onCreate, onUpdate, onDelete, nameDelete }) {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
         setData(datas);
         setFilteredData(datas);
         setLoading(false);
+        console.log(nameDelete)
     }, [datas]);
 
     useEffect(() => {
@@ -178,7 +179,7 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete }) {
                     <Modal.Title>Xóa đối tượng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Bạn có chắc chắn muốn xóa đối tượng {selectedItem?.name}?
+                    Bạn có chắc chắn muốn xóa đối tượng <span className='text-danger fs-4'>{selectedItem?.[nameDelete]}</span>  ?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseDeleteModal}>

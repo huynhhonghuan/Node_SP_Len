@@ -1,110 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import './CreateAndUpdate.css';
-import vietnamData from '../../../../src/assets/vn_only_simplified_json_generated_data_vn_units.json'; // Import the JSON data
+import React, { useEffect, useState } from "react";
 
 const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit }) => {
-    // State quản lý form
+    // State của form
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [role, setRole] = useState('');
-    const [isActive, setIsActive] = useState(true);
-    const [addresses, setAddresses] = useState([]);
-    const [expandedIndices, setExpandedIndices] = useState([]);
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState('');
+    const [type, setType] = useState('');
+    const [options, setOptions] = useState([]);
+    const [note, setNote] = useState('');
+    const [comments, setComment] = useState([]);
 
+    const [expandedIndices, setExpandedIndices] = useState([]);
     const [errorMessages, setErrorMessages] = useState({});  // State lưu trữ lỗi
 
     useEffect(() => {
         if (isUpdate && existingData) {
             setName(existingData.name || '');
-            setEmail(existingData.email || '');
-            setPhone(existingData.phone || '');
-            setRole(existingData.role || '');
-            setIsActive(existingData.isActive || false);
-            setAddresses(existingData.addresses || []);
-            setExpandedIndices(existingData.addresses.map(() => false));
-
-            // Nếu dữ liệu đã tồn tại, load city/district/ward
-            const updatedAddresses = existingData.addresses.map(address => {
-                const selectedCity = vietnamData.find(city => city.Code === String(address.city));
-                const districts = selectedCity ? selectedCity.District : [];
-                const selectedDistrict = districts.find(district => district.Code === String(address.district));
-                const wards = selectedDistrict ? selectedDistrict.Ward : [];
-
-                console.log(wards);
-
-                return {
-                    ...address,
-                    districts,  // Load quận/huyện theo thành phố đã chọn
-                    wards       // Load phường/xã theo quận/huyện đã chọn
-                };
-
-            });
-            setAddresses(updatedAddresses);
+            setDescription(existingData.description || '');
+            setImage(existingData.image || '');
+            setType(existingData.type || '');
+            setOptions(existingData.options || []);
+            setNote(existingData.note || '');
+            setComment(existingData.comments || []);
         }
     }, [isUpdate, existingData]);
 
-
-    const handleAddAddress = () => {
-        setAddresses([...addresses, { phone: '', type: '', city: '', district: '', ward: '', street: '', note: '' }]);
+    const handleAddOptions = () => {
+        setOptions([...options, { image: '', quantity: 0, price: 0 }]);
         setExpandedIndices([...expandedIndices, true]);
-    };
-
-    const toggleAddressForm = (index) => {
-        const newExpandedIndices = [...expandedIndices];
-        newExpandedIndices[index] = !newExpandedIndices[index];
-        setExpandedIndices(newExpandedIndices);
-    };
-
-    const handleDeleteAddress = (index) => {
-        setAddresses(addresses.filter((_, i) => i !== index));
+    }
+    const toggleOptionsForm = (index) => {
+        const newexpandedIndices = [...expandedIndices];
+        newexpandedIndices[index] = !newexpandedIndices[index];
+        setExpandedIndices(newexpandedIndices);
+    }
+    const handleDeleteOptions = (index) => {
+        setOptions(options.filter((_, i) => i !== index));
         setExpandedIndices(expandedIndices.filter((_, i) => i !== index));
-    };
-
-    const handleAddressChange = (index, field, value) => {
-        const updatedAddresses = addresses.map((address, i) =>
-            i === index ? { ...address, [field]: value } : address
-        );
-        setAddresses(updatedAddresses);
-    };
-
-    const handleCityChange = (index, cityCode) => {
-        const selectedCity = vietnamData.find(city => city.Code === cityCode);
-        const updatedDistricts = selectedCity ? selectedCity.District : [];
-
-        const updatedAddresses = addresses.map((address, i) =>
-            i === index ? { ...address, city: cityCode, district: '', ward: '', districts: updatedDistricts, wards: [] } : address
-        );
-        setAddresses(updatedAddresses);
-    };
-
-    const handleDistrictChange = (index, districtCode) => {
-        const selectedDistrict = addresses[index].districts.find(district => district.Code === districtCode);
-        const updatedWards = selectedDistrict ? selectedDistrict.Ward : [];
-
-        const updatedAddresses = addresses.map((address, i) =>
-            i === index ? { ...address, district: districtCode, ward: '', wards: updatedWards } : address
-        );
-        setAddresses(updatedAddresses);
-    };
+    }
+    const handleUpdateOptions = (index, field, value) => {
+        const updateOpntions = options.map((option, i) => {
+            i === index ? { ...options, [field]: value } : options
+        });
+        setOptions(updateOpntions)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
             name,
-            email,
-            phone,
-            password,
-            role,
-            isActive,
-            addresses
-        };
-
+            description,
+            image,
+            type,
+            options,
+            note,
+            comments
+        }
         try {
-            const rep = await onSubmit(formData);
-            setErrorMessages({});  // Reset errors nếu thành công
-        } catch (error) {
+            const reponse = await onSubmit(formData);
+            setErrorMessages({});
+        }
+        catch (error) {
             if (error) {
                 const errorObj = {};
                 error.forEach(err => {
@@ -113,8 +69,7 @@ const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit }) => {
                 setErrorMessages(errorObj);
             }
         }
-    };
-
+    }
     return (
         <div className="container-fluid">
             <div className="row">
@@ -330,7 +285,6 @@ const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit }) => {
                 </div>
             </form>
         </div>
-    );
-};
-
+    )
+}
 export default CreateAndUpdate;

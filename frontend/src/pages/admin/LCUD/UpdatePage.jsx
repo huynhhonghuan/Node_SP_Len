@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useParams to extract id from URL
-import { getUserById, updateUser } from '../../../services/UserService';
-import {UserSchema} from '../../../formschema/UserSchema';
 import CustomToastContainer from '../../../components/Toast/ToastContainer';
 import CreateAndUpdate from '../../../components/admin/CreateAndUpdateComponent/CreateAndUpdate';
 
-const UpdateAccount = () => {
+const UpdatePage = ({ pageConfig }) => {
     const { id } = useParams(); // Extract the id from the URL
-    const [user, setUser] = useState(null);
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true); // Add loading state
 
     const navigate = useNavigate();
 
+    // Extract configuration for update from pageConfig
+    const { title, getData, updateData, navigateList, formSchema } = pageConfig;
+
     useEffect(() => {
-        // Fetch user data when component mounts
+        // Fetch data data when component mounts
         if (id) {
             const fetchData = async () => {
                 try {
-                    const response = await getUserById(id);
-                    // console.log(response.users);
-                    setUser(response.user);
+                    const response = await getData(id); // Use getData from pageConfig
+                    setData(response.data);
                     setLoading(false); // Set loading state to false when data is fetched
                 } catch (error) {
                     console.error(error);
@@ -28,18 +28,17 @@ const UpdateAccount = () => {
             }
             fetchData();
         }
-    }, [id]);
+    }, [id, getData]);
 
-    const handleOnUpdateAccount = async (formData) => {
-        console.log(`Update account: ${formData.name}`);
+    const handleOnUpdatePage = async (formData) => {
+        console.log(`Update account: ${formData}`);
         try {
-            const response = await updateUser(id, formData);
+            const response = await updateData(id, formData); // Use updateData from pageConfig
             if (response) {
-                // Tự đ��ng chuyển đến trang danh sách tài khoản
-                navigate('/admin/account', { state: { action: 'update', message: 'Tài khoản đã được cập nhật thành công!' } });
+                // Automatically navigate to the list page
+                navigate(navigateList, { state: { action: 'update', message: 'Cập nhật thành công!' } });
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error);
         }
     }
@@ -51,15 +50,15 @@ const UpdateAccount = () => {
     return (
         <div>
             <CreateAndUpdate
-                title="Người dùng"
-                existingData={user}
+                title={title} // Use title from pageConfig
+                existingData={data}
                 isUpdate={true}
-                onSubmit={handleOnUpdateAccount}
-                formSchema={UserSchema}
+                onSubmit={handleOnUpdatePage}
+                formSchema={formSchema} // Use formSchema from pageConfig
             />
             <CustomToastContainer />
         </div>
     );
 }
 
-export default UpdateAccount;
+export default UpdatePage;

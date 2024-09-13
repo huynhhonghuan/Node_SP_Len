@@ -43,7 +43,7 @@ export const getUserById = async (userId) => {
 
 // Thêm mới người dùng
 
-export const CreateUser = async (user) => {
+export const createUser = async (user) => {
     try {
         const authToken = await token();
 
@@ -58,6 +58,44 @@ export const CreateUser = async (user) => {
         return response.data;
     } catch (error) {
         console.error('Error adding user:', error);
+        throw error;
+    }
+};
+
+// Cập nhật thông tin người dùng
+
+export const updateUser = async (userId, user) => {
+    try {
+        const authToken = await token();
+
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/user/${userId}`, user, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+    }
+};
+
+// Xóa người dùng
+
+export const deleteUser = async (userId) => {
+    try {
+        const authToken = await token();
+
+        const response = await axios.delete(`${import.meta.env.VITE_API_URL}/user/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting user:', error);
         throw error;
     }
 };
