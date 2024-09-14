@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { isValidDate } from '../../../app/isValidDate';
 import { format, isValid } from 'date-fns';
+import { uploadImage } from '../../../services/UploadImage';
 
 const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit, formSchema }) => {
     const [formData, setFormData] = useState({});
@@ -46,17 +47,26 @@ const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit, formSchema }
 
     return (
         <div className="container">
-            <h3 className='text-light'>{isUpdate ? `Cập nhật ${title}` : `Thêm mới ${title}`}</h3>
-            <form onSubmit={handleSubmit}>
+            <h3 className='text-light'>{isUpdate ? `${title}` : `${title}`}</h3>
+            <form onSubmit={handleSubmit} >
                 {formSchema.map((field) => (
                     <div key={field.key} className="mb-3">
-                        <label>{field.label}</label>
-                        {field.type === 'text' || field.type === 'email' || field.type === 'password' || field.type === 'file' ? (
+
+                        {field.type === 'group' && !field.component ? '' : (<label>{field.label}</label>)}
+
+                        {field.type === 'text' || field.type === 'email' || field.type === 'password' ? (
                             <input
                                 type={field.type}
                                 className="form-control"
                                 value={formData[field.key] || ''}
                                 onChange={(e) => handleChange(field.key, e.target.value)}
+                            />
+                        ) : field.type === 'file' ? (
+                            <input
+                                type={field.type}
+                                className="form-control"
+                                // value={!isUpdate ? formData[field.key] : ''}
+                                onChange={(e) => handleChange(field.key, e.target.files[0])}  // Không cần value
                             />
                         ) : field.type === 'number' ? (
                             <input
@@ -107,8 +117,9 @@ const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit, formSchema }
                             // Sử dụng React.createElement để tạo component từ field.component
                             React.createElement(field.component, {
                                 key: field.key,
-                                addresses: formData[field.key] || [],
-                                onAddressChange: (updatedData) => handleGroupChange(field.key, updatedData),
+                                fields: field.fields,
+                                datas: formData[field.key] || [],
+                                onDataChange: (updatedData) => handleGroupChange(field.key, updatedData),
                                 expanded: expandedGroup === field.key,
                                 toggleExpansion: () => setExpandedGroup(expandedGroup === field.key ? null : field.key),
                                 errorMessages: errorMessages

@@ -3,17 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import "./index.css";
 import Sidebar from '../../components/admin/Sidebar/Sidebar';
 import Navbar from '../../components/admin/Navbar/Navbar';
-// import ListProduct from './Product/ListProduct';
-// import ListAccount from './Account/ListAccount';
-// import ListDiscount from './Discount/ListDiscount';
-// import ListOrder from './Order/ListOrder';
-// import ListComboProduct from './ComboProduct/ListComboProduct';
-// import CreateDiscount from './Discount/CreateDiscount';
 import ListPage from './LCUD/ListPage';
-import { UserPage } from '../../formschema/UserSchema';
+import { UserPage } from '../../formdatas/UserSchema';
 import CreatePage from './LCUD/CreatePage';
 import UpdatePage from './LCUD/UpdatePage';
-import { DiscountPage } from '../../formschema/DiscountSchema';
+import { DiscountPage } from '../../formdatas/DiscountSchema';
+import { ProductPage } from '../../formdatas/ProductSchema';
+import { ComboProductPage } from '../../formdatas/ComboProductSchema';
+import { OrderPage } from '../../formdatas/OrderSchema';
 
 function AdminIndex() {
     return (
@@ -33,9 +30,16 @@ function AdminIndex() {
                         <Route path="discount/create" element={<CreatePage pageConfig={DiscountPage['create']} />} />
                         <Route path="discount/update/:id" element={<UpdatePage pageConfig={DiscountPage['update']} />} />
 
-                        {/* <Route path="product" element={<ListProduct />} /> */}
-                        {/* <Route path="product/create" element={<CreateAccount />} /> */}
-                        {/* <Route path="product/update/:id" element={<UpdateProduct />} /> */}
+                        <Route path="product" element={<ListPage pageConfig={ProductPage['list']} />} />
+                        <Route path="product/create" element={<CreatePage pageConfig={ProductPage['create']} />} />
+                        <Route path="product/update/:id" element={<UpdatePage pageConfig={ProductPage['update']} />} />
+
+                        <Route path="comboproduct" element={<ListPage pageConfig={ComboProductPage['list']} />} />
+                        <Route path="comboproduct/create" element={<CreatePage pageConfig={ComboProductPage['create']} />} />
+                        <Route path="comboproduct/update/:id" element={<UpdatePage pageConfig={ComboProductPage['update']} />} />
+
+                        <Route path="order" element={<ListPage pageConfig={OrderPage['list']} />} />
+
                         {/* 
                         <Route path="comboproduct" element={<ListComboProduct />} />
 

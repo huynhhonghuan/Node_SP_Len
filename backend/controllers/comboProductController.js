@@ -3,7 +3,7 @@ const ComboProductRepository = require('../../backend/repository/comboProductRep
 const getAllComboProducts = async (req, res) => {
     try {
         const comboProducts = await ComboProductRepository.getAllComboProducts();
-        res.json({ comboProducts: comboProducts, message: 'All combo products' });
+        res.json({ data: comboProducts, message: 'All combo products' });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
@@ -15,7 +15,7 @@ const getComboProductById = async (req, res) => {
         if (!comboProduct) {
             return res.status(404).json({ message: 'Combo product not found' });
         }
-        res.json({ comboProduct: comboProduct, message: 'Combo product retrieved' });
+        res.json({ data: comboProduct, message: 'Combo product retrieved' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -24,7 +24,7 @@ const getComboProductById = async (req, res) => {
 const createComboProduct = async (req, res) => {
     try {
         const comboProduct = await ComboProductRepository.createComboProduct(req.body);
-        res.status(201).json({ comboProduct: comboProduct, message: 'Combo product created' });
+        res.status(201).json({ data: comboProduct, message: 'Combo product created' });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -36,7 +36,7 @@ const updateComboProduct = async (req, res) => {
         if (!updatedComboProduct) {
             return res.status(404).json({ message: 'Combo product not found' });
         }
-        res.json({ comboProduct: updatedComboProduct, message: 'Combo product updated' });
+        res.json({ data: updatedComboProduct, message: 'Combo product updated' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

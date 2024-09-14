@@ -8,12 +8,11 @@ export const isImageURL = (url) => {
         return false;
     }
 
-    // Kiểm tra xem URL có bắt đầu bằng http:// hoặc https:// không
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        return false;
-    }
+    // Bỏ kiểm tra giao thức http/https
 
-    // Regex để kiểm tra các đuôi hình ảnh phổ biến và cũng xử lý các tham số truy vấn trong URL
-    const imageRegex = /\.(jpg|jpeg|png|gif|bmp|webp|svg|tiff)(\?.*)?$/i;
+    // Regex để kiểm tra đuôi hình ảnh phổ biến và các tham số truy vấn
+    const imageRegex = /\.(jpg|jpeg|png|gif|bmp|webp|svg|tiff|ico)(\?.*)?$/i;
+
+    // Kiểm tra URL xem có đúng định dạng ảnh không
     return imageRegex.test(url);
 };

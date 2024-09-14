@@ -19,7 +19,7 @@ const UpdatePage = ({ pageConfig }) => {
             const fetchData = async () => {
                 try {
                     const response = await getData(id); // Use getData from pageConfig
-                    setData(response.data);
+                    setData(response);
                     setLoading(false); // Set loading state to false when data is fetched
                 } catch (error) {
                     console.error(error);

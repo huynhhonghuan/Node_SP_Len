@@ -4,6 +4,7 @@ import LoginIndex from '../auth/index';
 import AdminIndex from '../pages/admin/index';
 import HomeIndex from '../pages/home/Index';
 import PrivateRoute from '../app/PrivateRoute';
+import UploadImage from '../pages/UploadImage';
 
 const AllRouter = () => {
     return (
@@ -17,6 +18,7 @@ const AllRouter = () => {
                         </PrivateRoute>
                     }
                 />
+                <Route path='/upload' element={<UploadImage />} />
             </Routes>
         </Router>
     )

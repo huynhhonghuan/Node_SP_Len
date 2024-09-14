@@ -136,7 +136,7 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete, nameDelete 
                                         <td key={key}>
                                             {typeof item[key] === 'boolean' ? (item[key] ? 'Hoạt động' : 'Không') :
                                                 (isValidDate(item[key]) ? format(new Date(item[key]), 'dd-MM-yyyy') :
-                                                    isImageURL(item[key]) ? <img src={item[key]} alt="image" style={{ width: '80px', height: '80px' }} /> :
+                                                    isImageURL(item[key]) ? <img src={`${import.meta.env.VITE_API_URL}/${item[key]}`} alt="image" style={{ width: '80px', height: '80px' }} /> :
                                                         item[key])
                                             }
                                         </td>

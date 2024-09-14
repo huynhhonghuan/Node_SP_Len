@@ -14,7 +14,7 @@ export const getAllUsers = async () => {
                 'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error('Error fetching users:', error);
         throw error;
@@ -33,8 +33,8 @@ export const getUserById = async (userId) => {
                 'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
             }
         });
-        console.log(response.data);
-        return response.data;
+        // console.log(response.data.data);
+        return response.data.data;
     } catch (error) {
         console.error('Error fetching user:', error);
         throw error;
@@ -55,7 +55,7 @@ export const createUser = async (user) => {
                 'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
             },
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error('Error adding user:', error);
         throw error;
@@ -74,7 +74,7 @@ export const updateUser = async (userId, user) => {
                 'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
             },
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error('Error updating user:', error);
         throw error;
@@ -93,7 +93,7 @@ export const deleteUser = async (userId) => {
                 'Authorization': `Bearer ${authToken}`  // Truyền token đã lấy được vào đây
             },
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error('Error deleting user:', error);
         throw error;

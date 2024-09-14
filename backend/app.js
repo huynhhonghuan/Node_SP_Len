@@ -1,6 +1,7 @@
 require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const { connectDB } = require('./config/database.js');
 const cookieParser = require('cookie-parser');
@@ -13,6 +14,7 @@ const discountRouter = require('./routes/discount.js');
 const chatRouter = require('./routes/chat.js');
 const comboProductRouter = require('./routes/comboProduct.js');
 const orderRouter = require('./routes/order.js');
+const imageRouter = require('./routes/image.js');
 
 const app = express();
 
@@ -28,6 +30,9 @@ app.use(cors());
 // Cookie Parser
 app.use(cookieParser(process.env.JWT_SECRET_PRODUCTION));
 
+// Cấu hình để phục vụ các tệp tĩnh từ thư mục 'assets'
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
 // Routes
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
@@ -36,8 +41,9 @@ app.use('/discount', discountRouter);
 app.use('/order', orderRouter);
 app.use('/chat', chatRouter);
 app.use('/comboproduct', comboProductRouter);
+app.use('/image', imageRouter);
 
-app.listen(PORT, (error) => {
+app.listen(PORT, '0.0.0.0', (error) => {
     if (!error) {
         console.log("Server listening on port " + PORT);
     } else {

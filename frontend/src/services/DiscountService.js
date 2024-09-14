@@ -14,7 +14,7 @@ export const getAllDiscounts = async () => {
                 Authorization: `Bearer ${authToken}`
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
     }
@@ -33,7 +33,7 @@ export const getDiscountById = async (discountId) => {
                 Authorization: `Bearer ${authToken}`
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
     }
@@ -52,7 +52,7 @@ export const createDiscount = async (discount) => {
                 Authorization: `Bearer ${authToken}`
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw error;
@@ -76,7 +76,7 @@ export const updateDiscount = async (discountId, discount) => {
                 }
             }
         );
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw error;
@@ -96,7 +96,7 @@ export const deleteDiscount = async (discountId) => {
                 Authorization: `Bearer ${authToken}`
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw error;

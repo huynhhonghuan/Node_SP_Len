@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import vietnamData from '../../../assets/vn_only_simplified_json_generated_data_vn_units.json'; // Import the JSON data
 
-const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansion, errorMessages }) => {
-    const [localAddresses, setLocalAddresses] = useState([]);
+const AddressForm = ({ datas = [], onDataChange, expanded, toggleExpansion, errorMessages }) => {
+    const [localDatas, setLocalDatas] = useState([]);
 
     useEffect(() => {
-        const updateAddresses = addresses.map(address => {
+        const updateDatas = datas.map(address => {
             const selectedCity = vietnamData.find(city => city.Code === address.city);
             const updatedDistricts = selectedCity ? selectedCity.District : [];
             const selectedDistrict = updatedDistricts.find(district => district.Code === address.district);
@@ -18,69 +18,72 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
             };
         });
 
-        setLocalAddresses(updateAddresses);
-    }, [addresses]);
+        // Chỉ cập nhật trạng thái nếu có sự thay đổi
+        if (JSON.stringify(updateDatas) !== JSON.stringify(localDatas)) {
+            setLocalDatas(updateDatas);
+        }
+    }, [datas, localDatas]); // Đảm bảo dependency array đúng
 
     const handleCityChange = (index, cityCode) => {
         const selectedCity = vietnamData.find(city => city.Code === cityCode);
         const updatedDistricts = selectedCity ? selectedCity.District : [];
-        const newAddresses = [...localAddresses];
-        newAddresses[index] = {
-            ...newAddresses[index],
+        const newData = [...localDatas];
+        newData[index] = {
+            ...newData[index],
             city: cityCode,
             districts: updatedDistricts,
             district: '',
             ward: '',
             wards: []
         };
-        setLocalAddresses(newAddresses);
-        onAddressChange(newAddresses);
+        setLocalDatas(newData);
+        onDataChange(newData);
     };
 
     const handleDistrictChange = (index, districtCode) => {
-        const selectedDistrict = localAddresses[index].districts?.find(district => district.Code === districtCode);
+        const selectedDistrict = localDatas[index].districts?.find(district => district.Code === districtCode);
         const updatedWards = selectedDistrict ? selectedDistrict.Ward : [];
-        const newAddresses = [...localAddresses];
-        newAddresses[index] = {
-            ...newAddresses[index],
+        const newData = [...localDatas];
+        newData[index] = {
+            ...newData[index],
             district: districtCode,
             ward: '',
             wards: updatedWards
         };
-        setLocalAddresses(newAddresses);
-        onAddressChange(newAddresses);
+        setLocalDatas(newData);
+        onDataChange(newData);
     };
 
     const handleFieldChange = (index, key, value) => {
-        const newAddresses = [...localAddresses];
-        newAddresses[index] = {
-            ...newAddresses[index],
+        const newData = [...localDatas];
+        newData[index] = {
+            ...newData[index],
             [key]: value
         };
-        setLocalAddresses(newAddresses);
-        onAddressChange(newAddresses);
+        setLocalDatas(newData);
+        onDataChange(newData);
     };
 
     const addAddress = () => {
-        const newAddress = { city: '', districts: [], district: '', wards: [], ward: '', street: '', type: '', note: '', default: false };
-        setLocalAddresses([...localAddresses, newAddress]);
-        onAddressChange([...localAddresses, newAddress]);
+        const newAddress = { phone: '', city: '', districts: [], district: '', wards: [], ward: '', street: '', type: '', note: '', default: false };
+        setLocalDatas([...localDatas, newAddress]);
+        onDataChange([...localDatas, newAddress]);
     };
 
     const removeAddress = (index) => {
-        const newAddresses = localAddresses.filter((_, i) => i !== index);
-        setLocalAddresses(newAddresses);
-        onAddressChange(newAddresses);
+        const newData = localDatas.filter((_, i) => i !== index);
+        setLocalDatas(newData);
+        onDataChange(newData);
     };
 
     return (
         <div className="address-form">
             <button type="button" className="btn btn-success" onClick={toggleExpansion}>
-                Địa chỉ (Hiện tại có {localAddresses.length}) {expanded ? '▼' : '▶'}
+                Địa chỉ (Hiện tại có {localDatas.length}) {expanded ? '▼' : '▶'}
             </button>
             {expanded && (
                 <div>
-                    {localAddresses.map((address, index) => (
+                    {localDatas.map((address, index) => (
                         <div key={index} className="address-item mt-2">
                             <div className="d-flex justify-content-start align-items-center mb-2">
                                 <div className="">
@@ -101,8 +104,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                             <option key={city.Code} value={city.Code}>{city.FullName}</option>
                                         ))}
                                     </select>
-                                    {errorMessages[`addresses[${index}].city`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].city`]}</div>
+                                    {errorMessages[`datas[${index}].city`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].city`]}</div>
                                     )}
                                 </div>
                                 <div className="col-4">
@@ -112,8 +115,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                             <option key={district.Code} value={district.Code}>{district.FullName}</option>
                                         ))}
                                     </select>
-                                    {errorMessages[`addresses[${index}].district`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].district`]}</div>
+                                    {errorMessages[`datas[${index}].district`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].district`]}</div>
                                     )}
                                 </div>
                                 <div className="col-4">
@@ -123,8 +126,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                             <option key={ward.Code} value={ward.Code}>{ward.FullName}</option>
                                         ))}
                                     </select>
-                                    {errorMessages[`addresses[${index}].ward`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].ward`]}</div>
+                                    {errorMessages[`datas[${index}].ward`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].ward`]}</div>
                                     )}
                                 </div>
                             </div>
@@ -138,8 +141,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                         value={address.street}
                                         onChange={(e) => handleFieldChange(index, 'street', e.target.value)}
                                     />
-                                    {errorMessages[`addresses[${index}].street`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].street`]}</div>
+                                    {errorMessages[`datas[${index}].street`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].street`]}</div>
                                     )}
                                 </div>
                                 <div className="col-2">
@@ -150,8 +153,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                         value={address.phone}
                                         onChange={(e) => handleFieldChange(index, 'phone', e.target.value)}
                                     />
-                                    {errorMessages[`addresses[${index}].phone`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].phone`]}</div>
+                                    {errorMessages[`datas[${index}].phone`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].phone`]}</div>
                                     )}
                                 </div>
                                 <div className="col-2">
@@ -165,8 +168,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                         <option value="office">Văn phòng</option>
                                         <option value="other">Khác</option>
                                     </select>
-                                    {errorMessages[`addresses[${index}].type`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].type`]}</div>
+                                    {errorMessages[`datas[${index}].type`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].type`]}</div>
                                     )}
                                 </div>
                             </div>
@@ -180,8 +183,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                         onChange={(e) => handleFieldChange(index, 'note', e.target.value)}
                                         maxLength="200"
                                     />
-                                    {errorMessages[`addresses[${index}].note`] && (
-                                        <div className="text-danger">{errorMessages[`addresses[${index}].note`]}</div>
+                                    {errorMessages[`datas[${index}].note`] && (
+                                        <div className="text-danger">{errorMessages[`datas[${index}].note`]}</div>
                                     )}
                                 </div>
                             </div>
@@ -212,8 +215,8 @@ const AddressForm = ({ addresses = [], onAddressChange, expanded, toggleExpansio
                                             />
                                             Không
                                         </div>
-                                        {errorMessages[`addresses[${index}].default`] && (
-                                            <div className="text-danger">{errorMessages[`addresses[${index}].default`]}</div>
+                                        {errorMessages[`datas[${index}].default`] && (
+                                            <div className="text-danger">{errorMessages[`datas[${index}].default`]}</div>
                                         )}
                                     </div>
                                 </div>

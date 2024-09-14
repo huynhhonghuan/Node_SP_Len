@@ -5,8 +5,8 @@ import { validateEmail, validatePassword } from '../../utils/validation';
 import { login } from '../../services/authService';
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('admin@example.com');
+    const [password, setPassword] = useState('12345678');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [loginError, setLoginError] = useState('');

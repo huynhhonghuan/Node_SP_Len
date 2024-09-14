@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import List from "../../../components/admin/ListComponent/List";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CustomToastContainer, ToastAction } from '../../../components/Toast/Index';  // Import container cho toast
+import { deleteImage } from "../../../services/UploadImage";
 
 const ListPage = ({ pageConfig }) => {
     const [datas, setDatas] = useState([]);
@@ -15,7 +16,7 @@ const ListPage = ({ pageConfig }) => {
                 const response = await getData();
 
                 // Xử lý dữ liệu: loại bỏ các trường không cần thiết và xử lý tùy chỉnh
-                const filteredData = response.data.map(item => {
+                const filteredData = response.map(item => {
                     // Loại bỏ các trường không cần thiết
                     let filteredItem = { ...item };
 
@@ -23,9 +24,9 @@ const ListPage = ({ pageConfig }) => {
                     header_count.forEach((countKey, index) => {
                         if (filteredItem[countKey] && Array.isArray(filteredItem[countKey])) {
                             // filteredItem[countKey] = filteredItem[countKey].length;  // Gán số lượng phần tử vào trường tương ứng
-                            filteredItem = { ...filteredItem, index: filteredItem[countKey].length }
+                            filteredItem = { ...filteredItem, [countKey + '_count']: filteredItem[countKey].length }
                         } else {
-                            filteredItem = { ...filteredItem, index: 0 }
+                            filteredItem = { ...filteredItem, [countKey + '_count']: 0 }
                         }
                     });
 
@@ -38,7 +39,7 @@ const ListPage = ({ pageConfig }) => {
                 });
 
                 setDatas(filteredData);
-                console.log(nameDelete);
+                // console.log(nameDelete);
             } catch (error) {
                 console.error(error);
             }
@@ -67,12 +68,17 @@ const ListPage = ({ pageConfig }) => {
     const handleOnDelete = async (item) => {
         // Logic xóa sản phẩm
         try {
+            if (item.image) {
+                // Xóa ảnh trước khi xóa trong DB
+                await deleteImage(item.image);  // Hàm xóa ảnh (cần tùy chỉnh)
+            }
+            
             const response = await deleteData(item._id);
             if (response) {
                 const updatedDatas = datas.filter(data => data._id !== item._id);
                 setDatas(updatedDatas);
-                ToastAction({ action: 'delete', message: 'Xóa thành công!' });
             }
+            ToastAction({ action: 'delete', message: 'Xóa thành công!' });
         }
         catch (error) {
             console.error(error);
