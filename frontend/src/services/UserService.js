@@ -99,3 +99,15 @@ export const deleteUser = async (userId) => {
         throw error;
     }
 };
+
+export const transformUser = async () => {
+    const users = await getAllUsers();
+    const data = [];
+    users.forEach(user => {
+        data.push({
+            id: user._id,
+            name: user.name
+        });
+    })
+    return data;
+};

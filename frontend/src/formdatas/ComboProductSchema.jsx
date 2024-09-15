@@ -1,5 +1,6 @@
 import InputGroup from "../components/admin/InputGroup/InputGroup";
 import { createComboProduct, deleteComboProduct, getAllComboProducts, getComboProductById, updateComboProduct } from "../services/ComboProductService";
+import { transformOptionsForProduct, transformProductsToOptions } from "../services/ProductService";
 
 const ComboProductSchema = [
     {
@@ -33,6 +34,7 @@ const ComboProductSchema = [
                 label: 'Sản phẩm',
                 type: 'select',
                 options: [], // Nạp danh sách sản phẩm từ API hoặc service
+                // getdata: transformOptionsForProduct,
                 validation: {
                     required: true,
                 },
@@ -42,6 +44,7 @@ const ComboProductSchema = [
                 label: 'Lựa chọn sản phẩm',
                 type: 'select',
                 options: [], // Nạp danh sách lựa chọn từ API hoặc service
+                // getdata: transformProductsToOptions,
                 validation: {
                     required: true,
                 },

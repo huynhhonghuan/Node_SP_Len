@@ -17,32 +17,6 @@ const uploadImage = async (req, res) => {
     }
 }
 
-// Thay thế hình ảnh
-const replaceImage = async (req, res) => {
-    try {
-        const oldImage = req.body.oldImage;  // Tên hình ảnh cũ được gửi từ client
-        const newImage = req.file;  // Hình ảnh mới được gửi từ Multer
-
-        // Xóa hình ảnh cũ nếu tồn tại
-        if (oldImage) {
-            const oldImagePath = path.join(__dirname, '../assets/images', oldImage);
-            fs.unlink(oldImagePath, (err) => {
-                if (err) {
-                    console.error('Error deleting old image:', err);
-                    return res.status(500).json({ message: 'Error deleting old image' });
-                }
-            });
-        }
-
-        res.status(200).json({
-            message: 'Hình ảnh đã được thay thế thành công!',
-            file: newImage
-        });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
 // Xóa hình ảnh
 const deleteImage = async (req, res) => {
     try {
@@ -79,4 +53,4 @@ const deleteImage = async (req, res) => {
     }
 };
 
-module.exports = { uploadImage, replaceImage, deleteImage };
+module.exports = { uploadImage, deleteImage };

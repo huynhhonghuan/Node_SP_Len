@@ -17,3 +17,9 @@
     background-color: rgb(197, 191, 191);
     border-radius: 10px;
 }
+
+@media (max-width: 1024px) {
+    .admin-sidebar {
+        display: none;
+    }
+}

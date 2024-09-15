@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import List from "../../../components/admin/ListComponent/List";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CustomToastContainer, ToastAction } from '../../../components/Toast/Index';  // Import container cho toast
-import { deleteImage } from "../../../services/UploadImage";
+// import { deleteImage } from "../../../services/UploadImage";
 
 const ListPage = ({ pageConfig }) => {
     const [datas, setDatas] = useState([]);
@@ -68,11 +68,10 @@ const ListPage = ({ pageConfig }) => {
     const handleOnDelete = async (item) => {
         // Logic xóa sản phẩm
         try {
-            if (item.image) {
-                // Xóa ảnh trước khi xóa trong DB
-                await deleteImage(item.image);  // Hàm xóa ảnh (cần tùy chỉnh)
-            }
-            
+            // if (item.image) {
+            //     // Xóa ảnh trước khi xóa trong DB
+            //     await deleteImage(item.image);  // Hàm xóa ảnh (cần tùy chỉnh)
+            // }
             const response = await deleteData(item._id);
             if (response) {
                 const updatedDatas = datas.filter(data => data._id !== item._id);

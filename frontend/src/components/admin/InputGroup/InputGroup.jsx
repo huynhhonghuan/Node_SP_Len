@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { transformOptionsForProduct, transformProductsToOptions } from '../../../services/ProductService';
 
 const InputGroup = ({ datas = [], fields, onDataChange, expanded, toggleExpansion, errorMessages }) => {
     const [localDatas, setLocalDatas] = useState([]);
+    const [productOptions, setProductOptions] = useState([]);
+    const [optionOptions, setOptionOptions] = useState({}); // lưu trữ tùy chọn theo từng sản phẩm
 
     useEffect(() => {
         if (JSON.stringify(datas) !== JSON.stringify(localDatas)) {
@@ -9,12 +12,45 @@ const InputGroup = ({ datas = [], fields, onDataChange, expanded, toggleExpansio
         }
     }, [datas, localDatas]);
 
+    useEffect(() => {
+        const loadOptions = async () => {
+            // Lấy danh sách sản phẩm
+            const products = await transformOptionsForProduct();
+            setProductOptions(products);
+
+            // Khởi tạo optionOptions để chứa dữ liệu tùy chọn
+            const initialOptionOptions = {};
+            for (const product of products) {
+                const options = await transformProductsToOptions(product.value);
+                initialOptionOptions[product.value] = options;
+            }
+            setOptionOptions(initialOptionOptions);
+        };
+
+        loadOptions();
+    }, []); // Chỉ chạy một lần khi component mount
+
     const handleFieldChange = (index, key, value) => {
         const newData = [...localDatas];
         newData[index] = {
             ...newData[index],
             [key]: value
         };
+
+        // Nếu thay đổi productId, cập nhật tùy chọn mới cho optionId
+        if (key === 'productId') {
+            const productId = value;
+            transformProductsToOptions(productId).then(options => {
+                setOptionOptions(prevOptions => ({
+                    ...prevOptions,
+                    [productId]: options
+                }));
+            });
+
+            // Xóa giá trị của optionId khi productId thay đổi
+            newData[index]['optionId'] = ''; // Hoặc giá trị mặc định
+        }
+
         setLocalDatas(newData);
         onDataChange(newData);
     };
@@ -66,7 +102,6 @@ const InputGroup = ({ datas = [], fields, onDataChange, expanded, toggleExpansio
                                             <input
                                                 type={field.type}
                                                 className="form-control"
-                                                // value={data[field.key] && ''}
                                                 onChange={(e) => handleFieldChange(index, field.key, e.target.files[0])}
                                             />
                                         ) : field.type === 'number' ? (
@@ -93,11 +128,13 @@ const InputGroup = ({ datas = [], fields, onDataChange, expanded, toggleExpansio
                                                 onChange={(e) => handleFieldChange(index, field.key, e.target.value)}
                                             >
                                                 <option value="">Chọn {field.label}</option>
-                                                {field.options.map((option) => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
+                                                {(field.key === 'productId'
+                                                    ? productOptions
+                                                    : (optionOptions[data['productId']] || [])).map((option) => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
                                             </select>
                                         ) : field.type === 'radio' ? (
                                             <div>
@@ -108,7 +145,7 @@ const InputGroup = ({ datas = [], fields, onDataChange, expanded, toggleExpansio
                                                             className="form-check-input"
                                                             value={option.value}
                                                             checked={data[field.key] === option.value}
-                                                            onChange={() => handleFieldChange(field.key, option.value)}
+                                                            onChange={() => handleFieldChange(index, field.key, option.value)}
                                                         />
                                                         <label className="form-check-label">{option.label}</label>
                                                     </div>

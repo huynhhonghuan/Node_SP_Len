@@ -37,7 +37,7 @@ export const getComboProductById = async (comboProductId) => {
             }
         });
 
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw error;
@@ -61,7 +61,7 @@ export const createComboProduct = async (comboProduct) => {
             }
         );
 
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw error;
@@ -87,7 +87,7 @@ export const updateComboProduct = async (comboProductId, comboProduct) => {
             }
         );
 
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw error;

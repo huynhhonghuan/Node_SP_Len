@@ -1,28 +1,46 @@
+import InputGroup from "../components/admin/InputGroup/InputGroup";
 import { getAllOrders } from "../services/OrderService";
+import { getAllUsers, transformUser } from "../services/UserService";
 
 const OrderSchema = [
     {
         key: 'customerId',
-        label: 'Mã khách hàng',
-        type: 'text', // Could use select/autocomplete based on customer data
+        label: 'Khách hàng',
+        type: 'select',
+        // options: async () => {
+        //     // Call API hoặc service để lấy danh sách khách hàng
+        //     const users = await getAllUsers();
+        //     const data = [];
+        //     data.push({ value: '', label: 'Chọn khách hàng' });
+        //     users.forEach(user => data.push({ value: user._id, label: user.name }));
+        //     return data;
+        // },
+        options: [],
         validation: { required: true },
     },
     {
         key: 'products',
         label: 'Sản phẩm',
         type: 'group', // Representing a nested structure for multiple products
-        component: null,
+        component: InputGroup, // Component chọn sản phẩm, cần tạo hoặc import từ trước
         fields: [
             {
                 key: 'productId',
-                label: 'Mã sản phẩm',
-                type: 'text',
+                label: 'Sản phẩm',
+                type: 'select',
+                // options: async () => {
+                //     // Call API hoặc service để lấy danh sách sản phẩm
+                //     const products = await getAllProducts();
+                //     return products.map(product => ({ value: product._id, label: product.name }));
+                // },
+                options: [],
                 validation: { required: true },
             },
             {
                 key: 'optionId',
                 label: 'Lựa chọn sản phẩm',
-                type: 'text',
+                type: 'select',
+                options: [],
                 validation: { required: true },
             },
             {
@@ -79,7 +97,8 @@ const OrderSchema = [
     {
         key: 'shippingAddress',
         label: 'Địa chỉ giao hàng',
-        type: 'text', // Could also be select based on saved addresses
+        type: 'select', // Could also be select based on saved addresses
+        options: [],  // Assuming a service to fetch all addresses
         validation: { required: true },
     },
     {

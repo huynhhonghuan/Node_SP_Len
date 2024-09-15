@@ -14,31 +14,31 @@ const CreatePage = ({ pageConfig }) => {
         try {
             console.log('Form data:', formData);  // Kiểm tra dữ liệu trước khi gửi
 
-            const uploadPromises = formSchema.map(async (field) => {
-                if (field.type === 'file' && field.key === 'image' && formData[field.key]) {
+            // const uploadPromises = formSchema.map(async (field) => {
+            //     if (field.type === 'file' && field.key === 'image' && formData[field.key]) {
 
-                    let newFile = new FormData();
-                    newFile.append(field.key, formData[field.key]);
-                    const response = await uploadImage(newFile);  // Gọi hàm uploadImage với formData
-                    formData[field.key] = await response.file.path;
+            //         let newFile = new FormData();
+            //         newFile.append(field.key, formData[field.key]);
+            //         const response = await uploadImage(newFile);  // Gọi hàm uploadImage với formData
+            //         formData[field.key] = await response.file.path;
 
-                } else if (field.type === 'group' && formData[field.key]) {
+            //     } else if (field.type === 'group' && formData[field.key]) {
 
-                    field.fields.map(async (field_item) => {
-                        if (field_item.type === 'file' && field_item.key === 'image') {
-                            formData[field.key].map(async (item) => {
-                                let newFile = new FormData();
-                                newFile.append(field_item.key, item[field_item.key]);
-                                const response = await uploadImage(newFile);  // Gọi hàm uploadImage với formData
-                                item[field_item.key] = await response.file.path;
-                            })
-                        }
-                    })
-                }
-            });
+            //         field.fields.map(async (field_item) => {
+            //             if (field_item.type === 'file' && field_item.key === 'image') {
+            //                 formData[field.key].map(async (item) => {
+            //                     let newFile = new FormData();
+            //                     newFile.append(field_item.key, item[field_item.key]);
+            //                     const response = await uploadImage(newFile);  // Gọi hàm uploadImage với formData
+            //                     item[field_item.key] = await response.file.path;
+            //                 })
+            //             }
+            //         })
+            //     }
+            // });
 
             // Chờ tất cả các Promise hoàn thành
-            await Promise.all(uploadPromises);
+            // await Promise.all(uploadPromises);
 
             const response = await createData(formData);  // Sử dụng createData từ pageConfig
 

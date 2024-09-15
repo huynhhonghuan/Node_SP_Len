@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { token } from './GetToken';
+import { deleteImage, LogicCreateImage, LogicDeleteImage, LogicUpdateImage, uploadImage } from './UploadImage';
 
 export const getAllProducts = async () => {
     try {
@@ -41,7 +42,10 @@ export const createProduct = async (product) => {
     try {
         // Gọi hàm token và chờ lấy giá trị token
         const authToken = await token();
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/product`, product, {
+
+        const data = await LogicCreateImage(product);
+
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/product`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
@@ -58,7 +62,12 @@ export const updateProduct = async (productId, product) => {
     try {
         // Gọi hàm token và chờ lấy giá trị token
         const authToken = await token();
-        const response = await axios.put(`${import.meta.env.VITE_API_URL}/product/${productId}`, product, {
+
+        const oldProduct = await getProductById(productId);
+
+        const data = await LogicUpdateImage(product, oldProduct);
+
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/product/${productId}`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
@@ -75,6 +84,11 @@ export const deleteProduct = async (productId) => {
     try {
         // Gọi hàm token và chờ lấy giá trị token
         const authToken = await token();
+
+        const oldProduct = await getProductById(productId);
+
+        await LogicDeleteImage(oldProduct);
+
         const response = await axios.delete(`${import.meta.env.VITE_API_URL}/product/${productId}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -87,3 +101,21 @@ export const deleteProduct = async (productId) => {
         throw error;
     }
 }
+
+export const transformOptionsForProduct = async () => {
+    const products = await getAllProducts();
+    return products.map(product => ({
+        value: product._id,  // Giá trị cho trường select
+        label: product.name // Tên hiển thị
+    }));
+};
+
+export const transformProductsToOptions = async (productId) => {
+    // Giả sử bạn có API hoặc service để lấy các tùy chọn cho sản phẩm
+    const products = await getProductById(productId);
+    const options = products.options; // Danh sách tùy chọn sản phẩm
+    return options.map((option, index) => ({
+        value: option._id,
+        label: `Phân bản ${index + 1}`
+    }));
+};

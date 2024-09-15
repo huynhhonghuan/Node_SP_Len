@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useParams to extract id from URL
 import CustomToastContainer from '../../../components/Toast/ToastContainer';
 import CreateAndUpdate from '../../../components/admin/CreateAndUpdateComponent/CreateAndUpdate';
+import { deleteImage, uploadImage } from '../../../services/UploadImage';
 
 const UpdatePage = ({ pageConfig }) => {
     const { id } = useParams(); // Extract the id from the URL
@@ -19,6 +20,7 @@ const UpdatePage = ({ pageConfig }) => {
             const fetchData = async () => {
                 try {
                     const response = await getData(id); // Use getData from pageConfig
+                    console.log(response);
                     setData(response);
                     setLoading(false); // Set loading state to false when data is fetched
                 } catch (error) {
@@ -27,6 +29,7 @@ const UpdatePage = ({ pageConfig }) => {
                 }
             }
             fetchData();
+            console.log(data);
         }
     }, [id, getData]);
 

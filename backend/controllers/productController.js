@@ -67,6 +67,7 @@ const getProductByType = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
 const getAllOptions = async (req, res) => {
     try {
         const options = await ProductRepository.getAllOptions(req.params.id);

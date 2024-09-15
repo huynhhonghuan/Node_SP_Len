@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Đây là cách import đúng
-import LoginIndex from '../auth/index';
 import AdminIndex from '../pages/admin/index';
 import HomeIndex from '../pages/home/Index';
 import PrivateRoute from '../app/PrivateRoute';

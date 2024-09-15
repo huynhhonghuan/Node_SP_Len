@@ -46,7 +46,7 @@ const UserSchema = [
         type: 'select',
         options: [
             { value: 'customer', label: 'Khách hàng' },
-            { value: 'admin', label: 'Quản trị viên' },
+            // { value: 'admin', label: 'Quản trị viên' },
             { value: 'staff', label: 'Nhân viên' },
         ],
         validation: { required: true },

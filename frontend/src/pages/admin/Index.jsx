@@ -39,14 +39,7 @@ function AdminIndex() {
                         <Route path="comboproduct/update/:id" element={<UpdatePage pageConfig={ComboProductPage['update']} />} />
 
                         <Route path="order" element={<ListPage pageConfig={OrderPage['list']} />} />
-
-                        {/* 
-                        <Route path="comboproduct" element={<ListComboProduct />} />
-
-                        <Route path="discount" element={<ListDiscount />} />
-                        <Route path="discount/create" element={<CreateDiscount />} />
-
-                        <Route path="order" element={<ListOrder />} /> */}
+                        <Route path="order/create" element={<CreatePage pageConfig={OrderPage['create']} />} />
 
                     </Routes>
                 </div>
