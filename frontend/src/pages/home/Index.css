@@ -5,5 +5,5 @@
     /* Đảm bảo padding và border được tính trong tổng kích thước */
     overflow: hidden;
     /* Đảm bảo không có phần tử nào bị tràn */
-    background-color: peachpuff;
+    background-color: rgba(255, 218, 185, 0.4);
 }

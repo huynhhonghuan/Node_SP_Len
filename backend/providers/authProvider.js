@@ -24,18 +24,27 @@ class AuthProvider {
         return { user: user, token: token, message: 'Login successful!' };
     }
 
-    async register(userData) {
+    async register(name, phone, email, password) {
 
-        const existingUser = await UserRepository.getUserByEmail(userData.email);
+        // const existingUser = await UserRepository.getUserByEmail(email);
 
-        if (existingUser) {
-            return [];
-        }
+        // console.log(existingUser);
+
+        // if (existingUser) {
+        //     return { user: null, message: 'Email đã tồn tại!' };
+        // }
+
+        // const existingPhone = await UserRepository.getUserByPhone(phone);
+
+        // if (existingPhone) {
+        //     return { user: null, message: 'Số điện thoại đã tồn tại!' };
+        // }
         // console.log(userData);
+        const userData = { name, phone, email, password };
 
         const user = await UserRepository.createUser(userData);
 
-        return { user };
+        return { user, message: 'Đăng ký thành công!' };
     }
 }
 

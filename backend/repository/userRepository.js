@@ -13,6 +13,10 @@ class UserRepository {
         return await User.findOne({ email });
     }
 
+    async getUserByPhone(phone) {
+        return await User.findOne({ phone });
+    }
+
     async createUser(user) {
         return await User.create(user);
     }

@@ -59,15 +59,6 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-const getProductByType = async (req, res) => {
-    try {
-        const productsByType = await ProductRepository.getProductByType(req.params.type);
-        res.json({ data: productsByType, message: 'Products of type: ' + req.params.type });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
 const getAllOptions = async (req, res) => {
     try {
         const options = await ProductRepository.getAllOptions(req.params.id);
@@ -113,9 +104,52 @@ const deleteOption = async (req, res) => {
     }
 }
 
+// Cho trang chủ
+const getProductByType = async (req, res) => {
+    try {
+        const productsByType = await ProductRepository.getProductByType(req.params.type);
+        res.json({ data: productsByType, length: productsByType.length, message: 'Products of type: ' + req.params.type });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const getProductByLatestUpdateAt = async (req, res) => {
+    try {
+        const product = await ProductRepository.getProductByLatestUpdateAt();
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json({ data: product, message: 'Product retrieved' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const getProductByOrderMany = async (req, res) => {
+    try {
+        const products = await ProductRepository.getProductByOrderMany();
+        res.json({ data: products, message: 'Products ordered by order: ' + req.params.orderId });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+const getOrderByCommentAndUser = async (req, res) => {
+    try {
+        const orders = await ProductRepository.getProductByCommentAndUser();
+        res.json({ data: orders, message: 'Orders by comment and user: ' + req.params.comment + req.params.userId });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
 module.exports = {
     getAllProducts,
     getProductById,
+    getProductByLatestUpdateAt,
+    getProductByOrderMany,
+    getOrderByCommentAndUser,
     createProduct,
     updateProduct,
     deleteProduct,

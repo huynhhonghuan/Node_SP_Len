@@ -9,16 +9,27 @@ const { authMiddleware, authorizeRoles } = require('../middleware/authMiddleware
 const {
     getAllProducts,
     getProductById,
+    getProductByLatestUpdateAt,
+    getProductByOrderMany,
+    getOrderByCommentAndUser,
     createProduct,
     updateProduct,
     deleteProduct,
     getProductByType,
-    // getAllOptions,
     getProductByOptionId,
     createOption,
     updateOption,
     deleteOption,
 } = require('../controllers/productController');
+
+productRouter.route('/type/:type').get(getProductByType);
+
+productRouter.route('/new').get(getProductByLatestUpdateAt);
+
+productRouter.route('/bestseller').get(getProductByOrderMany);
+
+productRouter.route('/commentanduser').get(getOrderByCommentAndUser);
+
 
 // Middleware to use product router only when authenticated and authorized to access it
 
@@ -35,8 +46,6 @@ productRouter.route('/').post(validateProductData, createProduct);
 productRouter.route('/:id').put(validateObjectId, validateProductData, updateProduct);
 
 productRouter.route('/:id').delete(validateObjectId, deleteProduct);
-
-productRouter.route('/type/:type').get(getProductByType);
 
 // Routes Options
 

@@ -6,6 +6,10 @@
     background-color: rgba(219, 166, 130, 0.2);
 }
 
+.navbar-content-2-search {
+    display: none;
+}
+
 .navbar-content-search input {
     width: 400px;
 }
@@ -107,4 +111,20 @@
 .dropdown-item-left-custom:hover {
     background-color: #eb7a10;
     color: white !important;
+}
+
+@media (max-width: 768px) {
+    .navbar-content-search {
+        display: none;
+    }
+
+    .navbar-content-2-menu {
+        display: none;
+    }
+
+    .navbar-content-2-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 }

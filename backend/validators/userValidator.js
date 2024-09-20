@@ -1,5 +1,6 @@
 const validatorJS = require('validator');
 const { check, validationResult } = require('express-validator');
+const User = require('../models/user');
 
 // Kiểm tra ObjectId
 const validateObjectId = (req, res, next) => {
@@ -22,13 +23,27 @@ const validateUserData = [
     check('email')
         .isEmail().withMessage('Email không hợp lệ')
         .notEmpty().withMessage('Vui lòng cung cấp email!')
-        .normalizeEmail(), // Chuyển đổi email thành chữ thường
+        .normalizeEmail() // Chuyển đổi email thành chữ thường
+        .custom(async (email) => {
+            // Kiểm tra số điện thoại có trùng trong cơ sở dữ liệu không
+            const user = await User.findOne({ email });
+            if (user) {
+                throw new Error('Email đã tồn tại!');
+            }
+        }),
 
     // Kiểm tra số điện thoại
     check('phone')
         .isString().withMessage('Số điện thoại phải là chuỗi số')
         .notEmpty().withMessage('Vui lòng cung cấp số điện thoại!')
-        .isLength({ min: 10, max: 11 }).withMessage('Số điện thoại có 10 hoặc 11 số'),
+        .isLength({ min: 10, max: 11 }).withMessage('Số điện thoại có 10 hoặc 11 số')
+        .custom(async (phone) => {
+            // Kiểm tra số điện thoại có trùng trong cơ sở dữ liệu không
+            const user = await User.findOne({ phone });
+            if (user) {
+                throw new Error('Số điện thoại đã tồn tại!');
+            }
+        }),
 
     // Kiểm tra mật khẩu
     check('password')

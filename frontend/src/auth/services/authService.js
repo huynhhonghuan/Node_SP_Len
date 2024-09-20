@@ -40,3 +40,22 @@ export const logout = async () => {
         throw error;
     }
 };
+
+// Hàm đăng ký thành viên
+export const register = async (name, phone, email, password) => {
+    try {
+
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, { name, email, phone, password },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        return response.data;
+    }
+    catch (error) {
+        console.error('Error registering:', error);
+        throw error;
+    }
+};

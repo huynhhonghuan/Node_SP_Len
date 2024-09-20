@@ -78,14 +78,14 @@ const LoginForm = () => {
                 </div>
                 <div className="login-info">
                     <input type="checkbox" id="rememberMe" name="rememberMe" />
-                    <label htmlFor="rememberMe">Remember me</label>
-                    <a href="#" className="forgot-password">Forgot password?</a>
+                    <label htmlFor="rememberMe">Ghi nhớ</label>
+                    <a href="#" className="forgot-password">Quên mật khẩu?</a>
                 </div>
                 {loginError && <p>{loginError}</p>}
                 <button className='login-button' type="submit">Đăng nhập</button>
             </form>
 
-            <Link to={'/resgister'} className='resgister'>Don't have an account? Sign up now!</Link>
+            <Link to={'/resgister'} className='resgister'>Nếu chưa có tài khoản? Đăng ký!</Link>
 
         </div>
     )

@@ -24,6 +24,7 @@ class OrderRepository {
     async deleteOrder(id) {
         return await Order.findByIdAndDelete(id);
     }
+    
 }
 
 module.exports = new OrderRepository();

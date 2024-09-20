@@ -39,10 +39,10 @@ const Navbar = () => {
                 <div className="navbar-content-1 d-flex align-items-center justify-content-between mt-3">
                     <div className="navbar-content-home">
                         <Link to="/" className="text-secondary p-2 rounded-circle fs-4" style={{ backgroundColor: "gold" }}>
-                            <i className="fa-solid fa-house-chimney"></i>
+                            <i className="fa-solid fa-house-chimney text-light"></i>
                         </Link>
                     </div>
-                    <div className="navbar-content-search d-flex align-items-center">
+                    <div className="navbar-content-search">
                         <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-4 rounded-pill" />
                         {/* <button className="btn btn-primary">Search</button> */}
                     </div>
@@ -60,7 +60,7 @@ const Navbar = () => {
                             <Link to="/login" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
                         </li>
                         <li className="mx-2 fs-5 bg-warning px-2 rounded-circle">
-                            <Link to="/contact" className="text-light"><i className="fa-solid fa-cart-plus"></i></Link>
+                            <Link to="/card" className="text-light"><i className="fa-solid fa-cart-plus"></i></Link>
                         </li>
                     </ul>
                 </div>
@@ -71,7 +71,7 @@ const Navbar = () => {
                             <i className="fa-solid fa-bars"></i>
                         </button>
                     </div>
-                    <div className="col-10 col-md-8">
+                    <div className="navbar-content-2-menu col-10 col-md-8">
                         <Link to="/" className="text-dark text-uppercase fw-bold text-decoration-none me-5">
                             Trang chủ
                         </Link>
@@ -85,14 +85,17 @@ const Navbar = () => {
                                 Sản phẩm <i className="fa-solid fa-chevron-down"></i>
                             </Link>
                             <div className="dropdown-menu-main position-absolute bg-white shadow-sm p-2 mt-2 border border-2 border-warning">
-                                <Link to="/product/category1" className="dropdown-item-main text-secondary py-3">
-                                    Danh mục 1
+                                <Link to="/product/tool" className="dropdown-item-main text-secondary py-3">
+                                    Dụng cụ
                                 </Link>
-                                <Link to="/product/category2" className="dropdown-item-main text-secondary py-3">
-                                    Danh mục 2
+                                <Link to="/product/wool" className="dropdown-item-main text-secondary py-3">
+                                    Len thô
                                 </Link>
-                                <Link to="/product/category3" className="dropdown-item-main text-secondary py-3">
-                                    Danh mục 3
+                                <Link to="/product/product" className="dropdown-item-main text-secondary py-3">
+                                    Sản phẩm
+                                </Link>
+                                <Link to="/product/comboproduct" className="dropdown-item-main text-secondary py-3">
+                                    Combo sản phẩm
                                 </Link>
                             </div>
                         </div>
@@ -101,6 +104,9 @@ const Navbar = () => {
                         <Link to="/card" className="text-dark text-uppercase fw-bold text-decoration-none">
                             Giỏ hàng
                         </Link>
+                    </div>
+                    <div className="navbar-content-2-search col-10 col-md-8">
+                        <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-4 rounded-pill" />
                     </div>
                 </div>
 
@@ -132,14 +138,17 @@ const Navbar = () => {
                                 Sản phẩm <i className="fa-solid fa-chevron-down"></i>
                             </Link>
                             <div className="dropdown-menu-left-custom bg-white shadow-sm p-2 mt-2 border border-2 border">
-                                <Link to="/product/category1" className="dropdown-item-left-custom text-secondary py-3">
-                                    Danh mục 1
+                                <Link to="/product/tool" className="dropdown-item-left-custom text-secondary py-3">
+                                    Dụng cụ
                                 </Link>
-                                <Link to="/product/category2" className="dropdown-item-left-custom text-secondary py-3">
-                                    Danh mục 2
+                                <Link to="/product/wool" className="dropdown-item-left-custom text-secondary py-3">
+                                    Len thô
                                 </Link>
-                                <Link to="/product/category3" className="dropdown-item-left-custom text-secondary py-3">
-                                    Danh mục 3
+                                <Link to="/product/product" className="dropdown-item-left-custom text-secondary py-3">
+                                    Sản phẩm
+                                </Link>
+                                <Link to="/product/comboproduct" className="dropdown-item-left-custom text-secondary py-3">
+                                    Combo sản phẩm
                                 </Link>
                             </div>
                         </div>

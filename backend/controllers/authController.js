@@ -12,13 +12,12 @@ const loginUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        // const { email, password } = req.body;
-        const user = await authProvider.register(req.body);
+        const { name, phone, email, password } = req.body;
 
-        if (!user)
-            res.status(201).json({ user, message: 'Register account success' });
-        else
-            res.status(409).json({ message: 'Email already exists' });
+        const user = await authProvider.register(name, phone, email, password);
+
+        res.json({ user: user.user, message: user.message });
+
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

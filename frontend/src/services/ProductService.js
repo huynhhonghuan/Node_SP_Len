@@ -38,6 +38,66 @@ export const getProductById = async (productId) => {
     }
 }
 
+export const getProductByType = async (type) => {
+    try {
+        // Gọi hàm token và ch�� lấy giá trị token
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/type/${type}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getProductNewByUpdateAt = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/new`, {
+            headers: {
+                'Content-Type': 'application/json',
+                // Không cần gửi token nếu không yêu cầu xác thực
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getProductBestSeller = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/bestseller`, {
+            headers: {
+                'Content-Type': 'application/json',
+                // Không cần gửi token nếu không yêu cầu xác thực
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getProductByCommentAndUser = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/commentanduser`, {
+            headers: {
+                'Content-Type': 'application/json',
+                // Không cần gửi token nếu không yêu cầu xác thực
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 export const createProduct = async (product) => {
     try {
         // Gọi hàm token và chờ lấy giá trị token

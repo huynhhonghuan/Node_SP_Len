@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../../utils/validation';
-import { login } from '../../services/authService';
+import { login, register } from '../../services/authService';
 
 const ResgisterForm = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [name, setName] = useState('Trang');
+    const [email, setEmail] = useState('trang@example.com');
+    const [phone, setPhone] = useState('03265978451');
+    const [password, setPassword] = useState('12345678');
+    const [confirmPassword, setConfirmPassword] = useState('12345678');
 
     const [nameError, setNameError] = useState('');
     const [phoneError, setPhoneError] = useState('');
@@ -40,21 +40,41 @@ const ResgisterForm = () => {
             setPasswordError('');
         }
 
+        if (password !== confirmPassword) {
+            setConfirmPasswordError('Mật khẩu xác nhận không đúng.');
+            return;
+        }
+        else {
+            setConfirmPasswordError('');
+        }
+
         try {
-            const data = await login(email, password); // Gọi API đăng nhập
-            // Chuyển hướng người dùng dựa trên vai trò (admin hoặc user)
-            if (data.user.role === 'admin') {
-                navigate('/admin-home'); // Điều hướng đến trang của admin
-            } else if (data.user.role === 'customer') {
-                navigate('/customer-home'); // Điều hướng đến trang của user
+            const data = await register(name, phone, email, password); // Gọi API đăng ký
+            if (data.user) {
+                navigate('/login'); // Điều hướng đến trang của login
             } else {
                 setLoginError('Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại.'); // Trả về thông báo đăng nhập thất bại nếu vai trò người dùng không h��p lệ.
                 return;
             }
-
         } catch (error) {
+            if (error) {
+                error.response.data.errors.forEach(err => {
+                    if (err.path === 'phone') {
+                        setPhoneError(err.msg);
+                    } else {
+                        setPhoneError('')
+                    }
+
+                    if (err.path === 'email') {
+                        setEmailError(err.msg);
+                    }
+                    else {
+                        setEmailError('')
+                    }
+                });
+            }
             // console.log(error);
-            setLoginError('Đăng nhập thất bại. Vui lòng thử lại.');
+            setLoginError('Đăng ký thất bại. Vui lòng thử lại.');
         }
     }
     return (

@@ -7,7 +7,7 @@
     /* Đảm bảo login chiếm 100% chiều rộng của login-container */
     max-width: 500px;
     /* Giới hạn chiều rộng tối đa */
-    height: 550px;
+    min-height: 550px;
     padding: 20px;
     /* background-color: rgba(157, 160, 155, 0.5); */
     /* Thêm padding để tạo khoảng cách bên trong */

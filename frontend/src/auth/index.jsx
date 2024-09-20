@@ -5,7 +5,9 @@ import LoginRoute from './route';
 
 const LoginIndex = () => {
     return (
-        <LoginRoute />
+        <div className="auth-page d-flex justify-content-center">
+            <LoginRoute />
+        </div>
     )
 }
 

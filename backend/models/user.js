@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: [true, "Vui lòng cung cấp số điện thoại!"],
+        unique: true,
         validate: {
             validator: validatorJs.isMobilePhone,
             message: '{VALUE} phải là số điện thoại hợp lệ!'

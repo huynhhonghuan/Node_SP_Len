@@ -1,0 +1,9 @@
+.product-sidebar {
+    width: 250px;
+}
+
+@media (max-width: 768px) {
+    .product-sidebar {
+        display: none;
+    }
+}
