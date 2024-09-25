@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useParams to extract id from URL
 import { getUserById, updateUser } from '../../../services/UserService';
-import {UserSchema} from '../../../formschema/UserSchema';
+import { UserSchema } from '../../../formschema/UserSchema';
 import CustomToastContainer from '../../../components/Toast/ToastContainer';
 import CreateAndUpdate from '../../../components/admin/CreateAndUpdateComponent/CreateAndUpdate';
 

@@ -34,12 +34,14 @@ const getUserOrders = async (req, res) => {
 
 const createOrder = async (req, res) => {
     try {
+        console.log('Creating order with data:', req.body); // Log dữ liệu
         const order = await OrderRepository.createOrder(req.body);
         res.status(201).json({ data: order, message: 'Order created' });
     } catch (error) {
+        console.error('Error creating order:', error); // Log lỗi
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 const updateOrder = async (req, res) => {
     try {

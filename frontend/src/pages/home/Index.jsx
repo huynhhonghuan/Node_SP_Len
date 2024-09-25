@@ -10,6 +10,7 @@ import Home from '../../components/home/Home/Home';
 import ProductDetail from '../../components/home/ProductDetail/ProductDetail';
 import Card from '../../components/home/Card/Card';
 import { getProductByType } from '../../services/ProductService';
+import Payment from '../../components/home/Payment/Payment';
 
 function HomeIndex() {
     return (
@@ -19,15 +20,17 @@ function HomeIndex() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/product" element={<Product />} />
-                    <Route path="/product/tool" element={<Product data={getProductByType('tool')} />} />
-                    <Route path="/product/wool" element={<Product />} />
-                    <Route path="/product/product" element={<Product />} />
-                    <Route path="/product/comboproduct" element={<Product />} />
+                    <Route path="/product" element={<Product type='all' />} />
+                    <Route path="/product/tool" element={<Product type='tool' />} />
+                    <Route path="/product/wool" element={<Product type='wool' />} />
+                    <Route path="/product/product" element={<Product type='product' />} />
+                    <Route path="/product/comboproduct" element={<Product type='comboproduct' />} />
 
                     <Route path="/product-detail/:id" element={<ProductDetail />} />
 
                     <Route path="/card" element={<Card />} />
+                    <Route path="/payment" element={<Payment />} />
+
                     {/* <Route path="*" element={<h1>Page Not Found</h1>} /> */}
                 </Routes>
 

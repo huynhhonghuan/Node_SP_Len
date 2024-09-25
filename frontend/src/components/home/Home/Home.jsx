@@ -304,7 +304,9 @@ const Home = () => {
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                         </span>
-                                                        <a href="#" className="btn btn-warning mt-2">Xem chi tiết</a>
+                                                        <Link to={`/product-detail/${product._id}`} className='btn btn-warning mt-2'>
+                                                            Xem chi tiết
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -581,7 +583,9 @@ const Home = () => {
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                         </span>
-                                                        <a href="#" className="btn btn-warning mt-2">Xem chi tiết</a>
+                                                        <Link to={`/product-detail/${product._id}`} className='btn btn-warning mt-2'>
+                                                            Xem chi tiết
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -874,7 +878,9 @@ const Home = () => {
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                         </span>
-                                                        <a href="#" className="btn btn-warning mt-2">Xem chi tiết</a>
+                                                        <Link to={`/product-detail/${product._id}`} className='btn btn-warning mt-2'>
+                                                            Xem chi tiết
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>

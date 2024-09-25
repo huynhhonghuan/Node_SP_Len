@@ -42,6 +42,14 @@ function generateParagraph(maxLength) {
     return paragraph;
 }
 
+// Hàm tạo số điện thoại di đ��ng Việt Nam
+function generateVietnamesePhoneNumber() {
+    const prefix = '09'; // Đầu số điện thoại di động thường dùng tại Việt Nam
+    const number = Math.floor(10000000 + Math.random() * 90000000); // Tạo số từ 10000000 đến 99999999
+    return prefix + number.toString();
+}
+
+
 // Hash mật khẩu
 const hashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
@@ -61,7 +69,7 @@ const createFakeUsers = async (numUsers) => {
     users.push({
         name: 'Admin',
         email: 'admin@example.com',
-        phone: faker.phone.phoneNumberFormat(),
+        phone: generateVietnamesePhoneNumber(),
         password: await hashPassword('12345678'),//faker.internet.password()
         role: 'admin'
     });
@@ -74,12 +82,12 @@ const createFakeUsers = async (numUsers) => {
         users.push({
             name: faker.name.findName(),
             email: faker.internet.email(),
-            phone: faker.phone.phoneNumberFormat(),
+            phone: generateVietnamesePhoneNumber(),
             password: await hashPassword('12345678'),//faker.internet.password()
             role: faker.random.arrayElement(['customer', 'staff']),
             isActive: Math.random() > 0.5, // Random true or false
             addresses: [{
-                phone: faker.phone.phoneNumberFormat(),
+                phone: generateVietnamesePhoneNumber(),
                 street: faker.address.streetName(),
                 city: province.Code,
                 district: district.Code,

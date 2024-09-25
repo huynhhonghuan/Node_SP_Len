@@ -38,6 +38,22 @@ export const getProductById = async (productId) => {
     }
 }
 
+export const getAllProductsHome = async () => {
+    try {
+        // Gửi yêu cầu đến API để lấy danh sách sản phẩm
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/all`, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 export const getProductByType = async (type) => {
     try {
         // Gọi hàm token và ch�� lấy giá trị token
@@ -46,6 +62,7 @@ export const getProductByType = async (type) => {
                 'Content-Type': 'application/json',
             }
         });
+
         return response.data.data;
     } catch (error) {
         console.error(error);

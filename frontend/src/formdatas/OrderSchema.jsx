@@ -112,8 +112,9 @@ const OrderSchema = [
 const OrderPage = {
     list: {
         title: 'Danh sách đơn hàng',
-        header: ['Mã khách hàng', 'Tổng giá', 'Trạng thái', 'Ngày đặt', 'Phương thức thanh toán'],
-        header_hiddens: ['note', 'products', 'shippingAddress', '__v'],
+        header: ['Mã khách hàng', 'Ngày đặt', 'Tổng giá', 'Trạng thái', 'Phương thức thanh toán'],
+        header_hiddens: ['note', 'products', 'shippingAddress', '__v', 'paymentVnpay', 'createdAt', 'updatedAt'],
+        header_count: [],
         getData: getAllOrders,  // Assuming you have a service to fetch all orders
         deleteData: null, // Assuming a service to delete an order
         navigateCreate: 'create',

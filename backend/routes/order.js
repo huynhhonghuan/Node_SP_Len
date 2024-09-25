@@ -1,6 +1,6 @@
 const orderRouter = require('express').Router();
 
-const { validateObjectId } = require('../validators/orderValidator');
+const { validateObjectId, validateOrderData } = require('../validators/orderValidator');
 
 const { authMiddleware, authorizeRoles } = require('../middleware/authMiddleware');
 
@@ -15,7 +15,7 @@ const {
 
 // Middleware to use order router only when authenticated and authorized to access it
 
-orderRouter.use(authMiddleware, authorizeRoles('admin', 'user'));
+orderRouter.use(authMiddleware, authorizeRoles('admin', 'customer'));
 
 // Routes order
 
@@ -25,7 +25,7 @@ orderRouter.route('/:id').get(validateObjectId, getOrderById);
 
 orderRouter.route('/user/:userId').get(getUserOrders);
 
-orderRouter.route('/').post(createOrder);
+orderRouter.route('/').post(validateOrderData, createOrder);
 
 orderRouter.route('/:id').put(validateObjectId, updateOrder);
 

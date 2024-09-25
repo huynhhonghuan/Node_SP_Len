@@ -22,6 +22,8 @@ const {
     deleteOption,
 } = require('../controllers/productController');
 
+productRouter.route('/all').get(getAllProducts);
+
 productRouter.route('/type/:type').get(getProductByType);
 
 productRouter.route('/new').get(getProductByLatestUpdateAt);
@@ -30,6 +32,7 @@ productRouter.route('/bestseller').get(getProductByOrderMany);
 
 productRouter.route('/commentanduser').get(getOrderByCommentAndUser);
 
+productRouter.route('/:id').get(validateObjectId, getProductById);
 
 // Middleware to use product router only when authenticated and authorized to access it
 
@@ -38,8 +41,6 @@ productRouter.use(authMiddleware, authorizeRoles('admin'));
 // Routes product
 
 productRouter.route('/').get(getAllProducts);
-
-productRouter.route('/:id').get(validateObjectId, getProductById);
 
 productRouter.route('/').post(validateProductData, createProduct);
 

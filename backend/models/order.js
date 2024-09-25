@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validatorJs = require('validator');
 
 const orderSchema = new mongoose.Schema({
     // Thông tin người mua
@@ -21,7 +22,7 @@ const orderSchema = new mongoose.Schema({
                 validate: {
                     validator: async function (value) {
                         const product = await mongoose.model('Product').findOne({
-                            _id: this.optionId,
+                            _id: this.productId,
                             'options._id': value
                         });
                         return product != null;
@@ -92,19 +93,41 @@ const orderSchema = new mongoose.Schema({
     },
     // Thông tin giao hàng
     shippingAddress: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'Vui lòng cung cấp địa chỉ giao hàng'],
-        validate: {
-            validator: async function (value) {
-                const user = await mongoose.model('User').findOne({
-                    _id: this.userId,
-                    'address._id': value
-                });
-                return user != null;
-            },
-            message: 'Địa chỉ giao hàng không hợp lệ',
-        }
-    },
+        phone: {
+            type: String,
+            required: [true, "Vui lòng cung cấp số điện thoại!"],
+            validate: {
+                validator: validatorJs.isMobilePhone,
+                message: '{VALUE} phải là số điện thoại hợp lệ!'
+            }
+        },
+        city: {
+            type: String,
+            required: [true, "Vui lòng cung cấp tỉnh/thành phố!"],
+        },
+        district: {
+            type: String,
+            required: [true, "Vui lòng cung cấp quận/huyện!"],
+        },
+        ward: {
+            type: String,
+            required: [true, "Vui lòng cung cấp phườnng/xã!"],
+        },
+        street: {
+            type: String,
+            required: [true, "Vui lòng cung cấp đường phố!"],
+        },
+        type: {
+            type: String,
+            enum: ['home', 'office', 'other'],
+            default: 'home' // Default type is 'home'
+        },
+        note: {
+            type: String,
+            maxlength: [200, "Ghi chú phải từ 0 đến 200 kí tự!"]
+        },
+    }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);
