@@ -23,10 +23,10 @@ const chatSchema = new mongoose.Schema({
             type: Date,
             default: Date.now
         },
-        parentId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Message',
-            required: false,
+        reply: {
+            type: String,
+            enum: ['customer', 'shop'],
+            default: 'customer'
         }
     }],
     // trạng thái của cuộc tin nhắn, (chờ tiếp nhận ,tiếp nhận, đang xử lý, hoàn thành, không tiếp nhận)
