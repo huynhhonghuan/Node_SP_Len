@@ -109,5 +109,6 @@ export const transformUser = async () => {
             name: user.name
         });
     })
+    console.log(data);
     return data;
 };

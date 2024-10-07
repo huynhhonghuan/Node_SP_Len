@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { getDiscountByCode, getDiscountById } from "../../../services/DiscountService";
 
 const Card = () => {
 
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [discount, setDiscount] = useState(0);
-    const [ship, setShip] = useState(15000);
+    const [discount, setDiscount] = useState();
+    const [discountPrice, setDiscountPrice] = useState(0);
+    const [feeship, setFeeShip] = useState(15000);
     const [total, setTotal] = useState(0);
     const [payMethod, setPayMethod] = useState('cod');
 
@@ -22,9 +24,10 @@ const Card = () => {
             // Tính t��ng giá trị
             setTotalPrice(cartData.reduce((acc, item) => acc + item.option.price * item.quantity, 0));
             // Tính t��ng
-            setTotal(totalPrice + ship - discount);
+            // setTotal(totalPrice + feeship - discount);
 
             localStorage.setItem('paymethod', payMethod); // Cập nhật localStorage với giá trị mới
+            localStorage.setItem('feeship', feeship);
         }
         console.log(cart);
     }, []);
@@ -72,11 +75,59 @@ const Card = () => {
         localStorage.setItem('paymethod', selectedPaymentMethod); // Cập nhật localStorage với giá trị mới
     };
 
-    // Hàm xử lý giảm giá
     const handleDiscountChange = (e) => {
-        const discountValue = (e.target.value); // Lấy giá trị mới từ sự kiện
-        setDiscount(discountValue); // Cập nhật state
-        localStorage.setItem('discount', discountValue); // Cập nhật localStorage với giá trị mới
+        setDiscount(e.target.value);
+    };
+
+    // Hàm xử lý giảm giá
+    const handleApplyDiscountCode = async (e) => {
+        try {
+            const token = Cookies.get('token');
+            let userId = '';
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token);
+                    userId = decodedToken.id; // Thay đ��i tùy thuộc vào cấu trúc token của bạn
+                } catch (error) {
+                    console.error('Token decoding error:', error);
+                }
+            }
+
+            const reponse = await getDiscountByCode(discount);
+
+            if (reponse.customersId.includes(userId)) {
+                alert('Bạn đã áp dụng mã giảm này rồi!');
+                localStorage.setItem('discount', '');
+            }
+            else if (totalPrice < reponse.lowestTotal) {
+                alert(`Đơn hàng thấp hơn giá trị để giảm giá! Đơn hàng phải từ ${reponse.lowestTotal} VND`);
+                localStorage.setItem('discount', '');
+            }
+            else if (reponse.counts <= 0) {
+                alert('Sản phẩm của bạn đã hết hạn sử dụng mã giảm giá!');
+                localStorage.setItem('discount', '');
+            }
+            else if (totalPrice >= reponse.lowestTotal && reponse.counts > 0) {
+                setDiscount(reponse._id);
+                setDiscountPrice(reponse.percentage);
+                localStorage.setItem('discount', JSON.stringify({
+                    id: reponse._id,
+                    percentage: reponse.percentage
+                }));
+
+                alert("Áp dụng mã thành công!");
+            }
+            else {
+                alert('Mã giảm giá không tồn tại!');
+                localStorage.setItem('discount', '');
+            }
+        }
+        catch (error) {
+            console.error('Error getting discount:', error);
+            alert('Áp dụng mã giảm giá bị lỗi!');
+        } finally {
+            setDiscount('');
+        }
     };
 
     // Hàm xử lý đặt hàng
@@ -114,25 +165,6 @@ const Card = () => {
 
         // Bạn có thể gửi dữ liệu này lên server hoặc xử lý tiếp.
         console.log('Đang xử lý thanh toán với dữ liệu:', paymentData);
-
-        // Ví dụ gửi yêu cầu đến server qua API (nếu có)
-        // fetch('/api/payment', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(paymentData),
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     // Xử lý phản hồi từ server
-        //     console.log('Thanh toán thành công:', data);
-        //     alert('Thanh toán thành công!');
-        // })
-        // .catch(error => {
-        //     console.error('Lỗi thanh toán:', error);
-        //     alert('Đã xảy ra lỗi khi thanh toán, vui lòng thử lại!');
-        // });
     };
 
     return (
@@ -193,7 +225,7 @@ const Card = () => {
                     </table>
                     <div className="d-flex justify-content-evenly align-items-center mt-3">
                         <button className="btn btn-secondary">Tiếp tục mua sắp</button>
-                        <button className="btn btn-warning">Cập nhật giỏ hàng</button>
+                        {/* <button className="btn btn-warning">Cập nhật giỏ hàng</button> */}
                     </div>
                 </div>
                 <div className="col-12 col-lg-4 border border-3">
@@ -203,9 +235,10 @@ const Card = () => {
                         <h6 className="card-subtitle mb-2 text-muted">Tạm tính: </h6>
                         <h6 className="text-warning">{totalPrice} VND</h6>
                     </div>
+
                     <div className="price d-flex justify-content-between">
                         <h6 className="card-subtitle mb-2 text-muted">Giảm: </h6>
-                        <h6 className="text-success">{discount} VND</h6>
+                        <h6 className="text-success">{totalPrice * discountPrice / 100} VND</h6>
                     </div>
 
                     <div className="price d-flex flex-column justify-content-between mb-2">
@@ -217,30 +250,30 @@ const Card = () => {
                                     Tiền mặt
                                 </label>
                             </div>
-                            <div class="form-check ms-3">
+                            {/* <div class="form-check ms-3">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={'vnpay'} checked={payMethod === 'vnpay'} onChange={(e) => handlePaymentMethodChange(e)} />
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Chuyển khoản
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className="price d-flex justify-content-between">
                         <h6 className="card-subtitle mb-2 text-muted">Phí vận chuyển: </h6>
-                        <h6 className="text-info">{ship} VND</h6>
+                        <h6 className="text-info">{feeship} VND</h6>
                     </div>
-                    <div className="price d-flex justify-content-between">
+                    {/* <div className="price d-flex justify-content-between">
                         <h6 className="card-subtitle mb-2 text-muted">Tổng tiền: </h6>
                         <h6 className="">{total} VND</h6>
-                    </div>
+                    </div> */}
                     <button type="button" className="btn btn-warning w-100" onClick={handlePayment}>Tiến hành thanh toán</button>
                     <h5 className="mt-4">Phiếu giảm giá</h5>
                     <hr />
                     <div className="price d-flex justify-content-between">
                         <div className="input-group">
                             <label>Mã giảm giá</label>
-                            <input type="text" className="form-control ms-3" />
-                            <button type="button" className="btn btn-primary">Áp dụng</button>
+                            <input type="text" className="form-control ms-3" onChange={(e) => handleDiscountChange(e)} value={discount} />
+                            <button type="button" className="btn btn-primary" onClick={handleApplyDiscountCode}>Áp dụng</button>
                         </div>
                     </div>
                 </div>

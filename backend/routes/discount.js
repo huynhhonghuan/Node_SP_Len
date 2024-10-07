@@ -7,10 +7,16 @@ const { authMiddleware, authorizeRoles } = require('../middleware/authMiddleware
 const {
     getAllDiscounts,
     getDiscountById,
+    getDiscountByCode,
+    getDiscountNewUpdated,
     createDiscount,
     updateDiscount,
     deleteDiscount,
 } = require('../controllers/discountController');
+
+discountRouter.route('/code/:code').get(getDiscountByCode);
+
+discountRouter.route('/recently-updated').get(getDiscountNewUpdated);
 
 // Middleware to use discount router only when authenticated and authorized to access it
 

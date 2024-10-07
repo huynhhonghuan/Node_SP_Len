@@ -65,7 +65,7 @@ const deleteAll = async () => {
 // Tạo dữ liệu giả và chèn vào cơ sở dữ liệu
 const createFakeUsers = async (numUsers) => {
     const users = [];
-    // Add a admin
+    // Add a admin  
     users.push({
         name: 'Admin',
         email: 'admin@example.com',

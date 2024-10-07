@@ -6,12 +6,15 @@ import { getUserById } from '../../../services/UserService';
 
 import vietnamData from '../../../assets/vn_only_simplified_json_generated_data_vn_units.json'; // Import the JSON data
 import { createOrder } from '../../../services/OrderService';
+import { getDiscountById } from '../../../services/DiscountService';
 
 const Payment = () => {
     const [Address, setAddress] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
-    const [cart, setCart] = useState();
+    const [cart, setCart] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [feeship, setFeeShip] = useState(0);
+    const [discount, setDiscount] = useState(0);
 
     // Hàm để tìm tên tỉnh/thành phố từ mã 'Code'
     const findCityName = (cityCode) => {
@@ -55,16 +58,33 @@ const Payment = () => {
         fetchData();
 
         // Lấy dữ liệu từ localStorage
-        const cart = localStorage.getItem('cart');
-        if (cart) {
+        const cartlocal = localStorage.getItem('cart');
+        if (cartlocal) {
             // Chuyển đổi dữ liệu JSON thành mảng đối tượng
-            const parsedCart = JSON.parse(cart);
+            const parsedCartLocal = JSON.parse(cartlocal);
 
             // Lọc ra các sản phẩm có thuộc tính checked là true
-            const filteredCart = parsedCart.filter(item => item.checked);
+            const filteredCartLocal = parsedCartLocal.filter(item => item.checked);
 
-            // Gán giá trị đã lọc cho state cart
-            setCart(filteredCart);
+            // Gán giá trị đã lọc cho state cartlocal
+            setCart(filteredCartLocal);
+        }
+        // Lấy dữ liệu từ localStorage
+        const feeship = localStorage.getItem('feeship');
+
+        if (feeship) {
+            const free = JSON.parse(feeship);
+            setFeeShip(free); // Sửa 'free' nếu API trả về nhiều giá trị
+        }
+        // Lấy dữ liệu từ localStorage
+        const discount = localStorage.getItem('discount');
+
+        if (discount) {
+            // Chuyển chuỗi JSON thành đối tượng
+            const discountData = JSON.parse(discount);
+
+            // Sử dụng thuộc tính percentage từ đối tượng
+            setDiscount(discountData.percentage / 100);
         }
 
 
@@ -102,9 +122,10 @@ const Payment = () => {
             customerId: userId,
             products: cartItems,
             date: new Date(),
-            totalPrice: cart.reduce((total, item) => total + (item.quantity * item.option.price), 0),
+            totalPrice: cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) + feeship - (cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) * discount),
             note: '',
             paymentMethod: payment,
+            feeShip: feeship,
             shippingAddress: Address[selectedAddress],
         };
 
@@ -134,9 +155,10 @@ const Payment = () => {
                     localStorage.setItem('cart', JSON.stringify(updatedCart));
                 }
 
-
                 localStorage.removeItem('address'); // Xóa đ��a chỉ đã chọn
                 localStorage.removeItem('paymethod'); // Xóa phương thức thanh toán đã chọn
+                localStorage.removeItem('discount'); // Xóa mã giảm
+
             } else {
                 alert("Đặt hàng thất bại. Vui lòng thử lại sau.");
             }
@@ -190,12 +212,17 @@ const Payment = () => {
                         <hr />
                         <div className="d-flex align-items-center justify-content-between mb-2">
                             <h6>Phí vận chuyển</h6>
-                            <h6>0 đ</h6>
+                            <h6>{feeship} đ</h6>
+                        </div>
+
+                        <div className="d-flex align-items-center justify-content-between mb-2">
+                            <h6>Giảm giá</h6>
+                            <h6>{cart && cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) * discount} đ</h6>
                         </div>
 
                         <div className="d-flex align-items-center justify-content-between mb-2">
                             <h6>Tổng tiền</h6>
-                            <h6>{cart && cart.reduce((total, item) => total + (item.quantity * item.option.price), 0)} đ</h6>
+                            <h6>{cart && cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) + feeship - (cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) * discount)} đ</h6>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
                             <button className="btn btn-warning" onClick={handleOrder}>Đặt hàng</button>

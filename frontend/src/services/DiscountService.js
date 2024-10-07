@@ -39,6 +39,49 @@ export const getDiscountById = async (discountId) => {
     }
 };
 
+// Tìm kiếm mã giảm giá theo mã Code
+
+export const getDiscountByCode = async (discountCode) => {
+    try {
+        // Gọi hàm token và ch�� lấy giá trị token
+        const authToken = await token();
+
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/discount/code/${discountCode}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
+        );
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+// Lấy 1 mã giảm theo ngày update gần nhất
+
+export const getRecentlyUpdatedDiscount = async () => {
+    try {
+        // Gọi hàm token và ch�� lấy giá trị token
+
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/discount/recently-updated`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }
+        );
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
 // Thêm mới mã giảm giá
 
 export const createDiscount = async (discount) => {

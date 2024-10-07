@@ -7,6 +7,7 @@ const CreateAndUpdate = ({ title, existingData, isUpdate, onSubmit, formSchema }
     const [formData, setFormData] = useState({});
     const [errorMessages, setErrorMessages] = useState({});
     const [expandedGroup, setExpandedGroup] = useState(null);
+    const [options, setOptions] = useState([]);
 
     useEffect(() => {
         if (isUpdate && existingData) {

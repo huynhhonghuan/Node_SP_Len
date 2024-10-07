@@ -12,6 +12,8 @@ import user_logo from '../../../assets/images/home/user_logo.png';
 
 import { Link } from 'react-router-dom';
 import { getProductBestSeller, getProductByCommentAndUser, getProductByType, getProductNewByUpdateAt } from '../../../services/ProductService';
+import { getRecentlyUpdatedDiscount } from '../../../services/DiscountService';
+import { format } from 'date-fns';
 
 const Home = () => {
 
@@ -19,7 +21,7 @@ const Home = () => {
     const [groupedProductNew1, setGroupedProductNew1] = useState([]);
     const [groupedProductNew2, setGroupedProductNew2] = useState([]);
 
-    const [bestSeller, setBestSeller] = useState([]);
+    const [newDiscount, setNewDiscount] = useState([]);
 
     const [comment, setComment] = useState([]);
 
@@ -65,6 +67,10 @@ const Home = () => {
 
                 // let bestSellerData = await getProductBestSeller();
                 // setBestSeller(bestSellerData);
+
+                let discountData = await getRecentlyUpdatedDiscount();
+                console.log(discountData);
+                setNewDiscount(discountData);
 
                 let commentData = await getProductByCommentAndUser();
                 setComment(commentData);
@@ -288,7 +294,7 @@ const Home = () => {
                                         {group.map((product, index) => (
                                             <div key={index} className="col-6 col-md-3">
                                                 <div className="card border-5 border-warning">
-                                                    <img src={product.image} className="card-img-top w-100" alt="..." style={{ height: '200px' }} />
+                                                    <img src={`${import.meta.env.VITE_API_URL}/${product.image}`} className="card-img-top w-100" alt="..." style={{ height: '200px' }} />
                                                     <div className="card-body d-flex flex-column justify-content-center align-items-center">
                                                         <span>
                                                             {product.type == 'tool' ? 'Dụng cụ' :
@@ -567,7 +573,7 @@ const Home = () => {
                                         {group.map((product, index) => (
                                             <div key={index} className="col-6 col-md-3">
                                                 <div className="card border-5 border-warning">
-                                                    <img src={product.image} className="card-img-top w-100" alt="..." style={{ height: '200px' }} />
+                                                    <img src={`${import.meta.env.VITE_API_URL}/${product.image}`} className="card-img-top w-100" alt="..." style={{ height: '200px' }} />
                                                     <div className="card-body d-flex flex-column justify-content-center align-items-center">
                                                         <span className=''>
                                                             {product.type == 'tool' ? 'Dụng cụ' :
@@ -838,21 +844,22 @@ const Home = () => {
             </div>
 
 
-            <div className="home-title my-5">
+            {/* <div className="home-title my-5">
                 <div className="row align-items-center">
                     <div className="col-4">
                         <hr className='border-2' />
                     </div>
                     <div className="col-4 text-center">
-                        <i className="fa-solid fa-user-tie me-2 fs-4"></i> {/* Sử dụng me-2 để tạo khoảng cách giữa icon và tiêu đề */}
-                        <h4 className="d-inline-block mb-0 text-uppercase">Sản phẩm bán chạy</h4> {/* d-inline-block để giữ cho h3 và icon trên cùng một dòng */}
+                        <i className="fa-solid fa-user-tie me-2 fs-4"></i> 
+                        <h4 className="d-inline-block mb-0 text-uppercase">Sản phẩm bán chạy</h4>
                     </div>
                     <div className="col-4">
                         <hr className='border-2' />
                     </div>
                 </div>
-            </div>
-            <div className="home-menu-product-outstanding row gy-2">
+            </div> */}
+
+            {/* <div className="home-menu-product-outstanding row gy-2">
                 <div id="carouselExampleAutoplaying-3" class="carousel slide px-5" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         {bestSeller && (
@@ -889,237 +896,6 @@ const Home = () => {
                                 </div>
                             ))
                         )}
-                        {/* <div class="carousel-item active">
-                            <div className="row gy-2">
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div className="row gy-2">
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div className="row gy-2">
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-md-3">
-                                    <div className="card border-5 border-warning">
-                                        <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="..." />
-                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                            <span>Dụng cụ</span>
-                                            <h5 class="card-title text-uppercase fw-bold">Sản phẩm</h5>
-                                            <span class="card-text text-warning-emphasis">70.000 - 100.000đ</span>
-                                            <span className='text-warning'>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </span>
-                                            <a href="#" class="btn btn-warning mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div> */}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying-3" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -1130,7 +906,7 @@ const Home = () => {
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-            </div>
+            </div> */}
 
             <div className="home-title my-5">
                 <div className="row align-items-center">
@@ -1152,10 +928,16 @@ const Home = () => {
                 </div>
                 <div className="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
                     <div className="">
-                        <h1 className='border border-5 rounded border-warning text-success px-5'>HADKN2024</h1>
-                        <p>Áp dụng cho đơn hàng từ: 300.000</p>
-                        <p>Thời gian từ: 16/9/2024 - 30/9/2024</p>
-                        <p>Giảm giá: 20%</p>
+                        {newDiscount && (
+                            newDiscount.map((item, index) => (
+                                <div key={index} className="">
+                                    <h1 className='border border-5 rounded border-warning text-success px-5'>{item.code}</h1>
+                                    <p>Áp dụng cho đơn hàng từ: {item.lowestTotal} VND</p>
+                                    <p>Thời gian từ: {format(new Date(item.startDate), 'dd/MM/yyyy')} đến {format(new Date(item.endDate), 'dd/MM/yyyy')}</p>
+                                    <p>Giảm giá: {item.percentage}%</p>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </div>

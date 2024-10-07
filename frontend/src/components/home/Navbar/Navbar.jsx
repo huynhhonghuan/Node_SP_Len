@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 const Navbar = () => {
     const [isNavbarLeftVisible, setNavbarLeftVisible] = useState(false);
     const [cartCount, setCartCount] = useState(0);
     const navbarLeftRef = useRef(null);
     const buttonRef = useRef(null);
+    const [userRole, setUserRole] = useState(null); // Quản lý loại tài khoản người dùng
+
 
     const toggleNavbarLeft = () => {
         setNavbarLeftVisible(!isNavbarLeftVisible);
@@ -32,8 +36,20 @@ const Navbar = () => {
         setCartCount(totalCount);
     };
 
+
+    const checkUserRole = async () => {
+        // Giả sử role được lưu trong localStorage
+        const storedUserRole = await Cookies.get('token');
+        if (storedUserRole) {
+            const user = await jwtDecode(storedUserRole);
+            setUserRole(user.role);
+        }
+    };
+
     useEffect(() => {
         calculateCartCount(); // Tính số lượng sản phẩm khi component mount
+
+        checkUserRole(); // Kiểm tra vai trò người dùng
 
         // Lắng nghe sự kiện storage
         const handleStorageChange = (event) => {
@@ -76,7 +92,16 @@ const Navbar = () => {
                             <Link to="/contact" className="text-warning"><i className="fa-solid fa-phone"></i></Link>
                         </li>
                         <li className="mx-2 fs-5">
-                            <Link to="/login" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            {/* Điều chỉnh Link dựa trên userRole */}
+                            {userRole === 'admin' ? (
+                                <Link to="/admin" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            ) : userRole === 'customer' ? (
+                                <Link to="/customer" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            ) : userRole === 'staff' ? (
+                                <Link to="/staff" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            ) : (
+                                <Link to="/login" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            )}
                         </li>
                         <li className="mx-2 fs-5 bg-warning px-2 rounded-circle position-relative">
                             <Link to="/card" className="text-light"><i className="fa-solid fa-cart-plus"></i></Link>
@@ -116,9 +141,9 @@ const Navbar = () => {
                                 <Link to="/product/product" className="dropdown-item-main text-secondary py-3">
                                     Sản phẩm
                                 </Link>
-                                <Link to="/product/comboproduct" className="dropdown-item-main text-secondary py-3">
+                                {/* <Link to="/product/comboproduct" className="dropdown-item-main text-secondary py-3">
                                     Combo sản phẩm
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
                         <Link to="/card" className="text-dark text-uppercase fw-bold text-decoration-none">
@@ -164,9 +189,9 @@ const Navbar = () => {
                                 <Link to="/product/product" className="dropdown-item-left-custom text-secondary py-3">
                                     Sản phẩm
                                 </Link>
-                                <Link to="/product/comboproduct" className="dropdown-item-left-custom text-secondary py-3">
+                                {/* <Link to="/product/comboproduct" className="dropdown-item-left-custom text-secondary py-3">
                                     Combo sản phẩm
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
                     </div>

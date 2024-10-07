@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
 
 const validateObjectId = async (req, res, next) => {
-    const id = req.params.id || '';
+    const id = req.params.id || req.params.code || '';
     if (!validatorJS.isMongoId(id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }

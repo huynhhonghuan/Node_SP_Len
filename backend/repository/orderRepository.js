@@ -10,7 +10,7 @@ class OrderRepository {
     }
 
     async getUserOrders(userId) {
-        return await Order.find({ userId });
+        return await Order.find({ customerId: userId });
     }
 
     async createOrder(order) {
@@ -24,7 +24,7 @@ class OrderRepository {
     async deleteOrder(id) {
         return await Order.findByIdAndDelete(id);
     }
-    
+
 }
 
 module.exports = new OrderRepository();

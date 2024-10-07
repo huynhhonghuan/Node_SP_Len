@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 class UserRepository {
     async getAllUsers() {
-        return await User.find({});
+        return await User.find({ role: { $ne: 'admin' } });
     }
 
     async getUserById(id) {

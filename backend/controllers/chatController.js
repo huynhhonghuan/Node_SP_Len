@@ -3,7 +3,7 @@ const ChatRepository = require('../repository/charRepository');
 const getAllChats = async (req, res) => {
     try {
         const chats = await ChatRepository.getAllChats();
-        res.json({ chats: chats, message: 'All chats' });
+        res.json({ data: chats, message: 'All chats' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -15,7 +15,7 @@ const getChatById = async (req, res) => {
         if (!chat) {
             return res.status(404).json({ message: 'Chat not found' });
         }
-        res.json({ chat: chat, message: 'Chat retrieved' });
+        res.json({ data: chat, message: 'Chat retrieved' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -24,7 +24,7 @@ const getChatById = async (req, res) => {
 const createChat = async (req, res) => {
     try {
         const chat = await ChatRepository.createChat(req.body);
-        res.status(201).json({ chat: chat, message: 'Chat created' });
+        res.status(201).json({ data: chat, message: 'Chat created' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -36,7 +36,7 @@ const updateChat = async (req, res) => {
         if (!updatedChat) {
             return res.status(404).json({ message: 'Chat not found' });
         }
-        res.json({ chat: updatedChat, message: 'Chat updated' });
+        res.json({ data: updatedChat, message: 'Chat updated' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

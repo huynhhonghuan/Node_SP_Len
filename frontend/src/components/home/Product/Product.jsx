@@ -110,9 +110,9 @@ const Product = ({ type }) => {
                     <Link to="/product/product" className="dropdown-item-main text-secondary py-3">
                         Sản phẩm
                     </Link>
-                    <Link to="/product/comboproduct" className="dropdown-item-main text-secondary py-3">
+                    {/* <Link to="/product/comboproduct" className="dropdown-item-main text-secondary py-3">
                         Combo sản phẩm
-                    </Link>
+                    </Link> */}
                 </div>
                 <div className="product-sidebar-img mt-3">
                     <img src="https://via.placeholder.com/200x300" alt="" className='rounded border border-warning' />
@@ -136,13 +136,12 @@ const Product = ({ type }) => {
                     </div>
                 </div>
 
-
                 <div className="container text-center">
                     <div className="row g-3 d-flex justify-content-center align-items-center">
                         {currentItems.map((item, index) => (
                             <div className="col-6 col-lg-4" key={index}>
                                 <div className="card border-5 border-warning h-75">
-                                    <img src={item.image || "https://via.placeholder.com/100x100"} className="card-img-top" alt={item.name} style={{ height: '200px' }} />
+                                    <img src={`${import.meta.env.VITE_API_URL}/${item.image}` || "https://via.placeholder.com/100x100"} className="card-img-top" alt={item.name} style={{ height: '200px' }} />
                                     <div className="card-body d-flex flex-column justify-content-center align-items-center">
                                         <span>{item.category}</span>
                                         <h5 className="card-title text-uppercase fw-bold">{item.name}</h5>

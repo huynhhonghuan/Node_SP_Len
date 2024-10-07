@@ -142,7 +142,7 @@ const ProductDetail = () => {
                         <div className="carousel-inner">
                             {product.options.map((option, index) => (
                                 <div className={`carousel-item ${index === currentIndex ? 'active' : ''}`} key={option.image}>
-                                    <img src={option.image} className="d-block border border-5 border-warning" alt="Product" style={{ width: '350px', height: '400px', cursor: 'pointer' }} />
+                                    <img src={`${import.meta.env.VITE_API_URL}/${option.image}`} className="d-block border border-5 border-warning" alt="Product" style={{ width: '350px', height: '400px', cursor: 'pointer' }} />
                                 </div>
                             ))}
                         </div>
@@ -163,7 +163,7 @@ const ProductDetail = () => {
                                 <div className="row d-inline-flex">
                                     {product.options.map((thumb, index) => (
                                         <div className="col-3 me-3" key={index} onClick={() => handleThumbnailClick(index)}>
-                                            <img src={thumb.image} className="d-block border border-1 border-warning" alt="Thumbnail" style={{ width: '80px', height: '80px', cursor: 'pointer' }} />
+                                            <img src={`${import.meta.env.VITE_API_URL}/${thumb.image}`} className="d-block border border-1 border-warning" alt="Thumbnail" style={{ width: '80px', height: '80px', cursor: 'pointer' }} />
                                         </div>
                                     ))}
                                 </div>
@@ -197,7 +197,7 @@ const ProductDetail = () => {
                         {product?.options?.map((option, index) => (
                             <div className="col" key={index} onClick={() => handleOptionClick(option)}>
                                 <img
-                                    src={option.image}
+                                    src={`${import.meta.env.VITE_API_URL}/${option.image}`}
                                     className="d-block"
                                     alt="Option"
                                     style={{ width: '80px', height: '80px', cursor: 'pointer', border: selectedOption === option ? '2px solid orange' : 'none' }}
@@ -308,7 +308,7 @@ const ProductDetail = () => {
                         <div className='row'>{product.options.map((item, index) => (
                             <div className="col-12 col-sm-3">
                                 <img
-                                    src={item.image}
+                                    src={`${import.meta.env.VITE_API_URL}/${item.image}`}
                                     className=""
                                     alt="Option"
                                     style={{ width: '250px', height: '300px', cursor: 'pointer', border: '2px solid orange' }}
@@ -356,7 +356,7 @@ const ProductDetail = () => {
                                         {group.map((product, index) => (
                                             <div key={index} className="col-6 col-md-3">
                                                 <div className="card border-5 border-warning">
-                                                    <img src={product.image} className="card-img-top w-100" alt="..." style={{ height: '200px' }} />
+                                                    <img src={`${import.meta.env.VITE_API_URL}/${product.image}`} className="card-img-top w-100" alt="..." style={{ height: '200px' }} />
                                                     <div className="card-body d-flex flex-column justify-content-center align-items-center">
                                                         <span className=''>
                                                             {product.type == 'tool' ? 'Dụng cụ' :

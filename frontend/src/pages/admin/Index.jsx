@@ -11,6 +11,7 @@ import { DiscountPage } from '../../formdatas/DiscountSchema';
 import { ProductPage } from '../../formdatas/ProductSchema';
 import { ComboProductPage } from '../../formdatas/ComboProductSchema';
 import { OrderPage } from '../../formdatas/OrderSchema';
+import { ChatPage } from '../../formdatas/ChatSchema';
 
 function AdminIndex() {
     return (
@@ -40,6 +41,9 @@ function AdminIndex() {
 
                         <Route path="order" element={<ListPage pageConfig={OrderPage['list']} />} />
                         <Route path="order/create" element={<CreatePage pageConfig={OrderPage['create']} />} />
+                        <Route path="order/update/:id" element={<UpdatePage pageConfig={OrderPage['update']} />} />
+
+                        <Route path="chat" element={<ListPage pageConfig={ChatPage['list']} />} />
 
                     </Routes>
                 </div>

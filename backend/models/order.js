@@ -54,7 +54,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'processing', 'shipped', 'failed'],
+        enum: ['pending', 'processing', 'shipped', 'completed', 'failed'],
         default: 'pending',
     },
     // Thông tin chú thích khi mua hàng
@@ -90,6 +90,16 @@ const orderSchema = new mongoose.Schema({
             default: null,
             required: function () { return this.paymentMethod === 'vnpay'; },
         },
+    },
+    feeShip: {
+        type: Number,
+        required: [true, 'Vui lòng cung cấp phí vận chuyển'],
+        min: [0, 'Phí vận chuyển phải l��n hơn 0'],
+    },
+    discountId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Discount',
+        default: null
     },
     // Thông tin giao hàng
     shippingAddress: {

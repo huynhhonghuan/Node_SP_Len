@@ -1,5 +1,5 @@
 import InputGroup from "../components/admin/InputGroup/InputGroup";
-import { getAllOrders } from "../services/OrderService";
+import { deleteOrder, getAllOrders, getOrderById, updateOrder } from "../services/OrderService";
 import { getAllUsers, transformUser } from "../services/UserService";
 
 const OrderSchema = [
@@ -8,8 +8,8 @@ const OrderSchema = [
         label: 'Khách hàng',
         type: 'select',
         // options: async () => {
-        //     // Call API hoặc service để lấy danh sách khách hàng
         //     const users = await getAllUsers();
+        //     console.log(users);
         //     const data = [];
         //     data.push({ value: '', label: 'Chọn khách hàng' });
         //     users.forEach(user => data.push({ value: user._id, label: user.name }));
@@ -52,12 +52,12 @@ const OrderSchema = [
                     min: 1,
                 },
             },
-            {
-                key: 'price',
-                label: 'Giá',
-                type: 'number',
-                validation: { required: true, min: 0 },
-            },
+            // {
+            //     key: 'price',
+            //     label: 'Giá',
+            //     type: 'number',
+            //     validation: { required: true, min: 0 },
+            // },
         ],
     },
     {
@@ -79,7 +79,8 @@ const OrderSchema = [
         options: [
             { value: 'pending', label: 'Chờ xử lý' },
             { value: 'processing', label: 'Đang xử lý' },
-            { value: 'shipped', label: 'Đã giao hàng' },
+            { value: 'shipped', label: 'Đang giao hàng' },
+            { value: 'completed', label: 'Đã giao hàng' },
             { value: 'failed', label: 'Thất bại' },
         ],
         validation: { required: true },
@@ -113,10 +114,10 @@ const OrderPage = {
     list: {
         title: 'Danh sách đơn hàng',
         header: ['Mã khách hàng', 'Ngày đặt', 'Tổng giá', 'Trạng thái', 'Phương thức thanh toán'],
-        header_hiddens: ['note', 'products', 'shippingAddress', '__v', 'paymentVnpay', 'createdAt', 'updatedAt'],
+        header_hiddens: ['note', 'products', 'discountId', 'feeShip', 'shippingAddress', '__v', 'paymentVnpay', 'createdAt', 'updatedAt'],
         header_count: [],
         getData: getAllOrders,  // Assuming you have a service to fetch all orders
-        deleteData: null, // Assuming a service to delete an order
+        deleteData: deleteOrder, // Assuming a service to delete an order
         navigateCreate: 'create',
         navigateUpdate: 'update',
         nameDelete: 'customerId',  // Used for displaying the name when deleting an order
@@ -124,14 +125,14 @@ const OrderPage = {
     create: {
         title: 'Thêm mới đơn hàng',
         createData: null,  // Assuming you have a service to create an order
-        navigateList: '/admin/orders',
+        navigateList: '/admin/order',
         formSchema: OrderSchema,
     },
     update: {
         title: 'Cập nhật đơn hàng',
-        getData: null,  // Assuming a service to fetch an order by ID
-        updateData: null, // Assuming a service to update the order
-        navigateList: '/admin/orders',
+        getData: getOrderById,  // Assuming a service to fetch an order by ID
+        updateData: updateOrder, // Assuming a service to update the order
+        navigateList: '/admin/order',
         formSchema: OrderSchema,
     },
 };

@@ -21,6 +21,31 @@ const getDiscountById = async (req, res) => {
     }
 }
 
+const getDiscountByCode = async (req, res) => {
+    try {
+        const discount = await DiscountRepository.getDiscountByCode(req.params.code);
+        if (!discount) {
+            return res.status(404).json({ message: 'Discount not found' });
+        }
+        res.json({ data: discount, message: 'Discount retrieved' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// lấy 1 mã giảm với ngày update gần nhất
+const getDiscountNewUpdated = async (req, res) => {
+    try {
+        const discount = await DiscountRepository.getDiscountNewUpdated(req.params.id);
+        if (!discount) {
+            return res.status(404).json({ message: 'Discount not found' });
+        }
+        res.json({ data: discount, message: 'Discount retrieved' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const createDiscount = async (req, res) => {
     try {
         const discount = await DiscountRepository.createDiscount(req.body);
@@ -57,6 +82,8 @@ const deleteDiscount = async (req, res) => {
 module.exports = {
     getAllDiscounts,
     getDiscountById,
+    getDiscountByCode,
+    getDiscountNewUpdated,
     createDiscount,
     updateDiscount,
     deleteDiscount,

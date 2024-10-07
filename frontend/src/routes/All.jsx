@@ -4,12 +4,15 @@ import AdminIndex from '../pages/admin/index';
 import HomeIndex from '../pages/home/Index';
 import PrivateRoute from '../app/PrivateRoute';
 import UploadImage from '../pages/UploadImage';
+import CustomerIndex from '../pages/customer/Index';
+import StaffIndex from '../pages/staff/Index';
 
 const AllRouter = () => {
     return (
         <Router>
             <Routes>
                 <Route path='/*' element={<HomeIndex />} />
+
                 <Route path="/admin/*"
                     element={
                         <PrivateRoute roles={['admin']}>
@@ -17,6 +20,23 @@ const AllRouter = () => {
                         </PrivateRoute>
                     }
                 />
+
+                <Route path="/customer/*"
+                    element={
+                        <PrivateRoute roles={['customer']}>
+                            <CustomerIndex />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route path="/staff/*"
+                    element={
+                        <PrivateRoute roles={['staff']}>
+                            <StaffIndex />
+                        </PrivateRoute>
+                    }
+                />
+
                 <Route path='/upload' element={<UploadImage />} />
             </Routes>
         </Router>

@@ -57,10 +57,14 @@ const Sidebar = () => {
                         <img src={comment_img} alt="" className="sidebar-icon" />
                         <span className="sidebar-span">Đánh giá</span>
                     </li> */}
-                    <li>
-                        <img src={chatbot_img} alt="" className="sidebar-icon" />
-                        <span className="sidebar-span">Nhắn tin</span>
-                    </li>
+
+                    <Link to={'/admin/chat'} style={{ textDecoration: "none" }}>
+
+                        <li>
+                            <img src={chatbot_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Nhắn tin</span>
+                        </li>
+                    </Link>
                 </ul>
             </div>
         </div>

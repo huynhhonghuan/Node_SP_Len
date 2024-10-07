@@ -1,8 +1,9 @@
 const { check, validationResult } = require('express-validator');
+const validatorJS = require('validator');
 
 const validateObjectId = async (req, res, next) => {
     const id = req.params.id || req.params.userid || req.params.productid || '';
-    if (!validatorJs.isMongoId(id)) {
+    if (!validatorJS.isMongoId(id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     next();
@@ -35,7 +36,7 @@ const validateOrderData = [
 
     check('status')
         .optional()
-        .isIn(['pending', 'processing', 'shipped', 'failed']).withMessage('Trạng thái không hợp lệ'),
+        .isIn(['pending', 'processing', 'shipped', 'completed', 'failed']).withMessage('Trạng thái không hợp lệ'),
 
     check('note')
         .optional()

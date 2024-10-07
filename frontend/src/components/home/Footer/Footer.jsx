@@ -7,7 +7,7 @@ import p_logo from '../../../assets/images/home/p.png';
 
 const Footer = () => {
     return (
-        <div className="footer d-flex justify-content-between px-5 pt-3">
+        <div className="footer d-flex justify-content-evenly px-5 pt-3">
             <div className="footer-card">
                 <div className="footer-card-title border-bottom border-secondary border-2 w-100 pb-2">
                     <span className='text-uppercase fw-bold fs-5 border-bottom border-secondary border-3 pb-2'>Liên hệ</span>
@@ -37,7 +37,7 @@ const Footer = () => {
                     </li>
                 </ul>
             </div>
-            <div className="footer-card">
+            {/* <div className="footer-card">
                 <div className="footer-card-title border-bottom border-secondary border-2 w-100 pb-2">
                     <span className='text-uppercase fw-bold fs-5 border-bottom border-secondary border-3 pb-2'>Fanpages facebook</span>
                 </div>
@@ -47,7 +47,7 @@ const Footer = () => {
                 <div className="footer-card-title border-bottom border-secondary border-2 w-100 pb-2">
                     <span className='text-uppercase fw-bold fs-5 border-bottom border-secondary border-3 pb-2'>Google map</span>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
