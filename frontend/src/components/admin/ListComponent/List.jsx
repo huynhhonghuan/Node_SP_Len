@@ -134,20 +134,80 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete, nameDelete 
                                 {Object.keys(item).map((key) =>
                                     key !== '_id' ? (
                                         <td key={key}>
-                                            {typeof item[key] === 'boolean' ? (item[key] ? 'Hoạt động' : 'Không') :
-                                                (isValidDate(item[key]) ? format(new Date(item[key]), 'dd-MM-yyyy') :
-                                                    isImageURL(item[key]) ? <img src={`${import.meta.env.VITE_API_URL}/${item[key]}`} alt="image" style={{ width: '80px', height: '80px' }} /> :
-                                                        item[key])
-                                            }
+                                            {typeof item[key] === 'boolean' ? (
+                                                item[key] ? 'Hoạt động' : 'Không'
+                                            ) : key === 'paymentMethod' ? (
+                                                item[key] === 'cod'
+                                                    ? 'Thanh toán khi nhận hàng'
+                                                    : item[key] === 'vnpay'
+                                                        ? 'Chuyển khoản VNPay'
+                                                        : item[key]
+                                            ) : key === 'status' ? (
+                                                // Hiển thị cho `status`
+                                                item[key] === 'pending'
+                                                    ? 'Chờ xử lý'
+                                                    : item[key] === 'received'
+                                                        ? 'Đã nhận'
+                                                        : item[key] === 'shipped'
+                                                            ? 'Đã giao hàng'
+                                                            : item[key] === 'processing'
+                                                                ? 'Đang xử lý'
+                                                                : item[key] === 'completed'
+                                                                    ? 'Hoàn thành'
+                                                                    : item[key] === 'failed'
+                                                                        ? 'Thất bại'
+                                                                        : item[key] === 'cancelled'
+                                                                            ? 'Đã hủy'
+                                                                            : item[key]
+                                            ) : key === 'role' ? (
+                                                // Hiển thị cho `role`
+                                                item[key] === 'customer'
+                                                    ? 'Khách hàng'
+                                                    : item[key] === 'admin'
+                                                        ? 'Quản trị viên'
+                                                        : item[key] === 'staff'
+                                                            ? 'Nhân viên'
+                                                            : item[key]
+                                            ) : key === 'type' ? (
+                                                // Hiển thị cho `type`
+                                                item[key] === 'wool'
+                                                    ? 'Len'
+                                                    : item[key] === 'product'
+                                                        ? 'Sản phẩm'
+                                                        : item[key] === 'tool'
+                                                            ? 'Dụng cụ'
+                                                            : item[key]
+                                            ) : isValidDate(item[key]) ? (
+                                                format(new Date(item[key]), 'dd-MM-yyyy')
+                                            ) : isImageURL(item[key]) ? (
+                                                <img
+                                                    src={`${import.meta.env.VITE_API_URL}/${item[key]}`}
+                                                    alt="image"
+                                                    style={{ width: '80px', height: '80px' }}
+                                                />
+                                            ) : (
+                                                item[key]
+                                            )}
                                         </td>
                                     ) : null
                                 )}
                                 <td>
-                                    <Button variant="primary" className="me-2" onClick={() => onUpdate(item)}>Sửa</Button>
-                                    <Button variant="danger" onClick={() => handleShowDeleteModal(item)}>Xóa</Button>
+                                    <Button
+                                        variant="primary"
+                                        className="me-2"
+                                        onClick={() => onUpdate(item)}
+                                    >
+                                        Sửa
+                                    </Button>
+                                    <Button variant="danger" onClick={() => handleShowDeleteModal(item)}>
+                                        Xóa
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
+
+
+
                     </tbody>
 
                 </table>

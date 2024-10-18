@@ -55,6 +55,8 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'processing', 'shipped', 'completed', 'failed'],
+        enum: ['pending', 'received', 'processing', 'completed', 'cancelled'],
+
         default: 'pending',
     },
     // Thông tin chú thích khi mua hàng
@@ -94,7 +96,7 @@ const orderSchema = new mongoose.Schema({
     feeShip: {
         type: Number,
         required: [true, 'Vui lòng cung cấp phí vận chuyển'],
-        min: [0, 'Phí vận chuyển phải l��n hơn 0'],
+        min: [0, 'Phí vận chuyển phải lớn hơn 0'],
     },
     discountId: {
         type: mongoose.Schema.Types.ObjectId,

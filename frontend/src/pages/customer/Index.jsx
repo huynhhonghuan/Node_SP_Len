@@ -7,6 +7,7 @@ import HistoryPay from '../../components/customer/HomeCustomer/HistoryPay';
 import Comment from '../../components/customer/Comment/Comment';
 import Chat from '../../components/customer/Chat/Chat';
 import Information from '../../components/customer/Information/Information';
+import Order from '../../components/customer/Order/Order';
 
 function CustomerIndex() {
     return (
@@ -24,6 +25,7 @@ function CustomerIndex() {
                     <Routes>
                         <Route path='/' element={<HistoryPay />} />
                         <Route path='/history' element={<HistoryPay />} />
+                        <Route path='/order/:id' element={<Order />} />
                         <Route path='/comment' element={<Comment />} />
                         <Route path='/information' element={<Information />} />
                         <Route path='/chat' element={<Chat />} />
