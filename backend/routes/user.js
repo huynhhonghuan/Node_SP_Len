@@ -19,7 +19,7 @@ userRouter.get('/', getAllUsers);
 
 userRouter.get('/email/:email', getUserByEmail);
 
-userRouter.post('/', validateUserData, createUser);
+userRouter.post('/', validateUserData(false), createUser);
 
 userRouter.put('/:id', validateUserData(true), updateUser);
 

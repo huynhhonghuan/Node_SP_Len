@@ -16,6 +16,8 @@ const registerUser = async (req, res) => {
 
         const user = await authProvider.register(name, phone, email, password);
 
+        console.log(user);
+
         res.json({ user: user.user, message: user.message });
 
     } catch (err) {

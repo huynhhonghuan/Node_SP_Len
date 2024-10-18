@@ -42,47 +42,46 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    addresses: [
-        {
-            phone: {
-                type: String,
-                required: [true, "Vui lòng cung cấp số điện thoại!"],
-                validate: {
-                    validator: validatorJs.isMobilePhone,
-                    message: '{VALUE} phải là số điện thoại hợp lệ!'
+    addresses: {
+        type: [
+            {
+                phone: {
+                    type: String,
+                    validate: {
+                        validator: validatorJs.isMobilePhone,
+                        message: '{VALUE} phải là số điện thoại hợp lệ!'
+                    }
+                },
+                city: {
+                    type: String,
+                },
+                district: {
+                    type: String,
+                },
+                ward: {
+                    type: String,
+                },
+                street: {
+                    type: String,
+                },
+                type: {
+                    type: String,
+                    enum: ['home', 'office', 'other'],
+                    default: 'home' // Default type is 'home'
+                },
+                note: {
+                    type: String,
+                    maxlength: [200, "Ghi chú phải từ 0 đến 200 kí tự!"]
+                },
+                default: {
+                    type: Boolean,
+                    default: false // Default is false
                 }
-            },
-            city: {
-                type: String,
-                required: [true, "Vui lòng cung cấp tỉnh/thành phố!"],
-            },
-            district: {
-                type: String,
-                required: [true, "Vui lòng cung cấp quận/huyện!"],
-            },
-            ward: {
-                type: String,
-                required: [true, "Vui lòng cung cấp phườnng/xã!"],
-            },
-            street: {
-                type: String,
-                required: [true, "Vui lòng cung cấp đường phố!"],
-            },
-            type: {
-                type: String,
-                enum: ['home', 'office', 'other'],
-                default: 'home' // Default type is 'home'
-            },
-            note: {
-                type: String,
-                maxlength: [200, "Ghi chú phải từ 0 đến 200 kí tự!"]
-            },
-            default: {
-                type: Boolean,
-                default: false // Default is false
             }
-        }
-    ]
+        ],
+        default: [] // Default is an empty array
+    }
+
 }, { timestamps: true });
 
 // Hash password before saving to database
