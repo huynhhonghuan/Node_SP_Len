@@ -55,8 +55,6 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'processing', 'shipped', 'completed', 'failed'],
-        enum: ['pending', 'received', 'processing', 'completed', 'cancelled'],
-
         default: 'pending',
     },
     // Thông tin chú thích khi mua hàng
