@@ -97,11 +97,14 @@ userSchema.pre('save', async function () {
 // Middleware cho findOneAndUpdate()
 userSchema.pre('findOneAndUpdate', async function (next) {
     const update = this.getUpdate();
-    if (update.password) {
+
+    // Kiểm tra xem có trường password trong update và không phải là mật khẩu đã được băm
+    if (update.password && update.password.length < 60) { // Sử dụng độ dài băm để kiểm tra
         const salt = await bcrypt.genSalt(10);
         update.password = await bcrypt.hash(update.password, salt);
         this.setUpdate(update);
     }
+
     next();
 });
 

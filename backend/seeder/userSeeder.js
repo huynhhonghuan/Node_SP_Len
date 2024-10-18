@@ -65,12 +65,13 @@ const deleteAll = async () => {
 // Tạo dữ liệu giả và chèn vào cơ sở dữ liệu
 const createFakeUsers = async (numUsers) => {
     const users = [];
-    // Add a admin  
+
+    // Thêm admin vào danh sách users
     users.push({
         name: 'Admin',
         email: 'admin@example.com',
         phone: generateVietnamesePhoneNumber(),
-        password: await hashPassword('12345678'),//faker.internet.password()
+        password: await hashPassword('12345678'),
         role: 'admin'
     });
 
@@ -79,14 +80,12 @@ const createFakeUsers = async (numUsers) => {
         const district = getRandomElement(province.District);
         const ward = getRandomElement(district.Ward);
 
-        users.push({
-            name: faker.name.findName(),
-            email: faker.internet.email(),
-            phone: generateVietnamesePhoneNumber(),
-            password: await hashPassword('12345678'),//faker.internet.password()
-            role: faker.random.arrayElement(['customer', 'staff']),
-            isActive: Math.random() > 0.5, // Random true or false
-            addresses: [{
+        // Tạo số lượng ngẫu nhiên địa chỉ cho mỗi người dùng (ví dụ từ 1 đến 3 địa chỉ)
+        const numAddresses = Math.floor(Math.random() * 3) + 2; // 1 đến 3 địa chỉ
+        const addresses = [];
+
+        for (let j = 0; j < numAddresses; j++) {
+            addresses.push({
                 phone: generateVietnamesePhoneNumber(),
                 street: faker.address.streetName(),
                 city: province.Code,
@@ -94,11 +93,23 @@ const createFakeUsers = async (numUsers) => {
                 ward: ward.Code,
                 type: faker.random.arrayElement(['home', 'office', 'other']),
                 note: generateParagraph(200),
-                default: Math.random() > 0.5, // Random true or false
-            }]
+                default: j === 0, // Địa chỉ đầu tiên là mặc định
+            });
+        }
+
+        // Tạo user với nhiều địa chỉ
+        users.push({
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            phone: generateVietnamesePhoneNumber(),
+            password: await hashPassword('12345678'),
+            role: faker.random.arrayElement(['customer', 'staff']),
+            isActive: Math.random() > 0.5, // Random true or false
+            addresses: addresses // Nhiều địa chỉ cho mỗi user
         });
     }
 
+    // Chèn tất cả users vào cơ sở dữ liệu
     await User.insertMany(users);
     console.log(`${numUsers} fake users created!`);
 };

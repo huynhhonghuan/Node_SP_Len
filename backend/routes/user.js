@@ -13,7 +13,7 @@ const { getAllUsers,
 
 userRouter.get('/:id', getUserById);
 
-userRouter.use(authMiddleware, authorizeRoles('admin')); // Áp dụng authMiddleware cho tất cả các route
+userRouter.use(authMiddleware, authorizeRoles('admin', 'customer')); // Áp dụng authMiddleware cho tất cả các route
 
 userRouter.get('/', getAllUsers);
 
@@ -21,7 +21,7 @@ userRouter.get('/email/:email', getUserByEmail);
 
 userRouter.post('/', validateUserData, createUser);
 
-userRouter.put('/:id', updateUser);
+userRouter.put('/:id', validateUserData(true), updateUser);
 
 userRouter.put('/isactive/:id/', updateActiveUser);
 

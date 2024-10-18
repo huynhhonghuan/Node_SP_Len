@@ -12,23 +12,32 @@ const validateObjectId = (req, res, next) => {
 }
 
 // Middleware kiểm tra dữ liệu người dùng
-const validateUserData = [
+const validateUserData = (isUpdate = false) => [
     // Kiểm tra tên
     check('name')
         .isString().withMessage('Tên phải là chuỗi')
         .notEmpty().withMessage('Vui lòng cung cấp tên!')
-        .isLength({ min: 3, max: 50 }).withMessage('Tên phải có từ 3 đến 50 kí tự'),
+        .isLength({ min: 3, max: 50 }).withMessage('Tên phải có từ 3 đến 50 kí tự')
+        .matches(/^[A-Za-z\s]+$/).withMessage('Tên chỉ được chứa chữ cái và khoảng cách, không được có số hoặc ký tự đặc biệt'),
 
     // Kiểm tra email
     check('email')
         .isEmail().withMessage('Email không hợp lệ')
         .notEmpty().withMessage('Vui lòng cung cấp email!')
-        .normalizeEmail() // Chuyển đổi email thành chữ thường
-        .custom(async (email) => {
-            // Kiểm tra số điện thoại có trùng trong cơ sở dữ liệu không
-            const user = await User.findOne({ email });
-            if (user) {
-                throw new Error('Email đã tồn tại!');
+        .normalizeEmail()
+        .custom(async (email, { req }) => {
+            if (isUpdate) {
+                // Chỉ kiểm tra nếu không phải là trường hợp cập nhật hoặc email khác với email hiện tại
+                const userId = req.params.id; // Lấy ID của bản ghi từ params
+                const existingUser = await User.findOne({ email, _id: { $ne: userId } });
+                if (existingUser) {
+                    throw new Error('Email đã tồn tại!');
+                }
+            } else {
+                const user = await User.findOne({ email });
+                if (user) {
+                    throw new Error('Email đã tồn tại!');
+                }
             }
         }),
 
@@ -37,11 +46,19 @@ const validateUserData = [
         .isString().withMessage('Số điện thoại phải là chuỗi số')
         .notEmpty().withMessage('Vui lòng cung cấp số điện thoại!')
         .isLength({ min: 10, max: 11 }).withMessage('Số điện thoại có 10 hoặc 11 số')
-        .custom(async (phone) => {
-            // Kiểm tra số điện thoại có trùng trong cơ sở dữ liệu không
-            const user = await User.findOne({ phone });
-            if (user) {
-                throw new Error('Số điện thoại đã tồn tại!');
+        .custom(async (phone, { req }) => {
+            if (isUpdate) {
+                // Chỉ kiểm tra nếu không phải là trường hợp cập nhật hoặc số điện thoại khác với số điện thoại hiện tại
+                const userId = req.params.id; // Lấy ID của bản ghi từ params
+                const existingUser = await User.findOne({ phone, _id: { $ne: userId } });
+                if (existingUser) {
+                    throw new Error('Số điện thoại đã tồn tại!');
+                }
+            } else {
+                const user = await User.findOne({ phone });
+                if (user) {
+                    throw new Error('Số điện thoại đã tồn tại!');
+                }
             }
         }),
 
@@ -105,5 +122,8 @@ const validateUserData = [
         next();
     }
 ];
+
+module.exports = { validateUserData };
+
 
 module.exports = { validateObjectId, validateUserData };

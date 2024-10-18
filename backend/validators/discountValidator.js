@@ -84,7 +84,6 @@ const validateDiscountData = (isUpdate = false) => {
             next();
         }
     ]
-
 };
 
 module.exports = {

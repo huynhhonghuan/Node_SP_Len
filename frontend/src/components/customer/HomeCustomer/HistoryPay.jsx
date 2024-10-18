@@ -48,13 +48,17 @@ const HistoryPay = () => {
                             <td>{item._id}</td>
                             <td>{new Date(item.date).toLocaleString()}</td>
                             <td>{item.totalPrice}</td>
-                            <td>{item.status === 'pending' ? 'Chờ giải quyết' : item.status === 'processing' ? 'Đã xác nhận' : item.status === 'shipped' ? 'Đang giao hàng' : item.status === 'completed' ? 'Đã giao hàng' : 'Thất bại'}</td>
+                            <td>
+                                <span className='p-1 border border-info rounded'>
+                                    {item.status === 'pending' ? 'Chờ giải quyết' : item.status === 'processing' ? 'Đã xác nhận' : item.status === 'shipped' ? 'Đang giao hàng' : item.status === 'completed' ? 'Đã giao hàng' : 'Thất bại'}
+                                </span>
+                            </td>
                             <td><Link to={`/customer/order/${item._id}`} className='btn btn-sm btn-info'>Chi tiết</Link></td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div >
     )
 }
 
