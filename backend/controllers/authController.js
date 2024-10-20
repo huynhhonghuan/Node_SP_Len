@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
 
         const user = await authProvider.register(name, phone, email, password);
 
-        console.log(user);
+        // console.log(user);
 
         res.json({ user: user.user, message: user.message });
 
@@ -39,8 +39,19 @@ const logoutUser = async (req, res) => {
     }
 }
 
+const changePassword = async (req, res) => {
+    try {
+        const { id, oldPassword, newPassword } = req.body;
+        const result = await authProvider.changePassword(id, oldPassword, newPassword);
+        return res.status(200).json({ user: result.user, message: result.message });
+    }
+    catch (err) {
+        return res.status(400).json({ error: err.message });
+    }
+}
 module.exports = {
     loginUser,
     registerUser,
     logoutUser,
+    changePassword,
 };

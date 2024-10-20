@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUserById, updateUser } from '../../../services/UserService';
+import { changeOldPassword } from '../../../auth/services/authService';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 import AddressForm from './Address';
@@ -32,6 +33,12 @@ const Information = () => {
 
     const [isEdit, setIsEdit] = useState(false);
 
+    const [changePassword, setChangePassword] = useState({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+
     useEffect(() => {
         const fetchData = async () => {
             if (Cookies.get('token')) {
@@ -50,6 +57,56 @@ const Information = () => {
             [id]: value
         }));
     };
+
+    const handleChangePassword = (e) => {
+        const { id, value } = e.target;
+        setChangePassword(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    }
+
+    const handleUpdatePassword = async () => {
+        if (changePassword.oldPassword === '' || changePassword.newPassword === '' || changePassword.confirmPassword === '') {
+            ToastAction({ action: 'error', message: 'Vui lòng nhập thông tin mật khẩu.' });
+            return;
+        }
+        if (changePassword.newPassword !== changePassword.confirmPassword) {
+            ToastAction({ action: 'error', message: 'Mật khẩu xác nhận không trùng khớp.' });
+            return;
+        }
+        try {
+            // Thay đ��i mật khẩu người dùng
+            const response = await changeOldPassword(user._id, changePassword.oldPassword, changePassword.newPassword);
+            if (response.user) {
+                // Cập nhật user trong state nếu server phản hồi thành công
+                setChangePassword({
+                    oldPassword: '',
+                    newPassword: '',
+                    confirmPassword: ''
+                });
+                ToastAction({ action: 'update', message: 'Cập nhật mật khẩu thành công!' });
+            }
+            else {
+                setChangePassword({
+                    oldPassword: '',
+                    newPassword: '',
+                    confirmPassword: ''
+                });
+                ToastAction({ action: 'error', message: response.message + ' vui lòng thử lại.' });
+            }
+        }
+        catch (error) {
+            console.error(error);
+            setChangePassword({
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+            });
+            ToastAction({ action: 'error', message: response.message + ' vui lòng thử lại.' });
+        }
+
+    }
 
     const handleAddressChange = (updatedAddress) => {
         setCurrentAddress(updatedAddress);
@@ -168,7 +225,9 @@ const Information = () => {
                                     <p className="card-text">Số điện thoại: {user.phone || 'Chưa cập nhật'}</p>
                                     <hr />
                                     <div className="d-flex gy-2">
-                                        <button type="button" class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Sửa thông tin</button>
+                                        <button type="button" class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#infoModal" data-bs-whatever="@mdo">Sửa thông tin</button>
+                                        <button type="button" class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal" data-bs-whatever="@mdo">Đổi mật khẩu</button>
+
                                         {/* <button className='btn btn-sm btn-info text-light'>Đổi mật khẩu</button> */}
                                     </div>
                                 </>
@@ -282,11 +341,12 @@ const Information = () => {
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            {/* Modal thông tin */}
+            <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Sửa thông tin</h1>
+                            <h1 class="modal-title fs-5" id="infoModalLabel">Sửa thông tin</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -326,6 +386,56 @@ const Information = () => {
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleUpdateUser()}>Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal đổi mật khẩu */}
+            <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="changePasswordModal">Đổi mật khẩu</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div className="mb-3">
+                                    <label htmlFor="name" className="col-form-label">Mật khẩu hiện tại:</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="oldPassword"
+                                        value={changePassword.oldPassword}
+                                        onChange={handleChangePassword}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="email" className="col-form-label">Mật khẩu mới:</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="newPassword"
+                                        value={changePassword.newPassword}
+                                        onChange={handleChangePassword}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="phone" className="col-form-label">Xác nhận mật khẩu mới:</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="confirmPassword"
+                                        value={changePassword.confirmPassword}
+                                        onChange={handleChangePassword}
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleUpdatePassword()}>Cập nhật</button>
                         </div>
                     </div>
                 </div>

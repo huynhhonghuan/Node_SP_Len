@@ -59,3 +59,24 @@ export const register = async (name, phone, email, password) => {
         throw error;
     }
 };
+
+//Hàm đổi mật khẩu
+
+export const changeOldPassword = async (id, oldPassword, newPassword) => {
+    try {
+        const authToken = await getToken();
+
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/changepassword`, { id, oldPassword, newPassword },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error changing password:', error);
+        throw error;
+    }
+};

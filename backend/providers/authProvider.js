@@ -46,6 +46,22 @@ class AuthProvider {
 
         return { user, message: 'Đăng ký thành công!' };
     }
+
+    async changePassword(id, oldPassword, newPassword) {
+        const user = await UserRepository.getUserById(id);
+        if (!user) {
+            return { user: null, message: 'User not found!' };
+        }
+
+        const isMatch = await user.comparePassword(oldPassword);
+
+        if (!isMatch) {
+            return { user: null, message: 'Mật khẩu cũ không chính xác!' };
+        }
+        user.password = newPassword;
+        await user.save();
+        return { user, message: 'Đổi mật khẩu thành công!' };
+    }
 }
 
 module.exports = new AuthProvider();
