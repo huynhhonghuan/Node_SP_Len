@@ -103,7 +103,7 @@ const createFakeUsers = async (numUsers) => {
             email: faker.internet.email(),
             phone: generateVietnamesePhoneNumber(),
             password: await hashPassword('12345678'),
-            role: faker.random.arrayElement(['customer', 'staff']),
+            role: faker.random.arrayElement(['customer', 'staff', 'shipper']),
             isActive: Math.random() > 0.5, // Random true or false
             addresses: addresses // Nhiều địa chỉ cho mỗi user
         });

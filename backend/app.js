@@ -15,6 +15,7 @@ const chatRouter = require('./routes/chat.js');
 const comboProductRouter = require('./routes/comboProduct.js');
 const orderRouter = require('./routes/order.js');
 const imageRouter = require('./routes/image.js');
+const chartRouter = require('./routes/chart.js');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/order', orderRouter);
 app.use('/chat', chatRouter);
 app.use('/comboproduct', comboProductRouter);
 app.use('/image', imageRouter);
+app.use('/statistical', chartRouter);
 
 app.listen(PORT, '0.0.0.0', (error) => {
     if (!error) {
