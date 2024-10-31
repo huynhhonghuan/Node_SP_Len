@@ -4,7 +4,7 @@ const getStatisticalUser = async (req, res) => {
     try {
         const userStats = await ChartRepository.getStatisticalUser();
         res.json({
-            statistical: userStats,
+            data: userStats,
             status: 200,
             message: 'Statistical user data'
         });
@@ -17,7 +17,7 @@ const getStatisticalProduct = async (req, res) => {
     try {
         const productStats = await ChartRepository.getStatisticalProduct();
         res.json({
-            statistical: productStats,
+            data: productStats,
             status: 200,
             message: 'Statistical product data'
         });
@@ -30,7 +30,7 @@ const getStatisticalOrder = async (req, res) => {
     try {
         const orderStats = await ChartRepository.getStatisticalOrder();
         res.json({
-            statistical: orderStats,
+            data: orderStats,
             status: 200,
             message: 'Statistical order data'
         });

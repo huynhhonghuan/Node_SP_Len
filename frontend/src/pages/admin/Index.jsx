@@ -12,6 +12,7 @@ import { ProductPage } from '../../formdatas/ProductSchema';
 import { ComboProductPage } from '../../formdatas/ComboProductSchema';
 import { OrderPage } from '../../formdatas/OrderSchema';
 import { ChatPage } from '../../formdatas/ChatSchema';
+import HomeAdmin from './Home/HomeAdmin';
 
 function AdminIndex() {
     return (
@@ -23,6 +24,8 @@ function AdminIndex() {
                 <Navbar />
                 <div className="content">
                     <Routes>
+                        <Route path="/" element={<HomeAdmin />} />
+
                         <Route path="account" element={<ListPage pageConfig={UserPage['list']} />} />
                         <Route path="account/create" element={<CreatePage pageConfig={UserPage['create']} />} />
                         <Route path="account/update/:id" element={<UpdatePage pageConfig={UserPage['update']} />} />
