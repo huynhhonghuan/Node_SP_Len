@@ -11,6 +11,9 @@ class ProductRepository {
     async getProductById(id) {
         return await Product.findById(id);
     }
+    async getProductByName(name) {
+        return await Product.findOne({ name });
+    }
 
     async getProductByLatestUpdateAt() {
         return await Product.find().sort({ updatedAt: -1 }).limit(24);

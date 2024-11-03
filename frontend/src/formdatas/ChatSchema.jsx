@@ -1,4 +1,4 @@
-import { getAllChat } from "../services/ChatService";
+import { getAllChat } from "../services/ChatbotService";
 
 const ChatSchema = [
     {
