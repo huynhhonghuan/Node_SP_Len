@@ -20,6 +20,7 @@ const getOrderById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
 const getUserOrders = async (req, res) => {
     try {
         const orders = await OrderRepository.getUserOrders(req.params.userId);

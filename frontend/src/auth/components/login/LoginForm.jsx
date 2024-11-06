@@ -70,6 +70,9 @@ const LoginForm = () => {
             } else if (data.user.role === 'staff') {
                 navigate('/staff');
             }
+            else if (data.user.role === 'shipper') {
+                navigate('/shipper');
+            }
             else {
                 setLoginError('Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại.');
                 return;

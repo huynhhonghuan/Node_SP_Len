@@ -6,6 +6,7 @@ import PrivateRoute from '../app/PrivateRoute';
 import UploadImage from '../pages/UploadImage';
 import CustomerIndex from '../pages/customer/Index';
 import StaffIndex from '../pages/staff/Index';
+import ShipperIndex from '../pages/shipper/Index';
 
 const AllRouter = () => {
     return (
@@ -33,6 +34,14 @@ const AllRouter = () => {
                     element={
                         <PrivateRoute roles={['staff']}>
                             <StaffIndex />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route path="/shipper/*"
+                    element={
+                        <PrivateRoute roles={['shipper']}>
+                            <ShipperIndex />
                         </PrivateRoute>
                     }
                 />

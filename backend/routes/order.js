@@ -15,7 +15,7 @@ const {
 
 // Middleware to use order router only when authenticated and authorized to access it
 
-orderRouter.use(authMiddleware, authorizeRoles('admin', 'customer'));
+orderRouter.use(authMiddleware, authorizeRoles('admin', 'customer', 'shipper'));
 
 // Routes order
 
