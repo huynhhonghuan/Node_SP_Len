@@ -7,6 +7,7 @@ import { getUserById } from '../../../services/UserService';
 import vietnamData from '../../../assets/vn_only_simplified_json_generated_data_vn_units.json'; // Import the JSON data
 import { createOrder } from '../../../services/OrderService';
 import { getDiscountById } from '../../../services/DiscountService';
+import QRCode from '../Qrcode/Qrcode';
 
 const Payment = () => {
     const [Address, setAddress] = useState([]);
@@ -15,6 +16,9 @@ const Payment = () => {
     const [userId, setUserId] = useState(null);
     const [feeship, setFeeShip] = useState(0);
     const [discount, setDiscount] = useState(0);
+    const [payMethod, setPayMethod] = useState('cod');
+
+    const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
     // Hàm để tìm tên tỉnh/thành phố từ mã 'Code'
     const findCityName = (cityCode) => {
@@ -86,8 +90,14 @@ const Payment = () => {
             // Sử dụng thuộc tính percentage từ đối tượng
             setDiscount(discountData.percentage / 100);
         }
+        // Lấy dữ liệu từ localStorage
+        const paymethod = localStorage.getItem('paymethod');
+        if (paymethod) {
+            // Chuyển chu��i JSON thành đối tượng
+            // const paymethodData = JSON.parse(paymethod);
 
-
+            setPayMethod(paymethod); // Sửa 'paymethod' nếu API trả về nhiều giá trị
+        }
     }, []);
 
     // Hàm xử lý khi chọn địa chỉ
@@ -98,6 +108,9 @@ const Payment = () => {
     };
 
     // Hàm xử lý đặt hàng
+    const [showQRCode, setShowQRCode] = useState(false);
+    const [qrCodeData, setQRCodeData] = useState(null);
+
     const handleOrder = async () => {
         if (selectedAddress === null) {
             alert("Bạn chưa chọn địa chỉ giao hàng.");
@@ -110,7 +123,6 @@ const Payment = () => {
             return;
         }
 
-        // xử lý cart trước khi thêm
         const cartItems = cart.map(item => ({
             productId: item._id,
             optionId: item.option._id,
@@ -118,11 +130,15 @@ const Payment = () => {
             price: item.option.price,
         }));
 
+        const totalPrice = cart.reduce((total, item) => total + (item.quantity * item.option.price), 0)
+            + feeship
+            - (cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) * discount);
+
         const orderData = {
             customerId: userId,
             products: cartItems,
             date: new Date(),
-            totalPrice: cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) + feeship - (cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) * discount),
+            totalPrice,
             note: '',
             paymentMethod: payment,
             feeShip: feeship,
@@ -130,35 +146,41 @@ const Payment = () => {
         };
 
         try {
-            // Gửi yêu cầu đặt hàng đến API (ví dụ: POST /api/orders)
             const response = await createOrder(orderData);
 
             if (response) {
-                alert("Đặt hàng thành công!");
-                // Có thể điều hướng đến trang khác hoặc làm gì đó sau khi đặt hàng thành công
 
-                // Lấy giỏ hàng từ localStorage
-                const cartFromStorage = localStorage.getItem('cart');
+                // Nếu phương thức thanh toán là chuyển khoản
+                if (payment === 'transfer') {
+                    alert("Tiến hành thanh toán chuyển khoản!");
+                    setIsOrderPlaced(true); // Ẩn nút "Đặt hàng"
+                    setQRCodeData({
+                        bankAccount: '123456789',
+                        bankName: 'VCB',
+                        accountHolder: 'HUYNH THI MY TRANG',
+                        amount: totalPrice,
+                        invoiceId: response._id // Giả sử API trả về mã hóa đơn
+                    });
+                    setShowQRCode(true); // Hiển thị mã QR
+                } else {
+                    alert("Đặt hàng thành công!");
+                    // Xử lý khi không phải chuyển khoản (COD, v.v.)
+                    // Điều hướng hoặc cập nhật giỏ hàng
+                    localStorage.removeItem('address');
+                    localStorage.removeItem('paymethod');
+                    localStorage.removeItem('discount');
 
-                if (cartFromStorage) {
-                    // Chuyển đổi chuỗi JSON thành mảng đối tượng
-                    const parsedCart = JSON.parse(cartFromStorage);
-
-                    // Lọc ra các sản phẩm không nằm trong cartItems
-                    const updatedCart = parsedCart.filter(storageItem =>
-                        !cartItems.some(cartItem =>
-                            cartItem.productId === storageItem._id && cartItem.optionId === storageItem.option._id
-                        )
-                    );
-
-                    // Cập nhật lại giỏ hàng trong localStorage
-                    localStorage.setItem('cart', JSON.stringify(updatedCart));
+                    const cartFromStorage = localStorage.getItem('cart');
+                    if (cartFromStorage) {
+                        const parsedCart = JSON.parse(cartFromStorage);
+                        const updatedCart = parsedCart.filter(storageItem =>
+                            !cartItems.some(cartItem =>
+                                cartItem.productId === storageItem._id && cartItem.optionId === storageItem.option._id
+                            )
+                        );
+                        localStorage.setItem('cart', JSON.stringify(updatedCart));
+                    }
                 }
-
-                localStorage.removeItem('address'); // Xóa đ��a chỉ đã chọn
-                localStorage.removeItem('paymethod'); // Xóa phương thức thanh toán đã chọn
-                localStorage.removeItem('discount'); // Xóa mã giảm
-
             } else {
                 alert("Đặt hàng thất bại. Vui lòng thử lại sau.");
             }
@@ -167,6 +189,7 @@ const Payment = () => {
             alert("Có lỗi xảy ra. Vui lòng thử lại.");
         }
     };
+
 
     return (
         <div className='payment m-5'>
@@ -225,9 +248,23 @@ const Payment = () => {
                             <h6>{cart && cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) + feeship - (cart.reduce((total, item) => total + (item.quantity * item.option.price), 0) * discount)} đ</h6>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
-                            <button className="btn btn-warning" onClick={handleOrder}>Đặt hàng</button>
+                            {!isOrderPlaced && (
+                                <button className="btn btn-warning" onClick={handleOrder}>Đặt hàng</button>
+                            )}
                         </div>
+
                     </div>
+
+                    {showQRCode && qrCodeData && (
+                        <QRCode
+                            bankAccount={qrCodeData.bankAccount}
+                            bankName={qrCodeData.bankName}
+                            accountHolder={qrCodeData.accountHolder}
+                            amount={qrCodeData.amount}
+                            invoiceId={qrCodeData.invoiceId}
+                        />
+                    )}
+
                 </div>
             </div>
         </div>

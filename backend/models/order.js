@@ -65,7 +65,7 @@ const orderSchema = new mongoose.Schema({
     // Thông tin thanh toán 
     paymentMethod: {
         type: String,
-        enum: ['cod', 'vnpay'],
+        enum: ['cod', 'transfer'],
         required: [true, 'Vui lòng cung cấp hình thức thanh toán'],
     },
     paymentVnpay: {

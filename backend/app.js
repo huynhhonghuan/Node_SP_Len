@@ -17,6 +17,7 @@ const orderRouter = require('./routes/order.js');
 const imageRouter = require('./routes/image.js');
 const chartRouter = require('./routes/chart.js');
 const chatBotRouter = require('./routes/chatbot.js');
+const qrCodeRouter = require('./routes/qrcode.js');
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use('/comboproduct', comboProductRouter);
 app.use('/image', imageRouter);
 app.use('/statistical', chartRouter);
 app.use('/chatbot', chatBotRouter);
+app.use('/payment', qrCodeRouter);
 
 app.listen(PORT, '0.0.0.0', (error) => {
     if (!error) {
@@ -54,4 +56,3 @@ app.listen(PORT, '0.0.0.0', (error) => {
         console.log("Error in starting server on port " + PORT);
     }
 });
-

@@ -11,6 +11,7 @@ import ProductDetail from '../../components/home/ProductDetail/ProductDetail';
 import Card from '../../components/home/Card/Card';
 import { getProductByType } from '../../services/ProductService';
 import Payment from '../../components/home/Payment/Payment';
+import QRCode from '../../components/home/Qrcode/Qrcode';
 
 function HomeIndex() {
     return (
@@ -30,6 +31,8 @@ function HomeIndex() {
 
                     <Route path="/card" element={<Card />} />
                     <Route path="/payment" element={<Payment />} />
+
+                    <Route path="/payment/qr-code" element={<QRCode bankAccount={'123456789'} bankName={'VCB'} accountHolder={'NGUYEN THI MY TRANG'} amount={1000} invoiceId={'HD123456789'} />} />
 
                     {/* <Route path="*" element={<h1>Page Not Found</h1>} /> */}
                 </Routes>

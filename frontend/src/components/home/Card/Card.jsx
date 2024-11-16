@@ -250,12 +250,12 @@ const Card = () => {
                                     Tiền mặt
                                 </label>
                             </div>
-                            {/* <div class="form-check ms-3">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={'vnpay'} checked={payMethod === 'vnpay'} onChange={(e) => handlePaymentMethodChange(e)} />
+                            <div class="form-check ms-3">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={'transfer'} checked={payMethod === 'transfer'} onChange={(e) => handlePaymentMethodChange(e)} />
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Chuyển khoản
                                 </label>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                     <div className="price d-flex justify-content-between">

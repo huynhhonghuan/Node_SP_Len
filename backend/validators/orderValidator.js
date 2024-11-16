@@ -43,7 +43,7 @@ const validateOrderData = [
         .isString().withMessage('Ghi chú phải là một chuỗi'),
 
     check('paymentMethod')
-        .isIn(['cod', 'vnpay']).withMessage('Hình thức thanh toán không hợp lệ'),
+        .isIn(['cod', 'transfer']).withMessage('Hình thức thanh toán không hợp lệ'),
 
     check('paymentVnpay.paymentTransactionId')
         .optional()
