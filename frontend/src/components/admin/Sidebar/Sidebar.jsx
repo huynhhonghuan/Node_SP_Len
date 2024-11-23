@@ -6,6 +6,7 @@ import account_img from "../../../assets/images/admin/account.png"
 import product_img from "../../../assets/images/admin/product.png"
 import promotion_img from "../../../assets/images/admin/promotion.png"
 import box_img from "../../../assets/images/admin/box.png"
+import home_img from "../../../assets/images/admin/home.png"
 import comment_img from "../../../assets/images/admin/comment.png"
 import chatbot_img from "../../../assets/images/admin/chatbot.png"
 import { Link } from "react-router-dom";
@@ -19,8 +20,14 @@ const Sidebar = () => {
             </div>
             <div className="sidebar-menu">
                 <ul className="sidebar-links">
+                    <Link to={'/admin'} style={{ textDecoration: "none" }}>
+                        <li>
+                            <img src={home_img} alt="" className="sidebar-icon" />
+                            <span className="sidebar-span">Bảng điều khiển</span>
+                        </li>
+                    </Link>
+                    <hr />
                     <Link to={'/admin/account'} style={{ textDecoration: "none" }}>
-
                         <li>
                             <img src={account_img} alt="" className="sidebar-icon" />
                             <span className="sidebar-span">Tài khoản</span>
@@ -58,13 +65,13 @@ const Sidebar = () => {
                         <span className="sidebar-span">Đánh giá</span>
                     </li> */}
 
-                    <Link to={'/admin/chat'} style={{ textDecoration: "none" }}>
+                    {/* <Link to={'/admin/chat'} style={{ textDecoration: "none" }}>
 
                         <li>
                             <img src={chatbot_img} alt="" className="sidebar-icon" />
                             <span className="sidebar-span">Nhắn tin</span>
                         </li>
-                    </Link>
+                    </Link> */}
                 </ul>
             </div>
         </div>
