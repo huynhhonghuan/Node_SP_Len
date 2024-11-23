@@ -47,12 +47,44 @@ const Order = () => {
         }
     };
 
+    const translateStatusToPercent = (status) => {
+        switch (status) {
+            case 'pending':
+                return 20; // 1/5
+            case 'processing':
+                return 40; // 2/5
+            case 'shipped':
+                return 60; // 3/5
+            case 'completed':
+                return 100; // 5/5
+            case 'failed':
+                return 0; // Không hoàn thành
+            default:
+                return 0; // Trạng thái không xác định
+        }
+    };
+
     return (
         <div className='container'>
             {order ? (
                 <div className='row gy-2'>
                     <div className="d-flex justify-content-center">
                         <h5 className="border rounded bg-light-subtle p-2">ĐƠN HÀNG - {order._id}</h5>
+                    </div>
+
+                    <div className="d-flex justify-content-center my-3">
+                        <div className="progress" style={{ width: '90%' }}>
+                            <div
+                                className="progress-bar"
+                                role="progressbar"
+                                style={{ width: `${(translateStatusToPercent(order.status))}%` }}
+                                aria-valuenow={(translateStatusToPercent(order.status))}
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                            >
+                                {translateStatus(order.status)}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="col-12 col-md-4">
