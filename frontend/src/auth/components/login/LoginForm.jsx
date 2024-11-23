@@ -69,8 +69,7 @@ const LoginForm = () => {
                 navigate('/customer');
             } else if (data.user.role === 'staff') {
                 navigate('/staff');
-            }
-            else if (data.user.role === 'shipper') {
+            } else if (data.user.role === 'shipper') {
                 navigate('/shipper');
             }
             else {

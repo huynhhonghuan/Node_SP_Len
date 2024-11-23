@@ -99,6 +99,8 @@ const Navbar = () => {
                                 <Link to="/customer" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
                             ) : userRole === 'staff' ? (
                                 <Link to="/staff" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
+                            ) : userRole === 'shipper' ? (
+                                <Link to="/shipper" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
                             ) : (
                                 <Link to="/login" className="text-warning"><i className="fa-solid fa-user-large"></i></Link>
                             )}
