@@ -146,14 +146,13 @@ const Product = ({ type }) => {
                                         <span>{item.category}</span>
                                         <h5 className="card-title text-uppercase fw-bold">{item.name}</h5>
                                         <span className="card-text text-warning-emphasis">{item.options[0].price}</span>
-                                        <span className='text-warning'>
-                                            {/* Ratings */}
+                                        {/* <span className='text-warning'>
                                             <i className="fa-solid fa-star"></i>
                                             <i className="fa-solid fa-star"></i>
                                             <i className="fa-solid fa-star"></i>
                                             <i className="fa-solid fa-star"></i>
                                             <i className="fa-solid fa-star"></i>
-                                        </span>
+                                        </span> */}
                                         <Link to={`/product-detail/${item._id}`} className='btn btn-warning mt-2'>
                                             Xem chi tiết
                                         </Link>

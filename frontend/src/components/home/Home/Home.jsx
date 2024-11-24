@@ -276,7 +276,7 @@ const Home = () => {
                     </div>
                     <div className="col-4 text-center">
                         <i className="fa-solid fa-user-tie me-2 fs-4"></i> {/* Sử dụng me-2 để tạo khoảng cách giữa icon và tiêu đề */}
-                        <h4 className="d-inline-block mb-0 text-uppercase">Sản phẩm nổi bật</h4> {/* d-inline-block để giữ cho h3 và icon trên cùng một dòng */}
+                        <h4 className="d-inline-block mb-0 text-uppercase">Sản phẩm mới</h4> {/* d-inline-block để giữ cho h3 và icon trên cùng một dòng */}
                     </div>
                     <div className="col-4">
                         <hr className='border-2' />

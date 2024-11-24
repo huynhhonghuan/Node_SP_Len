@@ -18,6 +18,7 @@ class ProductRepository {
     async getProductByLatestUpdateAt() {
         return await Product.find().sort({ updatedAt: -1 }).limit(24);
     }
+    
     async getProductByOrderMany() {
         try {
             // Dùng aggregation để tính tổng số lượng bán của từng sản phẩm
@@ -192,6 +193,27 @@ class ProductRepository {
             console.error(err);
             throw new Error('Có lỗi xảy ra khi lấy thông tin sản phẩm và comment');
         }
+    }
+
+    async createComment(productId, comment) {
+        return await Product.findByIdAndUpdate(
+            productId,
+            { $push: { comments: comment } },
+            { new: true }
+        );
+    }
+
+    async updateComment(productId, comment) {
+        return await Product.updateOne(
+            { _id: productId, 'comments._id': comment.id },
+            {
+                $set: {
+                    'comments.$.content': comment.content,
+                    'comments.$.updatedAt': new Date()
+                }
+            },
+            { new: true }
+        );
     }
 }
 

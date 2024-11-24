@@ -365,13 +365,13 @@ const ProductDetail = () => {
                                                         </span>
                                                         <h5 className="card-title text-uppercase fw-bold text-center">{product.name}</h5>
                                                         <span className="card-text text-warning-emphasis">{product.options[0].price}đ</span>
-                                                        <span className="text-warning">
+                                                        {/* <span className="text-warning">
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
-                                                        </span>
+                                                        </span> */}
                                                         <Link to={`/product-detail/${product._id}`} className='btn btn-warning mt-2'>
                                                             Xem chi tiết
                                                         </Link>

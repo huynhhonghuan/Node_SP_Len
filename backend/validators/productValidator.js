@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 // Example usage
 
 const validateObjectId = (req, res, next) => {
-    const id = req.params.id || req.params.productid || req.params.optionid || '';
+    const id = req.params.id || req.params.productid || req.params.optionid || req.params.commentid || '';
     if (!validatorJS.isMongoId(id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
@@ -87,10 +87,34 @@ const validateProductData = [
     }
 ];
 
+const validateComment = [
+    check('userId')
+        .notEmpty().withMessage('Vui lòng cung cấp userId')
+        .custom((userId) => {
+            if (!validatorJS.isMongoId(userId)) {
+                throw new Error('userId không hợp lệ');
+            }
+            return true;
+        }),
 
+    check('content')
+        .notEmpty().withMessage('Vui lòng cung cấp nội dung bình luận')
+        .isString().withMessage('Nội dung bình luận phải là chuỗi')
+        .isLength({ min: 1, max: 500 }).withMessage('Nội dung bình luận phải từ 1 đến 500 ký tự'),
+
+    // Middleware để xử lý kết quả kiểm tra
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
 
 module.exports = {
     validateObjectId,
     validateProductData,
     validateOptionData,
+    validateComment,
 }
