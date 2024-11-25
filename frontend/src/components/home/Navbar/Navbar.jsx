@@ -152,9 +152,9 @@ const Navbar = () => {
                             Giỏ hàng
                         </Link>
                     </div>
-                    <div className="navbar-content-2-search col-10 col-md-8">
+                    {/* <div className="navbar-content-2-search col-10 col-md-8">
                         <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-4 rounded-pill" />
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
