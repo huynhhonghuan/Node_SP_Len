@@ -3,12 +3,14 @@ const UserSeeder = require('./userSeeder');
 const ProductSeeder = require('./productSeeder');
 const DiscountSeeder = require('./discountSeeder');
 const comboProductSeeder = require('./comboProductSeeder');
+const productRealSeeder = require('./productRealSeeder.js');
 const ChatSeeder = require('./chatSeeder');
 
 const AllSeeder = async () => {
     await connectDB();
     await UserSeeder(10);
-    await ProductSeeder(30);
+    // await ProductSeeder(30);
+    await productRealSeeder();
     await DiscountSeeder(9);
     await comboProductSeeder(7);
     await ChatSeeder(5);
