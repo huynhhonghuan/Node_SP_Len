@@ -78,9 +78,9 @@ const Navbar = () => {
                             <i className="fa-solid fa-house-chimney text-light"></i>
                         </Link>
                     </div>
-                    <div className="navbar-content-search">
+                    {/* <div className="navbar-content-search">
                         <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-4 rounded-pill" />
-                    </div>
+                    </div> */}
                     <ul className="d-flex flex-row list-unstyled mb-0">
                         <li className="me-2 fs-5 pe-3 border-end">
                             <Link to="/" className="text-warning"><i className="fa-regular fa-envelope"></i></Link>
@@ -162,9 +162,9 @@ const Navbar = () => {
                 className={`navbar-left ${isNavbarLeftVisible ? 'show' : ''}`}
                 ref={navbarLeftRef}
             >
-                <div className="navbar-left-search mx-2 pt-5 pb-3">
+                {/* <div className="navbar-left-search mx-2 pt-5 pb-3">
                     <input type="text" placeholder="Tìm kiếm..." className="form-control me-2 px-2 rounded-pill" />
-                </div>
+                </div> */}
                 <div className="navbar-left-link d-flex flex-column justify-content-center align-items-start">
                     <div className="border-bottom border-secondary w-100 py-4 ps-3">
                         <Link to="/" className="text-secondary text-decoration-none fs-6 fw-bold text-uppercase">
