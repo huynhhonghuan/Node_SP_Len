@@ -141,7 +141,7 @@ const Navbar = () => {
                                     Len thô
                                 </Link>
                                 <Link to="/product/product" className="dropdown-item-main text-secondary py-3">
-                                    Sản phẩm
+                                    Thành phẩm
                                 </Link>
                                 {/* <Link to="/product/comboproduct" className="dropdown-item-main text-secondary py-3">
                                     Combo sản phẩm
@@ -189,7 +189,7 @@ const Navbar = () => {
                                     Len thô
                                 </Link>
                                 <Link to="/product/product" className="dropdown-item-left-custom text-secondary py-3">
-                                    Sản phẩm
+                                    Thành phẩm
                                 </Link>
                                 {/* <Link to="/product/comboproduct" className="dropdown-item-left-custom text-secondary py-3">
                                     Combo sản phẩm
