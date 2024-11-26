@@ -1,5 +1,3 @@
-// src/components/QuestionForm.jsx
-
 import React, { useState } from 'react';
 import { getQuestion } from '../../../services/ChatbotService';
 
@@ -7,6 +5,26 @@ const QuestionForm = () => {
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [history, setHistory] = useState([]); // Danh sách câu hỏi và câu trả lời
+
+    // Hàm thay thế đường dẫn ảnh trong câu trả lời
+    const renderAnswer = (answer) => {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        console.log('API URL:', apiUrl); // Kiểm tra giá trị apiUrl
+
+        // Nếu apiUrl vẫn là undefined, có thể là do tệp .env chưa được tải đúng
+        if (!apiUrl) {
+            console.error('VITE_API_URL is not defined!');
+            return { __html: answer }; // Trả về nguyên bản nếu không tìm thấy apiUrl
+        }
+
+        // Cập nhật regex để thay thế src="assets/images/12.1.jpg" thành src="http://localhost:4000/assets/images/12.1.jpg"
+        const modifiedAnswer = answer.replace(/src="(?!http)(\/?assets\/images\/[^\"]+)"/g, `src="${apiUrl}/$1"`);
+
+        console.log('Modified Answer:', modifiedAnswer); // Kiểm tra kết quả
+
+        return { __html: modifiedAnswer };
+    };
+
 
     const handleQuestionChange = (e) => {
         setQuestion(e.target.value);
@@ -30,6 +48,7 @@ const QuestionForm = () => {
     return (
         <div className="container mt-5">
             <h1 className="text-center">Hỏi về sản phẩm</h1>
+
             <div className="card p-4 mt-4 shadow">
                 <form onSubmit={handleSubmit} className="d-flex justify-content-center">
                     <input
@@ -43,10 +62,17 @@ const QuestionForm = () => {
                     <button type="submit" className="btn btn-primary">Hỏi</button>
                 </form>
 
+                <span className="text-muted text-start mt-2">
+                    <strong>Gợi ý:</strong> Đặt câu hỏi có chứa tên sản phẩm và thông tin cần hỏi. Ví dụ: <i>"Sản phẩm A có thông tin?"</i>
+                </span>
+
                 {answer && (
                     <div className="mt-4">
                         <h5>Câu trả lời:</h5>
-                        <div className="alert alert-info">{answer}</div>
+                        <div className="alert alert-info">
+                            {/* Dùng dangerouslySetInnerHTML để render câu trả lời có HTML */}
+                            <div dangerouslySetInnerHTML={renderAnswer(answer)} />
+                        </div>
                     </div>
                 )}
 
@@ -56,7 +82,7 @@ const QuestionForm = () => {
                         {history.map((item, index) => (
                             <li key={index} className="list-group-item">
                                 <strong>Câu hỏi:</strong> {item.question}<br />
-                                <strong>Câu trả lời:</strong> {item.answer}
+                                <strong>Câu trả lời:</strong> <div dangerouslySetInnerHTML={renderAnswer(item.answer)} />
                             </li>
                         ))}
                     </ul>

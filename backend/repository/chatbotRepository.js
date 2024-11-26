@@ -130,11 +130,9 @@
 
 // module.exports = { getAnswer };
 
-const natural = require('natural');
 const Product = require('../models/product');
 
-const tokenizer = new natural.WordTokenizer();
-
+// Lấy thông tin chi tiết của sản phẩm
 const getProductDetails = async (productName) => {
     const product = await Product.findOne({ name: productName });
     return product ? {
@@ -142,44 +140,81 @@ const getProductDetails = async (productName) => {
             price: option.price,
         })),
         description: product.description,
-        optionsCount: product.options.length // Số lượng tùy chọn
+        optionsCount: product.options.length, // Số lượng tùy chọn
+        image: product.options.map(option => ({
+            image: option.image,
+        })),
     } : null;
 };
 
+// Lấy tất cả tên sản phẩm trong CSDL
 const getProductNames = async () => {
     const products = await Product.find({}, 'name'); // Lấy tất cả tên sản phẩm
     return products.map(product => product.name);
 };
 
-const getAnswer = async (question) => {
-    const tokens = tokenizer.tokenize(question);
-    const productNames = await getProductNames();
+// Tìm sản phẩm khớp mờ hoặc chính xác
+const findMatchingProducts = (question, productNames) => {
+    const lowerCaseQuestion = question.toLowerCase();
 
-    // Kiểm tra từng tên sản phẩm có trong câu hỏi
-    const productName = productNames.find(name =>
-        question.toLowerCase().includes(name.toLowerCase())
+    // Ưu tiên khớp chính xác
+    const exactMatch = productNames.filter(name => lowerCaseQuestion.includes(name.toLowerCase()));
+    if (exactMatch.length > 0) return exactMatch;
+
+    // Tìm khớp mờ dựa trên từ khóa quan trọng (sử dụng từ khóa phân tách)
+    const keywords = lowerCaseQuestion.split(/\W+/).filter(word => word.length > 2);  // Loại bỏ các từ quá ngắn
+    const partialMatches = productNames.filter(name =>
+        keywords.some(keyword => name.toLowerCase().includes(keyword))
     );
 
-    if (productName) {
-        const productDetails = await getProductDetails(productName);
+    return partialMatches.length > 0 ? partialMatches : ['Không tìm thấy sản phẩm phù hợp'];
+};
+
+
+// Hàm trả lời câu hỏi
+const getAnswer = async (question) => {
+    const productNames = await getProductNames();
+    const matchedProducts = findMatchingProducts(question, productNames);
+
+    if (matchedProducts.length === 1) {
+        const productDetails = await getProductDetails(matchedProducts[0]);
 
         if (productDetails) {
-            if (question.toLowerCase().includes('mô tả') || question.toLowerCase().includes('thông tin')) {
-                return `Mô tả của sản phẩm ${productName} là: ${productDetails.description}.`;
-            } else if (question.toLowerCase().includes('giá')) {
-                return `Giá của sản phẩm ${productName} là:\n` + productDetails.price.map((option, i) =>
+            const lowerCaseQuestion = question.toLowerCase();
+
+            if (lowerCaseQuestion.includes('mô tả') || lowerCaseQuestion.includes('thông tin')) {
+                return `Mô tả của sản phẩm ${matchedProducts[0]} là: ${productDetails.description}.`;
+            } else if (lowerCaseQuestion.includes('giá')) {
+                return `Giá của sản phẩm ${matchedProducts[0]} là:\n` + productDetails.price.map((option, i) =>
                     `- Loại ${i + 1} có giá ${option.price}`).join('\n');
-            } else if (question.toLowerCase().includes('có mấy loại') || question.toLowerCase().includes('mấy loại') || question.toLowerCase().includes('loại') || question.toLowerCase().includes('loại nào')) {
-                return `Sản phẩm ${productName} có ${productDetails.optionsCount} loại`;
+            } else if (lowerCaseQuestion.includes('loại')) {
+                return `Sản phẩm ${matchedProducts[0]} có ${productDetails.optionsCount} loại.`;
+            } else if (lowerCaseQuestion.includes('số lượng')) {
+                const quantities = productDetails.price.map((option, i) =>
+                    `- Loại ${i + 1} có số lượng ${option.quantity || 'không rõ'}`).join('\n');
+                return `Số lượng sản phẩm ${matchedProducts[0]} là:\n${quantities}`;
+            } else if (lowerCaseQuestion.includes('ảnh') || lowerCaseQuestion.includes('hình')) {
+                // Nếu productDetails.image là mảng các đối tượng, ta sẽ xử lý và trả về mỗi ảnh
+                const imageUrl = productDetails.image.map(option => {
+                    return `<img src="${option.image}" alt="Ảnh sản phẩm ${matchedProducts[0]}" style="max-width: 15%; height: auto; margin-right: 10px;">`;
+                }).join(''); // Kết hợp các ảnh vào một chuỗi
+                return imageUrl;
+            } else if (lowerCaseQuestion.includes('ghi chú')) {
+                return productDetails.note
+                    ? `Ghi chú của sản phẩm ${matchedProducts[0]}: ${productDetails.note}`
+                    : `Sản phẩm ${matchedProducts[0]} hiện không có ghi chú nào.`;
             } else {
                 return 'Xin lỗi, tôi không hiểu câu hỏi của bạn.';
             }
         } else {
-            return `Không tìm thấy sản phẩm với tên "${productName}".`;
+            return `"${matchedProducts[0]}".`;
         }
+    } else if (matchedProducts.length > 1) {
+        return `Tìm thấy nhiều sản phẩm khớp với câu hỏi của bạn: ${matchedProducts.join(', ')}. Vui lòng cung cấp tên chính xác của sản phẩm để tôi có thể giúp bạn.`;
     } else {
-        return 'Không tìm thấy tên sản phẩm trong câu hỏi.';
+        return 'Không tìm thấy sản phẩm nào phù hợp. Vui lòng thử lại với câu hỏi khác hoặc kiểm tra lại từ khóa.';
     }
 };
+
 
 module.exports = { getAnswer };

@@ -9,8 +9,8 @@ const ChatSeeder = require('./chatSeeder');
 const AllSeeder = async () => {
     await connectDB();
     await UserSeeder(10);
-    // await ProductSeeder(30);
     await productRealSeeder();
+    await ProductSeeder(30);
     await DiscountSeeder(9);
     await comboProductSeeder(7);
     await ChatSeeder(5);
