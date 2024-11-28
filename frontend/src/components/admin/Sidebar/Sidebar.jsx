@@ -40,12 +40,12 @@ const Sidebar = () => {
                         </li>
                     </Link>
 
-                    <Link to={'/admin/comboproduct'} style={{ textDecoration: "none" }}>
+                    {/* <Link to={'/admin/comboproduct'} style={{ textDecoration: "none" }}>
                         <li>
                             <img src={product_img} alt="" className="sidebar-icon" />
                             <span className="sidebar-span">Combo Sản phẩm</span>
                         </li>
-                    </Link>
+                    </Link> */}
 
                     <Link to={'/admin/discount'} style={{ textDecoration: "none" }}>
                         <li>
