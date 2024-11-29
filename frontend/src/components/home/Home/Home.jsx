@@ -191,7 +191,7 @@ const Home = () => {
             </div>
 
             <div className="home-menu-product row gy-2">
-                <div className="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+                <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
                     <div className="home-menu-product-card">
                         <div className="home-menu-product-card-title">
                             <span className='bg-warning px-3 rounded-bottom fst-italic'>
@@ -210,7 +210,7 @@ const Home = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+                <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
                     <div className="home-menu-product-card">
                         <div className="home-menu-product-card-title">
                             <span className='bg-warning px-3 rounded-bottom fst-italic'>
@@ -229,7 +229,7 @@ const Home = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+                <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
                     <div className="home-menu-product-card">
                         <div className="home-menu-product-card-title">
                             <span className='bg-warning px-3 rounded-bottom fst-italic'>
@@ -248,7 +248,7 @@ const Home = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+                {/* <div className="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
                     <div className="home-menu-product-card">
                         <div className="home-menu-product-card-title">
                             <span className='bg-warning px-3 rounded-bottom fst-italic'>
@@ -266,7 +266,7 @@ const Home = () => {
                             </div>
                         </Link>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <div className="home-title my-5">
@@ -582,13 +582,13 @@ const Home = () => {
                                                         </span>
                                                         <h5 className="card-title text-uppercase fw-bold text-center">{product.name}</h5>
                                                         <span className="card-text text-warning-emphasis">{product.options[0].price}đ</span>
-                                                        <span className="text-warning">
+                                                        {/* <span className="text-warning">
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
                                                             <i className="fa-solid fa-star"></i>
-                                                        </span>
+                                                        </span> */}
                                                         <Link to={`/product-detail/${product._id}`} className='btn btn-warning mt-2'>
                                                             Xem chi tiết
                                                         </Link>

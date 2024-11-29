@@ -195,7 +195,7 @@ const Card = () => {
                                     </td>
                                     <td>
                                         <img
-                                            src={item.option.image}
+                                            src={`${import.meta.env.VITE_API_URL}/${item.option.image}`}
                                             alt={item.name}
                                             className="img-fluid"
                                             width="50"
