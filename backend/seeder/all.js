@@ -13,7 +13,7 @@ const AllSeeder = async () => {
     await ProductSeeder(30);
     await DiscountSeeder(9);
     await comboProductSeeder(7);
-    await ChatSeeder(5);
+    // await ChatSeeder(5);
     console.log('Seeding completed!');
     await closeConnectionDB();
 }

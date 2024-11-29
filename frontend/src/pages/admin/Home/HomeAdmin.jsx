@@ -1,174 +1,242 @@
 import React, { useEffect, useState } from 'react';
-import { getAccountStatistics, getOrderStatistics, getProductStatistics } from '../../../services/ChartService';
+import { getAccountStatistics, getCountStatistics, getOrderStatistics, getProductStatistics, getRevenueOrderStatistics } from '../../../services/ChartService';
 import { Pie, Bar, Line } from 'react-chartjs-2';
+import { saveAs } from 'file-saver'; // Thêm thư viện này nếu cần
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+    BarElement,
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+} from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement);
 
-
-
 const HomeAdmin = () => {
-    const [statisticsAccount, setStatisticsAccount] = useState();
-    const [statisticsProduct, setStatisticsProduct] = useState();
-    const [statisticsOrder, setStatisticsOrder] = useState();
+    const [countStatistics, setCountStatistics] = useState(
+        {
+            totalUsers: 0,
+            totalProducts: 0,
+            totalOrders: 0,
+        }
+    );
+
+    const [statisticsData, setStatisticsData] = useState(null);
+    const [statType, setStatType] = useState('orders');
+
+    // Lấy ngày theo định dạng YYYY-MM-DD, có thể trừ đi số ngày tùy ý
+    const getFormattedDate = (offset = 0) => {
+        const today = new Date();
+        today.setDate(today.getDate() + offset); // offset = -1 để trừ 1 ngày
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    // Khởi tạo state với ngày hiện tại và ngày bắt đầu trừ đi 1
+    const [startDate, setStartDate] = useState(getFormattedDate(-1)); // Ngày bắt đầu là hôm qua
+    const [endDate, setEndDate] = useState(getFormattedDate()); // Ngày kết thúc là hôm nay
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const responseAccount = await getAccountStatistics();
-                const responseProduct = await getProductStatistics();
-                const responseOrder = await getOrderStatistics();
-                console.log(responseAccount, responseProduct, responseOrder);
-                setStatisticsAccount(responseAccount);
-                setStatisticsProduct(responseProduct);
-                setStatisticsOrder(responseOrder);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        // Lấy số lượng user, product, order
         fetchData();
+        // Mặc định hiển thị thống kê đơn hàng
+        handleFetchStatistics();
     }, []);
 
-    // Dữ liệu cho biểu đồ tròn (Pie Chart)
-    const pieData = {
-        labels: ['Hoạt động', 'Không hoạt động'],
-        datasets: [
-            {
-                label: 'Số tài khoản',
-                data: [statisticsAccount?.activeUsers, statisticsAccount?.inactiveUsers],
-                backgroundColor: ['#36A2EB', '#FF6384'],
-                hoverBackgroundColor: ['#36A2EB', '#FF6384'],
-            },
-        ],
+    const fetchData = async () => {
+        try {
+            const response = await getCountStatistics();
+            setCountStatistics(response);
+        } catch (error) {
+            console.error('Error fetching count statistics:', error);
+        }
+    }
+
+    const handleFetchStatistics = async () => {
+        try {
+            let response;
+            switch (statType) {
+                // case 'accounts':
+                //     response = await getAccountStatistics({ startDate, endDate });
+                //     break;
+                // case 'products':
+                //     response = await getProductStatistics({ startDate, endDate });
+                //     break;
+                case 'orders':
+                    response = await getOrderStatistics({ startDate, endDate });
+                    break;
+                case 'revenues':
+                    response = await getRevenueOrderStatistics({ startDate, endDate });
+                    break;
+                default:
+                    response = null;
+            }
+            setStatisticsData(response);
+        } catch (error) {
+            console.error('Error fetching statistics:', error);
+        }
     };
 
-    // Dữ liệu cho biểu đồ thanh (Bar Chart)
-    const barData = {
-        labels: ['Khách hàng', 'Nhân viên', 'Shipper'],
-        datasets: [
-            {
-                label: 'Vai trò của người dùng',
-                data: [
-                    statisticsAccount?.usersRoleCustomer,
-                    statisticsAccount?.usersRoleStaff,
-                    statisticsAccount?.usersRoleShipper,
-                ],
-                backgroundColor: '#FFCE56',
-                hoverBackgroundColor: '#FFCE56',
-            },
-        ],
-    };
-
-    // Dữ liệu cho biểu đồ Product (Pie Chart)
-    const productData = {
-        labels: ['Sản phẩm', 'Dụng cụ', 'Len'],
-        datasets: [
-            {
-                label: 'Số lượng',
-                data: [
-                    statisticsProduct?.totalProductProduct,
-                    statisticsProduct?.totalProductTool,
-                    statisticsProduct?.totalProductWool,
-                ],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-            },
-        ],
-    };
-
-    // Dữ liệu cho biểu đồ Order (Line Chart)
     const orderData = {
-        labels: ['30 ngày trước', '14 ngày trước', '7 ngày trước', 'Hôm nay'],
+        labels: Array.isArray(statisticsData?.dataStatistical)
+            ? statisticsData?.dataStatistical.map(item => Object.keys(item)[0])
+            : [],  // Extract dates if it's an array
         datasets: [
             {
                 label: 'Số lượng đơn hàng',
-                data: [
-                    statisticsOrder?.totalOrderLast30Days,
-                    statisticsOrder?.totalOrderLast14Days,
-                    statisticsOrder?.totalOrderLast7Days,
-                    statisticsOrder?.totalOrderToday,
-                ],
+                data: Array.isArray(statisticsData?.dataStatistical)
+                    ? statisticsData?.dataStatistical.map(item => Object.values(item)[0])
+                    : [],  // Extract order values if it's an array
                 fill: false,
                 backgroundColor: '#42A5F5',
                 borderColor: '#1E88E5',
             },
         ],
     };
-    const chartOptions = {
-        maintainAspectRatio: false, // Allows the chart to resize based on container
+
+    const revenueData = {
+        labels: Array.isArray(statisticsData?.dataStatistical)
+            ? statisticsData?.dataStatistical.map(item => Object.keys(item)[0]) // Lấy ngày
+            : [],
+        datasets: [
+            {
+                label: 'Doanh thu (VND)',
+                data: Array.isArray(statisticsData?.dataStatistical)
+                    ? statisticsData?.dataStatistical.map(item => Object.values(item)[0]) // Lấy doanh thu
+                    : [],
+                backgroundColor: 'rgba(30, 144, 255, 0.8)', // Màu nền xanh biển sáng
+                borderColor: 'rgba(0, 191, 255, 1)', // Màu viền xanh sáng
+                borderWidth: 1, // Độ dày viền
+                // barThickness: 30, // Độ dày cột
+            },
+        ],
+    };
+
+
+    // Hàm chuyển đổi dữ liệu thành CSV
+    const convertToCSV = (data) => {
+        if (!data) return '';
+        const keys = Object.keys(data[0]);
+        const csvRows = [keys.join(',')]; // Header của CSV
+
+        data.forEach(row => {
+            const values = keys.map(key => row[key] || ''); // Giá trị trong từng hàng
+            csvRows.push(values.join(','));
+        });
+
+        return csvRows.join('\n');
+    };
+
+    const exportStatistics = (data) => {
+        if (!data || !Array.isArray(data)) {
+            alert("Không có dữ liệu để xuất!");
+            return;
+        }
+
+        const csv = convertToCSV(data);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, `statistics-${new Date().toISOString()}.csv`);
     };
 
     return (
         <div>
             <div className="row gy-2">
-                <div className="col-12 col-md-3">
+                <div className="col-12 col-md-4">
                     <div className="card bg-info text-light">
                         <div className="card-body">
                             <div className="d-flex justify-content-around align-items-center">
                                 <i className="fa-solid fa-user-circle me-3 fs-3"></i>
                                 <span className='d-inline fs-4'>Tài khoản</span>
-                                <span className='ms-auto fs-3'>{statisticsAccount?.totalUsers}</span>
+                                <span className='ms-auto fs-3'>{countStatistics?.totalUsers}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-md-3">
+                <div className="col-12 col-md-4">
                     <div className="card bg-warning text-light">
                         <div className="card-body">
                             <div className="d-flex justify-content-around align-items-center">
                                 <i className="fa-solid fa-shopping-cart me-3 fs-3"></i>
                                 <span className='d-inline fs-4'>Đơn hàng</span>
-                                <span className='ms-auto fs-3'>{statisticsOrder?.totalOrders}</span>
+                                <span className='ms-auto fs-3'>{countStatistics?.totalOrders}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-md-3">
+                <div className="col-12 col-md-4">
                     <div className="card bg-success text-light">
                         <div className="card-body">
                             <div className="d-flex justify-content-around align-items-center">
                                 <i className="fa-solid fa-shopping-bag me-3 fs-3"></i>
                                 <span className='d-inline fs-4'>Sản phẩm</span>
-                                <span className='ms-auto fs-3'>{statisticsProduct?.totalProducts}</span>
+                                <span className='ms-auto fs-3'>{countStatistics?.totalProducts}</span>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            {/* Bộ lọc */}
+            <div className="row gy-2 align-items-center mt-3 mx-1 pb-3 border bg-light rounded">
+                <div className="col-12 col-md-3">
+                    <label htmlFor="statistics-type" className="form-label">Chọn kiểu thống kê</label>
+                    <select id="statistics-type" className="form-select" value={statType} onChange={(e) => setStatType(e.target.value)}>
+                        {/* <option value="accounts">Tài khoản</option> */}
+                        {/* <option value="products">Sản phẩm</option> */}
+                        <option value="orders">Đơn hàng</option>
+                        <option value="revenues">Doanh thu</option>
+                    </select>
                 </div>
                 <div className="col-12 col-md-3">
-                    <div className="card bg-secondary text-light">
-                        <div className="card-body">
-                            <div className="d-flex justify-content-around align-items-center">
-                                <i class="fa-solid fa-file-excel me-3 fs-3"></i>
-                                <span className='d-inline fs-4'>Excel</span>
-                                <button className='btn btn-light ms-auto'>Xuất</button>
-                            </div>
-                        </div>
-                    </div>
+                    <label htmlFor="start-date" className="form-label">Ngày bắt đầu</label>
+                    <input
+                        type="date"
+                        id="start-date"
+                        className="form-control"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
+                </div>
+                <div className="col-12 col-md-3">
+                    <label htmlFor="end-date" className="form-label">Ngày kết thúc</label>
+                    <input
+                        type="date"
+                        id="end-date"
+                        className="form-control"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    />
+                </div>
+                <div className="col-12 col-md-3 d-flex align-items-end gap-2" style={{ marginTop: '40px' }}>
+                    <button className="btn btn-primary w-50" onClick={handleFetchStatistics}>Xem thống kê</button>
+                    <button
+                        className="btn btn-success w-50"
+                        onClick={() => exportStatistics(statisticsData?.dataStatistical || [])}
+                    >
+                        Xuất thống kê
+                    </button>
                 </div>
             </div>
-            {/* Vẽ biểu đồ */}
-            <div className="row gy-2 mt-4 mb-5 d-flex justify-content-center">
-                <div className="col-12 col-md-3 " style={{ maxHeight: '40vh' }}>
-                    <h5 className="text-center">Tỷ lệ Người dùng Hoạt động</h5>
-                    <Pie data={pieData} />
+
+            {/* Hiển thị biểu đồ */}
+            <div className="row gy-2 mt-4 mb-5">
+                <div className="col d-flex flex-column justify-content-center align-items-center" style={{ maxHeight: '50vh' }}>
+                    <h5 className=''>{statisticsData?.title}</h5>
+                    {/* {statType === 'accounts' && <Pie data={pieData} />} */}
+                    {/* {statType === 'products' && <Pie data={productData} />} */}
+                    {statType === 'orders' && <Line data={orderData} />}
+                    {statType === 'revenues' && <Bar data={revenueData} />}
                 </div>
-                <div className="col-12 col-md-6" style={{ maxHeight: '40vh' }}>
-                    <h5 className="text-center">Vai trò Người dùng</h5>
-                    <Bar data={barData} />
-                </div>
+
             </div>
-            <div className="row gy-2 mt-4 mb-5 d-flex justify-content-center">
-                <div className="col-12 col-md-3" style={{ maxHeight: '40vh' }}>
-                    <h5 className="text-center">Phân loại Sản phẩm</h5>
-                    <Pie data={productData} />
-                </div>
-                <div className="col-12 col-md-6" style={{ maxHeight: '40vh' }}>
-                    <h5 className="text-center">Số lượng Đơn hàng theo thời gian</h5>
-                    <Line data={orderData} />
-                </div>
-            </div>
-        </div >
+        </div>
     );
 };
 

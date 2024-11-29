@@ -75,6 +75,22 @@ const createFakeUsers = async (numUsers) => {
         role: 'admin'
     });
 
+    users.push({
+        name: 'Khách hàng',
+        email: 'khachhang@example.com',
+        phone: generateVietnamesePhoneNumber(),
+        password: await hashPassword('12345678'),
+        role: 'customer'
+    });
+
+    users.push({
+        name: 'Shipper',
+        email: 'shipper@example.com',
+        phone: generateVietnamesePhoneNumber(),
+        password: await hashPassword('12345678'),
+        role: 'shipper'
+    });
+
     for (let i = 0; i < numUsers; i++) {
         const province = getRandomElement(data);
         const district = getRandomElement(province.District);

@@ -13,9 +13,9 @@ const Footer = () => {
                     <span className='text-uppercase fw-bold fs-5 border-bottom border-secondary border-3 pb-2'>Liên hệ</span>
                 </div>
                 <ul className='list-unstyled mt-4'>
-                    <li className='pb-4'><i className="fa-solid fa-phone"></i> Tư vấn dịch vụ: 0343930185</li>
-                    <li className='pb-4'><i className="fa-solid fa-phone"></i> Hỗ trợ sử dụng: 0343930185</li>
-                    <li className='pb-4'><i className="fa-solid fa-phone"></i> Hỗ trợ vận chuyển: 0343930185</li>
+                    <li className='pb-4'><i className="fa-solid fa-phone"></i> Tư vấn dịch vụ: 0385143843</li>
+                    <li className='pb-4'><i className="fa-solid fa-phone"></i> Hỗ trợ sử dụng: 0385143843</li>
+                    <li className='pb-4'><i className="fa-solid fa-phone"></i> Hỗ trợ vận chuyển: 0385143843</li>
                     <li className='pb-4'><i className="fa-solid fa-envelope"></i> Email: tiemnhalenn88@gmail.com</li>
                     <li className='pb-4'><i className="fa-solid fa-clock"></i> 7:00am – 22:00pm thứ 2 - thứ 7</li>
                 </ul>
