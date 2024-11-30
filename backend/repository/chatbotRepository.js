@@ -136,6 +136,7 @@ const Product = require('../models/product');
 const getProductDetails = async (productName) => {
     const product = await Product.findOne({ name: productName });
     return product ? {
+        id: product._id,
         price: product.options.map(option => ({
             price: option.price,
         })),
@@ -181,28 +182,30 @@ const getAnswer = async (question) => {
 
         if (productDetails) {
             const lowerCaseQuestion = question.toLowerCase();
+            const productUrl = `http://localhost:3000/product-detail/${productDetails.id}`;
 
             if (lowerCaseQuestion.includes('mô tả') || lowerCaseQuestion.includes('thông tin')) {
-                return `Mô tả của sản phẩm ${matchedProducts[0]} là: ${productDetails.description}.`;
+                return `Mô tả của sản phẩm ${matchedProducts[0]} là: ${productDetails.description}.\nLink sản phẩm: ${productUrl}`;
             } else if (lowerCaseQuestion.includes('giá')) {
-                return `Giá của sản phẩm ${matchedProducts[0]} là:\n` + productDetails.price.map((option, i) =>
-                    `- Loại ${i + 1} có giá ${option.price}`).join('\n');
+                return `Giá của sản phẩm ${matchedProducts[0]} là:\n` +
+                    productDetails.price.map((option, i) =>
+                        `- Loại ${i + 1} có giá ${option.price}`).join('\n') +
+                    `\nLink sản phẩm: ${productUrl}`;
             } else if (lowerCaseQuestion.includes('loại')) {
-                return `Sản phẩm ${matchedProducts[0]} có ${productDetails.optionsCount} loại.`;
+                return `Sản phẩm ${matchedProducts[0]} có ${productDetails.optionsCount} loại.\nLink sản phẩm: ${productUrl}`;
             } else if (lowerCaseQuestion.includes('số lượng')) {
                 const quantities = productDetails.price.map((option, i) =>
                     `- Loại ${i + 1} có số lượng ${option.quantity || 'không rõ'}`).join('\n');
-                return `Số lượng sản phẩm ${matchedProducts[0]} là:\n${quantities}`;
+                return `Số lượng sản phẩm ${matchedProducts[0]} là:\n${quantities}\nLink sản phẩm: ${productUrl}`;
             } else if (lowerCaseQuestion.includes('ảnh') || lowerCaseQuestion.includes('hình')) {
-                // Nếu productDetails.image là mảng các đối tượng, ta sẽ xử lý và trả về mỗi ảnh
                 const imageUrl = productDetails.image.map(option => {
                     return `<img src="${option.image}" alt="Ảnh sản phẩm ${matchedProducts[0]}" style="max-width: 15%; height: auto; margin-right: 10px;">`;
-                }).join(''); // Kết hợp các ảnh vào một chuỗi
-                return imageUrl;
+                }).join('');
+                return `Ảnh sản phẩm:\n${imageUrl}\nLink sản phẩm: ${productUrl}`;
             } else if (lowerCaseQuestion.includes('ghi chú')) {
                 return productDetails.note
-                    ? `Ghi chú của sản phẩm ${matchedProducts[0]}: ${productDetails.note}`
-                    : `Sản phẩm ${matchedProducts[0]} hiện không có ghi chú nào.`;
+                    ? `Ghi chú của sản phẩm ${matchedProducts[0]}: ${productDetails.note}\nLink sản phẩm: ${productUrl}`
+                    : `Sản phẩm ${matchedProducts[0]} hiện không có ghi chú nào.\nLink sản phẩm: ${productUrl}`;
             } else {
                 return 'Xin lỗi, tôi không hiểu câu hỏi của bạn.';
             }
@@ -215,6 +218,7 @@ const getAnswer = async (question) => {
         return 'Không tìm thấy sản phẩm nào phù hợp. Vui lòng thử lại với câu hỏi khác hoặc kiểm tra lại từ khóa.';
     }
 };
+
 
 
 module.exports = { getAnswer };

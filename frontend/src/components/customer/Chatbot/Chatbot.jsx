@@ -9,21 +9,25 @@ const QuestionForm = () => {
     // Hàm thay thế đường dẫn ảnh trong câu trả lời
     const renderAnswer = (answer) => {
         const apiUrl = import.meta.env.VITE_API_URL;
-        console.log('API URL:', apiUrl); // Kiểm tra giá trị apiUrl
 
-        // Nếu apiUrl vẫn là undefined, có thể là do tệp .env chưa được tải đúng
         if (!apiUrl) {
             console.error('VITE_API_URL is not defined!');
             return { __html: answer }; // Trả về nguyên bản nếu không tìm thấy apiUrl
         }
 
-        // Cập nhật regex để thay thế src="assets/images/12.1.jpg" thành src="http://localhost:4000/assets/images/12.1.jpg"
-        const modifiedAnswer = answer.replace(/src="(?!http)(\/?assets\/images\/[^\"]+)"/g, `src="${apiUrl}/$1"`);
+        // Cập nhật regex để tìm và thay thế liên kết bằng thẻ <a>
+        const modifiedAnswer = answer
+            .replace(/src="(?!http)(\/?assets\/images\/[^\"]+)"/g, `src="${apiUrl}/$1"`) // Thay thế đường dẫn ảnh
+            .replace(
+                /(http:\/\/localhost:3000\/product-detail\/[a-z0-9]+)/g, // Nhận diện liên kết chi tiết sản phẩm
+                `<a href="$1" class="btn btn-success" rel="noopener noreferrer">Xem sản phẩm</a>` // Thay bằng thẻ <a>
+            );
 
         console.log('Modified Answer:', modifiedAnswer); // Kiểm tra kết quả
 
         return { __html: modifiedAnswer };
     };
+
 
 
     const handleQuestionChange = (e) => {
