@@ -10,7 +10,7 @@ const AllSeeder = async () => {
     await connectDB();
     await UserSeeder(10);
     await productRealSeeder();
-    await ProductSeeder(30);
+    await ProductSeeder(5);
     await DiscountSeeder(9);
     await comboProductSeeder(7);
     // await ChatSeeder(5);

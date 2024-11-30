@@ -522,5 +522,333 @@ module.exports = ProductSeeder = async () => {
 
             ],
         },
+
+        {
+            name: "COMBO 3 CUỘN LEN 50G VÀ PHỤ KIỆN CHO NGƯỜI MỚI BẮT ĐẦU",
+            description: "Combo tiện lợi cho người mới bắt đầu ",
+            image: 'assets/images/14.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/14.1.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.2.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.3.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.4.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.5.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.6.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.7.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+                {
+                    image: 'assets/images/14.8.jpg',
+                    quantity: 50,
+                    price: 55000,
+                },
+            ],
+        },
+
+        {
+            name: "BÔNG GÒN BI",
+            description: "Bông gòn bi loại 1 thích hợp dồn thú bông, dồn hoa len ...",
+            image: 'assets/images/15.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/15.1.jpg',
+                    quantity: 20,
+                    price: 6000,
+                },
+                {
+                    image: 'assets/images/15.2.jpg',
+                    quantity: 20,
+                    price: 30000,
+                },
+                {
+                    image: 'assets/images/15.3.jpg',
+                    quantity: 20,
+                    price: 55000,
+                },
+
+            ],
+        },
+
+        {
+            name: "SET 10 KHOEN MÓC KHOÁ TỔNG HỢP",
+            description: "Set 10 khoen móc khoá đa dạng mẫu mã",
+            image: 'assets/images/16.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/16.1.jpg',
+                    quantity: 500,
+                    price: 18000,
+                },
+                {
+                    image: 'assets/images/16.2.jpg',
+                    quantity: 500,
+                    price: 23000,
+                },
+                {
+                    image: 'assets/images/16.3.jpg',
+                    quantity: 100,
+                    price: 45000,
+                },
+                {
+                    image: 'assets/images/16.4.jpg',
+                    quantity: 100,
+                    price: 25000,
+                },
+            ],
+        },
+
+        {
+            name: "FLOWER BAG",
+            description: "Túi hoa xinh xắn dành cho các bạn dễ thương",
+            image: 'assets/images/17.jpg',
+            type: "product",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/17.1.jpg',
+                    quantity: 10,
+                    price: 300000,
+                },
+                {
+                    image: 'assets/images/17.2.jpg',
+                    quantity: 10,
+                    price: 300000,
+                },
+                {
+                    image: 'assets/images/17.3.jpg',
+                    quantity: 10,
+                    price: 300000,
+                },
+                {
+                    image: 'assets/images/17.4.jpg',
+                    quantity: 10,
+                    price: 300000,
+                },
+                {
+                    image: 'assets/images/17.5.jpg',
+                    quantity: 10,
+                    price: 300000,
+                },
+            ],
+        },
+
+        {
+            name: "TÚI LỚN VĂN PHÒNG",
+            description: "Túi có khích cỡ lớn đựng vừa khổ giấy B5",
+            image: 'assets/images/18.jpg',
+            type: "product",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/18.1.jpg',
+                    quantity: 10,
+                    price: 220000,
+                },
+                {
+                    image: 'assets/images/18.2.jpg',
+                    quantity: 10,
+                    price: 220000,
+                },
+                {
+                    image: 'assets/images/18.3.jpg',
+                    quantity: 10,
+                    price: 220000,
+                },
+            ],
+        },
+
+        {
+            name: "NÓN TAI MÈO 2 BÍNH",
+            description: "Nón tai mèo 2 bình siêu xinh, siêu dễ dùng",
+            image: 'assets/images/19.jpg',
+            type: "product",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/19.1.jpg',
+                    quantity: 10,
+                    price: 250000,
+                },
+                {
+                    image: 'assets/images/19.2.jpg',
+                    quantity: 10,
+                    price: 250000,
+                },
+                {
+                    image: 'assets/images/19.3.jpg',
+                    quantity: 10,
+                    price: 250000,
+                },
+                {
+                    image: 'assets/images/19.4.jpg',
+                    quantity: 10,
+                    price: 250000,
+                },
+                {
+                    image: 'assets/images/19.5.jpg',
+                    quantity: 10,
+                    price: 250000,
+                },
+            ],
+        },
+
+        {
+            name: "MẪU TÚI TỔNG HỢP",
+            description: "Mã túi thích hợp đi biển nhất năm",
+            image: 'assets/images/20.jpg',
+            type: "product",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/20.1.jpg',
+                    quantity: 10,
+                    price: 350000,
+                },
+                {
+                    image: 'assets/images/20.2.jpg',
+                    quantity: 10,
+                    price: 300000,
+                },
+                {
+                    image: 'assets/images/20.3.jpg',
+                    quantity: 10,
+                    price: 280000,
+                },
+
+            ],
+        },
+
+        {
+            name: "KIM MÓC LEN SKC",
+            description: "Kim móc SKC cán dẻo móc len không đau tay, móc cực mượt",
+            image: 'assets/images/21.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/21.1.jpg',
+                    quantity: 10,
+                    price: 20000,
+                },
+                {
+                    image: 'assets/images/21.2.jpg',
+                    quantity: 10,
+                    price: 20000,
+                },
+                {
+                    image: 'assets/images/21.3.jpg',
+                    quantity: 10,
+                    price: 20000,
+                },
+                {
+                    image: 'assets/images/21.4.jpg',
+                    quantity: 10,
+                    price: 20000,
+                },
+
+            ],
+        },
+
+        {
+            name: "KIM MÓC LEN CÁN ĐỎ",
+            description: "Kim móc cán đỏ cho các bạn mới rất dễ dùng",
+            image: 'assets/images/22.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/22.1.jpg',
+                    quantity: 20,
+                    price: 12000,
+                },
+                {
+                    image: 'assets/images/22.2.jpg',
+                    quantity: 20,
+                    price: 12000,
+                },
+                {
+                    image: 'assets/images/22.3.jpg',
+                    quantity: 20,
+                    price: 12000,
+                },
+            ],
+        },
+
+        {
+            name: "KIM KHÂU LEN",
+            description: "Kim khâu các mẫu thú, hoa",
+            image: 'assets/images/23.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/23.1.jpg',
+                    quantity: 20,
+                    price: 3000,
+                },
+                {
+                    image: 'assets/images/23.2.jpg',
+                    quantity: 20,
+                    price: 3000,
+                },
+                {
+                    image: 'assets/images/23.3.jpg',
+                    quantity: 20,
+                    price: 3000,
+                },
+            ],
+        },
+
+        {
+            name: "KÉO CẮT LEN",
+            description: "Kéo cắt len tiện dùng, 1 món rất cần cho các bạn",
+            image: 'assets/images/24.jpg',
+            type: "tool",
+            note: "Hàng mới về",
+            options: [
+                {
+                    image: 'assets/images/24.1.jpg',
+                    quantity: 20,
+                    price: 5000,
+                },
+                {
+                    image: 'assets/images/24.2.jpg',
+                    quantity: 20,
+                    price: 4000,
+                },
+            ],
+        },
     ]);
 };
