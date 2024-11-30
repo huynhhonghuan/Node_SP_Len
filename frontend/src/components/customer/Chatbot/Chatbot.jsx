@@ -20,7 +20,7 @@ const QuestionForm = () => {
             .replace(/src="(?!http)(\/?assets\/images\/[^\"]+)"/g, `src="${apiUrl}/$1"`) // Thay thế đường dẫn ảnh
             .replace(
                 /(http:\/\/localhost:3000\/product-detail\/[a-z0-9]+)/g, // Nhận diện liên kết chi tiết sản phẩm
-                `<a href="$1" class="btn btn-success" rel="noopener noreferrer">Xem sản phẩm</a>` // Thay bằng thẻ <a>
+                `<br>Link sản phẩm:<a href="$1" class="btn btn-success btn-sm ms-1" rel="noopener noreferrer">Xem sản phẩm</a>` // Thay bằng thẻ <a>
             );
 
         console.log('Modified Answer:', modifiedAnswer); // Kiểm tra kết quả

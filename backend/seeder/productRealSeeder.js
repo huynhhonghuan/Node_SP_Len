@@ -373,13 +373,6 @@ module.exports = ProductSeeder = async () => {
                     quantity: 30,
                     price: 75000,
                 },
-                {
-                    image: 'assets/images/9.5.jpg',
-                    quantity: 30,
-                    price: 30000,
-                },
-
-
             ],
         },
 

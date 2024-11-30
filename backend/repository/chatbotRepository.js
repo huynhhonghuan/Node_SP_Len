@@ -185,27 +185,27 @@ const getAnswer = async (question) => {
             const productUrl = `http://localhost:3000/product-detail/${productDetails.id}`;
 
             if (lowerCaseQuestion.includes('mô tả') || lowerCaseQuestion.includes('thông tin')) {
-                return `Mô tả của sản phẩm ${matchedProducts[0]} là: ${productDetails.description}.\nLink sản phẩm: ${productUrl}`;
+                return `Mô tả của sản phẩm ${matchedProducts[0]} là: ${productDetails.description}. ${productUrl}`;
             } else if (lowerCaseQuestion.includes('giá')) {
                 return `Giá của sản phẩm ${matchedProducts[0]} là:\n` +
                     productDetails.price.map((option, i) =>
                         `- Loại ${i + 1} có giá ${option.price}`).join('\n') +
-                    `\nLink sản phẩm: ${productUrl}`;
+                    ` ${productUrl}`;
             } else if (lowerCaseQuestion.includes('loại')) {
-                return `Sản phẩm ${matchedProducts[0]} có ${productDetails.optionsCount} loại.\nLink sản phẩm: ${productUrl}`;
+                return `Sản phẩm ${matchedProducts[0]} có ${productDetails.optionsCount} loại. ${productUrl}`;
             } else if (lowerCaseQuestion.includes('số lượng')) {
                 const quantities = productDetails.price.map((option, i) =>
                     `- Loại ${i + 1} có số lượng ${option.quantity || 'không rõ'}`).join('\n');
-                return `Số lượng sản phẩm ${matchedProducts[0]} là:\n${quantities}\nLink sản phẩm: ${productUrl}`;
+                return `Số lượng sản phẩm ${matchedProducts[0]} là:\n${quantities} ${productUrl}`;
             } else if (lowerCaseQuestion.includes('ảnh') || lowerCaseQuestion.includes('hình')) {
                 const imageUrl = productDetails.image.map(option => {
                     return `<img src="${option.image}" alt="Ảnh sản phẩm ${matchedProducts[0]}" style="max-width: 15%; height: auto; margin-right: 10px;">`;
                 }).join('');
-                return `Ảnh sản phẩm:\n${imageUrl}\nLink sản phẩm: ${productUrl}`;
+                return `Ảnh sản phẩm:\n${imageUrl} ${productUrl}`;
             } else if (lowerCaseQuestion.includes('ghi chú')) {
                 return productDetails.note
-                    ? `Ghi chú của sản phẩm ${matchedProducts[0]}: ${productDetails.note}\nLink sản phẩm: ${productUrl}`
-                    : `Sản phẩm ${matchedProducts[0]} hiện không có ghi chú nào.\nLink sản phẩm: ${productUrl}`;
+                    ? `Ghi chú của sản phẩm ${matchedProducts[0]}: ${productDetails.note} ${productUrl}`
+                    : `Sản phẩm ${matchedProducts[0]} hiện không có ghi chú nào. ${productUrl}`;
             } else {
                 return 'Xin lỗi, tôi không hiểu câu hỏi của bạn.';
             }
