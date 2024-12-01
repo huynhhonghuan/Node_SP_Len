@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAccountStatistics, getCountStatistics, getOrderStatistics, getProductStatistics, getRevenueOrderStatistics } from '../../../services/ChartService';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import { saveAs } from 'file-saver'; // Thêm thư viện này nếu cần
+import ExcelJS from 'exceljs';
 
 import {
     Chart as ChartJS,
@@ -120,30 +121,61 @@ const HomeAdmin = () => {
         ],
     };
 
-
     // Hàm chuyển đổi dữ liệu thành CSV
-    const convertToCSV = (data) => {
-        if (!data) return '';
-        const keys = Object.keys(data[0]);
-        const csvRows = [keys.join(',')]; // Header của CSV
+    // const convertToCSV = (data) => {
+    //     if (!data) return '';
+    //     const keys = Object.keys(data[0]);
+    //     const csvRows = [keys.join(',')]; // Header của CSV
 
-        data.forEach(row => {
-            const values = keys.map(key => row[key] || ''); // Giá trị trong từng hàng
-            csvRows.push(values.join(','));
+    //     data.forEach(row => {
+    //         const values = keys.map(key => row[key] || ''); // Giá trị trong từng hàng
+    //         csvRows.push(values.join(','));
+    //     });
+
+    //     return csvRows.join('\n');
+    // };
+
+    // const exportStatistics = (data) => {
+    //     if (!data || !Array.isArray(data)) {
+    //         alert("Không có dữ liệu để xuất!");
+    //         return;
+    //     }
+
+    //     const csv = convertToCSV(data);
+    //     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    //     saveAs(blob, `statistics-${new Date().toISOString()}.csv`);
+    // };
+
+
+
+    const exportToExcel = async (data) => {
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet('Thống kê');
+
+        let name = 'Thống kê';
+        if (statType === 'orders') {
+            // Thêm header
+            sheet.addRow(['Thời gian', 'Số lượng đơn hàng']);
+            name = 'Thống kê đơn hàng';
+        } else if (statType === 'revenues') {
+            // Thêm header
+            sheet.addRow(['Thời gian', 'Doanh thu (VND)']);
+            name = 'Thống kê doanh thu';
+        }
+        let total = 0;
+        // Thêm dữ liệu
+        data.forEach(item => {
+            sheet.addRow([Object.keys(item)[0], Object.values(item)[0]]);
+            total += Object.values(item)[0];
         });
 
-        return csvRows.join('\n');
-    };
+        // Thêm t��ng doanh thu vào cuối dòng
+        sheet.addRow(['Tổng', total]);
 
-    const exportStatistics = (data) => {
-        if (!data || !Array.isArray(data)) {
-            alert("Không có dữ liệu để xuất!");
-            return;
-        }
-
-        const csv = convertToCSV(data);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, `statistics-${new Date().toISOString()}.csv`);
+        // Xuất file
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(blob, `${name}-${new Date().toISOString()}.xlsx`);
     };
 
     return (
@@ -218,7 +250,7 @@ const HomeAdmin = () => {
                     <button className="btn btn-primary w-50" onClick={handleFetchStatistics}>Xem thống kê</button>
                     <button
                         className="btn btn-success w-50"
-                        onClick={() => exportStatistics(statisticsData?.dataStatistical || [])}
+                        onClick={() => exportToExcel(statisticsData?.dataStatistical || [])}
                     >
                         Xuất thống kê
                     </button>
