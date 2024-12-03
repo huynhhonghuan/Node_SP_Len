@@ -4,6 +4,7 @@ import './List.css';
 import { format } from 'date-fns';  // Thêm import này
 import { isValidDate } from '../../../app/isValidDate';
 import { isImageURL } from '../../../app/isValiImage';
+import { useLocation } from 'react-router-dom';
 
 function List({ title, headers, datas, onCreate, onUpdate, onDelete, nameDelete }) {
     const [data, setData] = useState([]);
@@ -16,12 +17,16 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete, nameDelete 
     const [itemsPerPage, setItemsPerPage] = useState(5); // Số lượng mục trên mỗi trang
     const [searchTerm, setSearchTerm] = useState('');
 
+    const location = useLocation();
+    const isOrderPage = location.pathname.startsWith('/admin/order');
+
     useEffect(() => {
         // Giả lập việc lấy dữ liệu
         setData(datas);
         setFilteredData(datas);
         setLoading(false);
         console.log(nameDelete)
+        console.log(isOrderPage);
     }, [datas]);
 
     useEffect(() => {
@@ -84,11 +89,11 @@ function List({ title, headers, datas, onCreate, onUpdate, onDelete, nameDelete 
                 </div>
 
                 {/* Search and Add Button */}
-                <div className="col-6 d-flex justify-content-end align-items-center">
+                {isOrderPage ? null : (<div className="col-6 d-flex justify-content-end align-items-center">
                     <Button variant="success" onClick={onCreate}>
                         Thêm mới
                     </Button>
-                </div>
+                </div>)}
             </div>
             <div className="row d-flex justify-content-between align-items-end">
                 <div className="col-6">

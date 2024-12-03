@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { CustomToastContainer, ToastAction } from '../../../components/Toast/Index';  // Import container cho toast
 // import { deleteImage } from "../../../services/UploadImage";
 
+
 const ListPage = ({ pageConfig }) => {
     const [datas, setDatas] = useState([]);
     const { title, header, header_hiddens, header_count, getData, deleteData, navigateCreate, navigateUpdate, nameDelete } = pageConfig; // Lấy các cấu hình từ pageConfig

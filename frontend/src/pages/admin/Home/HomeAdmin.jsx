@@ -162,6 +162,7 @@ const HomeAdmin = () => {
             sheet.addRow(['Thời gian', 'Doanh thu (VND)']);
             name = 'Thống kê doanh thu';
         }
+        
         let total = 0;
         // Thêm dữ liệu
         data.forEach(item => {
