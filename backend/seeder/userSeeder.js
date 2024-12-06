@@ -80,7 +80,19 @@ const createFakeUsers = async (numUsers) => {
         email: 'khachhang@example.com',
         phone: generateVietnamesePhoneNumber(),
         password: await hashPassword('12345678'),
-        role: 'customer'
+        role: 'customer',
+        addresses: [
+            {
+                phone: generateVietnamesePhoneNumber(),
+                street: faker.address.streetName(),
+                city: getRandomElement(data).Code,
+                district: getRandomElement(data).District[0].Code,
+                ward: getRandomElement(data).District[0].Ward[0].Code,
+                type: faker.random.arrayElement(['home', 'office', 'other']),
+                note: generateParagraph(200),
+                default: true, // Địa chỉ này là mặc định
+            }
+        ]
     });
 
     users.push({
@@ -88,7 +100,19 @@ const createFakeUsers = async (numUsers) => {
         email: 'shipper@example.com',
         phone: generateVietnamesePhoneNumber(),
         password: await hashPassword('12345678'),
-        role: 'shipper'
+        role: 'shipper',
+        addresses: [
+            {
+                phone: generateVietnamesePhoneNumber(),
+                street: faker.address.streetName(),
+                city: getRandomElement(data).Code,
+                district: getRandomElement(data).District[0].Code,
+                ward: getRandomElement(data).District[0].Ward[0].Code,
+                type: faker.random.arrayElement(['home', 'office', 'other']),
+                note: generateParagraph(200),
+                default: true, // Địa chỉ này là mặc định
+            }
+        ]
     });
 
     for (let i = 0; i < numUsers; i++) {

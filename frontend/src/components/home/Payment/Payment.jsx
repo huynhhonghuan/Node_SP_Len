@@ -262,6 +262,7 @@ const Payment = () => {
                             accountHolder={qrCodeData.accountHolder}
                             amount={qrCodeData.amount}
                             invoiceId={qrCodeData.invoiceId}
+                            cart={cart}
                         />
                     )}
 

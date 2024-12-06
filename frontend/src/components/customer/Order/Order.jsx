@@ -103,6 +103,11 @@ const Order = () => {
                                 </p>
                                 <p>Ngày đặt hàng: {new Date(order.createdAt).toLocaleDateString()}</p>
                                 <p>Tổng tiền: {order.totalPrice} đ</p>
+                                <p>Thanh toán bằng:
+                                    <span className="btn btn-sm btn-info ms-2">
+                                        {order.paymentMethod === 'cod' ? 'Tiền mặt' : 'Chuyển khoản'}
+                                    </span>
+                                </p>
                                 <p>Trạng thái:
                                     <span className="btn btn-sm btn-info ms-2">
                                         {translateStatus(order.status)}

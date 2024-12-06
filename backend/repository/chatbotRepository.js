@@ -219,6 +219,4 @@ const getAnswer = async (question) => {
     }
 };
 
-
-
 module.exports = { getAnswer };

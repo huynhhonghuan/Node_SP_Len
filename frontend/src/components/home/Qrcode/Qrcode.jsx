@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const QRCode = ({ bankAccount, bankName, accountHolder, amount, invoiceId }) => {
+const QRCode = ({ bankAccount, bankName, accountHolder, amount, invoiceId, cart }) => {
     const [qrCodeUrl, setQrCodeUrl] = useState(null);
     const [paymentStatus, setPaymentStatus] = useState('Chưa thanh toán'); // Trạng thái thanh toán mặc định
 
@@ -17,14 +17,52 @@ const QRCode = ({ bankAccount, bankName, accountHolder, amount, invoiceId }) => 
         }
     };
 
+    // Hàm cập nhật trạng thái thanh toán bằng Button
+    const handlePaymentStatusChange = async () => {
+        try {
+            const response = await axios.put(
+                `${import.meta.env.VITE_API_URL}/payment/status`,
+                { orderId: invoiceId, paymentStatus: 'completed' } // Cập nhật trạng thái thành "completed"
+            );
+            setPaymentStatus(response.data.paymentStatus); // Cập nhật trạng thái từ API
+            alert('Cập nhật trạng thái đơn hàng thành công!');
+
+            const cartItems = cart.map(item => ({
+                productId: item._id,
+                optionId: item.option._id,
+                quantity: item.quantity,
+                price: item.option.price,
+            }));
+
+            // Điều hướng hoặc cập nhật giỏ hàng
+            localStorage.removeItem('address');
+            localStorage.removeItem('paymethod');
+            localStorage.removeItem('discount');
+
+            const cartFromStorage = localStorage.getItem('cart');
+            if (cartFromStorage) {
+                const parsedCart = JSON.parse(cartFromStorage);
+                const updatedCart = parsedCart.filter(storageItem =>
+                    !cartItems.some(cartItem =>
+                        cartItem.productId === storageItem._id && cartItem.optionId === storageItem.option._id
+                    )
+                );
+                localStorage.setItem('cart', JSON.stringify(updatedCart));
+            }
+
+        } catch (error) {
+            console.error('Lỗi cập nhật trạng thái thanh toán:', error);
+            alert('Cập nhật trạng thái đơn hàng thất bại!');
+        }
+    };
+
     // Hàm giả lập kiểm tra trạng thái thanh toán
     const checkPaymentStatus = async () => {
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_API_URL}/payment/status`,
-                { params: { invoiceId } }
+                `${import.meta.env.VITE_API_URL}/payment/status/${invoiceId}`,
             );
-            setPaymentStatus(response.data.status); // Cập nhật trạng thái từ API
+            setPaymentStatus(response.data.paymentStatus); // Cập nhật trạng thái từ API
         } catch (error) {
             console.error('Lỗi kiểm tra trạng thái thanh toán:', error);
         }
@@ -44,6 +82,11 @@ const QRCode = ({ bankAccount, bankName, accountHolder, amount, invoiceId }) => 
 
         return () => clearInterval(interval); // Dọn dẹp interval khi component bị unmount
     }, [invoiceId]);
+
+    //Hàm sau khi cập nhật trạng thái thanh toán chuyển sang thông tin chi tiết đơn hàng đã đặt
+    const handleViewOrderDetails = () => {
+        window.location.href = `/customer/order/${invoiceId}`;
+    };
 
     return (
         <div className="container mt-4">
@@ -65,10 +108,27 @@ const QRCode = ({ bankAccount, bankName, accountHolder, amount, invoiceId }) => 
                         </ul>
                         <h5>
                             <strong>Trạng thái thanh toán:</strong>{' '}
-                            <span className={paymentStatus === 'Đã thanh toán' ? 'text-success' : 'text-danger'}>
-                                {paymentStatus}
+                            <span className={paymentStatus === 'completed' ? 'text-success' : 'text-danger'}>
+                                {paymentStatus === 'completed' ? 'Đã thanh toán' : 'Chưa thanh toán'}
                             </span>
                         </h5>
+                        {/* Nút cập nhật trạng thái */}
+                        <button
+                            className="btn btn-primary btn-sm my-2"
+                            onClick={handlePaymentStatusChange}
+                            disabled={paymentStatus === 'completed'} // Vô hiệu hóa nếu đã thanh toán
+                        >
+                            Cập nhật trạng thái đơn hàng
+                        </button>
+                        {/* Nút xem thông tin chi tiết đơn hàng */}
+                        {paymentStatus === 'completed' && (
+                            <button
+                                className="btn btn-success btn-sm my-2"
+                                onClick={handleViewOrderDetails}
+                            >
+                                Hoàn thành đơn hàng
+                            </button>
+                        )}
                     </div>
                 </div>
             ) : (
