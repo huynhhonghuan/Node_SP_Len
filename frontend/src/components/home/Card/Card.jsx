@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { getDiscountByCode, getDiscountById } from "../../../services/DiscountService";
+import { CustomToastContainer, ToastAction } from '../../Toast/Index';
 
 const Card = () => {
 
@@ -96,15 +97,18 @@ const Card = () => {
             const reponse = await getDiscountByCode(discount);
 
             if (reponse.customersId.includes(userId)) {
-                alert('Bạn đã áp dụng mã giảm này rồi!');
+                // alert('');
+                ToastAction({ action: 'error', message: 'Bạn đã áp dụng mã giảm này rồi!' });
                 localStorage.setItem('discount', '');
             }
             else if (totalPrice < reponse.lowestTotal) {
-                alert(`Đơn hàng thấp hơn giá trị để giảm giá! Đơn hàng phải từ ${reponse.lowestTotal} VND`);
+                // alert(`Đơn hàng thấp hơn giá trị để giảm giá! Đơn hàng phải từ ${reponse.lowestTotal} VND`);
+                ToastAction({ action: 'error', message: 'Đơn hàng thấp hơn giá trị để giảm giá! Đơn hàng phải từ ${reponse.lowestTotal} VND' });
                 localStorage.setItem('discount', '');
             }
             else if (reponse.counts <= 0) {
-                alert('Sản phẩm của bạn đã hết hạn sử dụng mã giảm giá!');
+                // alert('Sản phẩm của bạn đã hết hạn sử dụng mã giảm giá!');
+                ToastAction({ action: 'error', message: 'Sản phẩm của bạn đã hết hạn sử dụng mã giảm giá!' });
                 localStorage.setItem('discount', '');
             }
             else if (totalPrice >= reponse.lowestTotal && reponse.counts > 0) {
@@ -115,16 +119,19 @@ const Card = () => {
                     percentage: reponse.percentage
                 }));
 
-                alert("Áp dụng mã thành công!");
+                // alert("Áp dụng mã thành công!");
+                ToastAction({ action: 'create', message: 'Áp dụng mã thành công!' });
             }
             else {
-                alert('Mã giảm giá không tồn tại!');
+                // alert('Mã giảm giá không tồn tại!');
+                ToastAction({ action: 'error', message: 'Mã giảm giá không tồn tại!' });
                 localStorage.setItem('discount', '');
             }
         }
         catch (error) {
             console.error('Error getting discount:', error);
-            alert('Áp dụng mã giảm giá bị lỗi!');
+            // alert('Áp dụng mã giảm giá bị lỗi!');
+            ToastAction({ action: 'error', message: 'Áp dụng mã giảm giá bị lỗi!' });
         } finally {
             setDiscount('');
         }
@@ -133,13 +140,15 @@ const Card = () => {
     // Hàm xử lý đặt hàng
     const handlePayment = () => {
         if (cart.length === 0) {
-            alert('Giỏ hàng trống, vui lòng chọn sản phẩm!');
+            // alert('Giỏ hàng trống, vui lòng chọn sản phẩm!');
+            ToastAction({ action: 'error', message: 'Giỏ hàng trống, vui lòng chọn sản phẩm!' });
             return;
         }
 
         // Thực hiện các kiểm tra khác nếu cần, như kiểm tra mã giảm giá, phương thức thanh toán, v.v.
         if (!payMethod) {
-            alert('Vui lòng chọn phương thức thanh toán!');
+            // alert('Vui lòng chọn phương thức thanh toán!');
+            ToastAction({ action: 'error', message: 'Vui lòng chọn phương thức thanh toán!' });
             return;
         }
 
@@ -156,7 +165,8 @@ const Card = () => {
 
         // Nếu chưa đăng nhập thì hãy đăng nhập
         if (!token || userRole !== 'customer') {
-            alert('Bạn cần đăng nhập với quyền khách hàng để đặt hàng!');
+            // alert('Bạn cần đăng nhập với quyền khách hàng để đặt hàng!');
+            ToastAction({ action: 'error', message: 'Bạn cần đăng nhập với quyền khách hàng để đặt hàng!' });
             return;
         }
 
@@ -278,6 +288,7 @@ const Card = () => {
                     </div>
                 </div>
             </div>
+            <CustomToastContainer />
         </div>
     );
 }

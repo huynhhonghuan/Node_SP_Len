@@ -5,6 +5,7 @@ import { getProductById, getProductByType } from '../../../services/ProductServi
 import { format } from 'date-fns';  // Thêm import này
 
 import user_logo from '../../../assets/images/home/user_logo.png';
+import { CustomToastContainer, ToastAction } from '../../Toast/Index';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -89,7 +90,9 @@ const ProductDetail = () => {
 
     const handleAddToCart = () => {
         if (!selectedOption) {
-            alert('Hãy chọn tùy chọn sản phẩm!');
+            // alert('Hãy chọn tùy chọn sản phẩm!');
+            ToastAction({ action: 'error', message: 'Hãy chọn tùy chọn sản phẩm!' });
+
             return;
         }; // Không thêm nếu không có tùy chọn nào được chọn
 
@@ -121,7 +124,9 @@ const ProductDetail = () => {
         localStorage.setItem('cart', JSON.stringify(cart));
 
         // Có thể thông báo cho người dùng rằng sản phẩm đã được thêm thành công
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        // alert('Sản phẩm đã được thêm vào giỏ hàng!');
+
+        ToastAction({ action: 'create', message: 'Sản phẩm đã được thêm vào giỏ hàng!' });
     };
 
     if (loading) {
@@ -394,6 +399,7 @@ const ProductDetail = () => {
                     </button>
                 </div>
             </div>
+            <CustomToastContainer />
         </div>
     );
 }

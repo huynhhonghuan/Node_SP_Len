@@ -8,6 +8,7 @@ import vietnamData from '../../../assets/vn_only_simplified_json_generated_data_
 import { createOrder } from '../../../services/OrderService';
 import { getDiscountById } from '../../../services/DiscountService';
 import QRCode from '../Qrcode/Qrcode';
+import { CustomToastContainer, ToastAction } from '../../Toast/Index';
 
 const Payment = () => {
     const [Address, setAddress] = useState([]);
@@ -152,7 +153,8 @@ const Payment = () => {
 
                 // Nếu phương thức thanh toán là chuyển khoản
                 if (payment === 'transfer') {
-                    alert("Tiến hành thanh toán chuyển khoản!");
+                    // alert("Tiến hành thanh toán chuyển khoản!");
+                    ToastAction({ action: 'error', message: 'Tiến hành thanh toán chuyển khoản!' });
                     setIsOrderPlaced(true); // Ẩn nút "Đặt hàng"
                     setQRCodeData({
                         bankAccount: '123456789',
@@ -163,7 +165,8 @@ const Payment = () => {
                     });
                     setShowQRCode(true); // Hiển thị mã QR
                 } else {
-                    alert("Đặt hàng thành công!");
+                    // alert("Đặt hàng thành công!");
+                    ToastAction({ action: 'create', message: 'Đặt hàng thành công!' });
                     // Xử lý khi không phải chuyển khoản (COD, v.v.)
                     // Điều hướng hoặc cập nhật giỏ hàng
                     localStorage.removeItem('address');
@@ -180,13 +183,18 @@ const Payment = () => {
                         );
                         localStorage.setItem('cart', JSON.stringify(updatedCart));
                     }
+
+                    window.location.href = `/customer/order/${response._id}`;
+
                 }
             } else {
-                alert("Đặt hàng thất bại. Vui lòng thử lại sau.");
+                // alert("Đặt hàng thất bại. Vui lòng thử lại sau.");
+                ToastAction({ action: 'error', message: 'Đặt hàng thất bại. Vui lòng thử lại sau.' });
             }
         } catch (error) {
             console.error("Error placing order:", error);
-            alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            // alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            ToastAction({ action: 'error', message: 'Có lỗi xảy ra. Vui lòng thử lại.' });
         }
     };
 
@@ -268,6 +276,7 @@ const Payment = () => {
 
                 </div>
             </div>
+            <CustomToastContainer />
         </div>
 
     );
