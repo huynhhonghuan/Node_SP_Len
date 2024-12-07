@@ -114,9 +114,9 @@ const Product = ({ type }) => {
                         Combo sản phẩm
                     </Link> */}
                 </div>
-                <div className="product-sidebar-img mt-3">
+                {/* <div className="product-sidebar-img mt-3">
                     <img src="https://via.placeholder.com/200x300" alt="" className='rounded border border-warning' />
-                </div>
+                </div> */}
             </div>
 
             {/* Product Content */}
