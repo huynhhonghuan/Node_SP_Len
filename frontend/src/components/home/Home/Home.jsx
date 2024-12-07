@@ -149,8 +149,8 @@ const Home = () => {
                     <div className="border border-2 rounded-circle p-3 border-warning">
                         <i class="fa-solid fa-car fs-1 classname"></i>
                     </div>
-                    <h5 className='mt-3 text-center'>Miễn Phí Vận Chuyển</h5>
-                    <p className='text-center'>Miễn phí vận chuyển đơn hàng trên 600k</p>
+                    <h5 className='mt-3 text-center'>Hỗ trợ Vận Chuyển</h5>
+                    <p className='text-center'>Tối ưu chi phí vận chuyển cho đơn hàng.</p>
                 </div>
                 <div className="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
                     <div className="border border-2 rounded-circle p-3 border-warning">
